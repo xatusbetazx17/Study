@@ -13,7 +13,7 @@ This repository hosts **single‑file, mobile‑friendly C++ learning pages** th
 
 ## 📁 Files in this repo (site map)
 
-> If you rename any page to **`index.html`**, the root URL will load it automatically.
+
 
 - **`First_interactive_quizpar_t01.html`**  
   **Chapters:** 1–3 — *Intro & I/O; Data Types & Expressions; Assignment/Input/Formatting*  
@@ -33,7 +33,7 @@ This repository hosts **single‑file, mobile‑friendly C++ learning pages** th
   Mobile/desktop quiz shell (touch‑friendly UI, offline‑ready).  
   - **URL:** `https://xatusbetazx17.github.io/Study/First_cpp_interactive_quiz_mobile_option02.html`
 
-> If you want a single “home” page, rename your preferred landing page to **`index.html`** or create a simple `index.html` that links to the four pages above.
+
 
 ---
 
@@ -74,16 +74,6 @@ This repository hosts **single‑file, mobile‑friendly C++ learning pages** th
 **Works offline for quizzes** once loaded (no server needed).  
 **Videos require internet**; each card also has an “Open on YouTube” link in case an iframe is blocked on mobile.
 
----
-
-## ✏️ Editing / adding questions
-
-Each quiz HTML is **self‑contained**:
-- Open the file in a text editor and search for the **question bank** section (often an array/object named something like `QUESTION_BANK` or clearly labeled near the top).
-- Add/edit questions (`q`, `choices`, `answer`, `why`), save, and refresh the page.
-- You can adjust default question counts, topic filters, and labels in the same file.
-
-> Keep the files single‑page to preserve **offline** behavior and easy hosting.
 
 ---
 
