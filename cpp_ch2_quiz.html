@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C++ Fundamentals – Chapter 2 Interactive Quiz</title>
+<style>
+  :root {
+    --bg: #0b0d10;
+    --card: #12161b;
+    --text: #e8eef4;
+    --muted: #a7b3c0;
+    --ok: #0dcf7a;
+    --warn: #ffcc00;
+    --bad: #ff5d5d;
+    --accent: #64b5ff;
+    --accent2: #8be9fd;
+    --border: #2a313a;
+    --codebg: #0f1318;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f7fafc;
+      --card: #ffffff;
+      --text: #0e1720;
+      --muted: #495566;
+      --ok: #178f59;
+      --warn: #a77b00;
+      --bad: #c92a2a;
+      --accent: #0b6dff;
+      --accent2: #007e94;
+      --border: #e2e8f0;
+      --codebg: #f1f5f9;
+    }
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.45;
+  }
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: linear-gradient(180deg, rgba(15,18,23,0.95) 0%, rgba(15,18,23,0.75) 100%);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+  }
+  .wrap { max-width: 1050px; margin: 0 auto; padding: 16px; }
+  .title {
+    display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  }
+  h1 { font-size: 1.25rem; margin: 0; }
+  .env { font-size: 0.9rem; color: var(--muted); }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; }
+  button, .btn {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  button:hover { border-color: var(--accent); }
+  .btn-primary {
+    background: linear-gradient(180deg, #1c84ff, #0b6dff);
+    border-color: #0b6dff;
+    color: white;
+  }
+  .btn-ghost { background: transparent; }
+  main { padding: 18px 0 80px; }
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 16px 0;
+  }
+  .section h2 { margin-top: 0; font-size: 1.1rem; }
+  .q {
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 12px 0;
+  }
+  .q h3 { margin: 4px 0 8px; font-size: 1rem; }
+  .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
+  .choices { display: grid; gap: 8px; }
+  label.choice {
+    display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px;
+    border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
+  }
+  label.choice:hover { border-color: var(--accent); }
+  code, pre {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    background: var(--codebg); color: var(--text);
+  }
+  pre {
+    border-radius: 12px; padding: 10px; overflow-x: auto; border: 1px solid var(--border);
+  }
+  input[type="text"], input[type="number"], select, textarea {
+    background: var(--codebg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 8px 10px; width: 100%;
+  }
+  .row { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
+  .feedback {
+    margin-top: 8px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border);
+  }
+  .ok { background: color-mix(in srgb, var(--ok) 8%, transparent); border-color: color-mix(in srgb, var(--ok) 40%, var(--border)); }
+  .bad { background: color-mix(in srgb, var(--bad) 10%, transparent); border-color: color-mix(in srgb, var(--bad) 40%, var(--border)); }
+  .warn { background: color-mix(in srgb, var(--warn) 10%, transparent); border-color: color-mix(in srgb, var(--warn) 40%, var(--border)); }
+  .explain { color: var(--muted); font-size: 0.95rem; }
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .scorebar { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .scorebar > div { height: 8px; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; }
+  .small { font-size: 0.85rem; color: var(--muted); }
+  .pill { padding: 2px 8px; border-radius: 99px; border: 1px solid var(--border); }
+  footer { color: var(--muted); font-size: 0.85rem; padding: 24px 0; text-align: center; }
+  .kbd { font-family: ui-monospace, monospace; border: 1px solid var(--border); border-bottom-width: 3px; border-radius: 6px; padding: 1px 5px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="title">
+      <div>
+        <h1>C++ Fundamentals – Chapter 2 Interactive Quiz</h1>
+        <div class="env" id="env"></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn-primary" id="checkAllBtn">Check All</button>
+        <button class="btn" id="resetBtn">Reset</button>
+        <button class="btn" id="downloadBtn">Download Results</button>
+      </div>
+    </div>
+    <div class="scorebar" aria-hidden="true"><div id="scoreFill"></div></div>
+    <div class="small" id="scoreText">Score: 0 / 0</div>
+  </div>
+</header>
+
+<main class="wrap" id="quizRoot" aria-live="polite"></main>
+
+<footer class="wrap">
+  <div>Made for Marcelo’s class — works offline in modern browsers (Chrome, Edge, Firefox, Safari, iOS Safari, Android). No install. No tracking.</div>
+</footer>
+
+<script>
+// =============== Environment Detection ===============
+function detectEnv() {
+  const ua = navigator.userAgent || "";
+  const plat = navigator.platform || "";
+  const vendor = navigator.vendor || "";
+  const isIOS = /iPhone|iPad|iPod/.test(ua) || (plat === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/.test(ua);
+  const isMac = /Mac/.test(plat) && !isIOS;
+  const isWin = /Win/.test(plat);
+  const isLinux = (/Linux/.test(plat) || /Linux/.test(ua)) && !isAndroid;
+  const isSteamDeck = isLinux && /Steam|Valve|Deck/.test(ua);
+  const isSafari = /^((?!chrome|android|edg|firefox|crios|fxios).)*safari/i.test(ua);
+  const isChrome = /Chrome|Chromium/i.test(ua) && !/Edg/i.test(ua);
+  const isFirefox = /Firefox|FxiOS/i.test(ua);
+  const isEdge = /Edg/i.test(ua);
+
+  let os = isIOS ? "iOS/iPadOS" : isAndroid ? "Android" : isMac ? "macOS" : isWin ? "Windows" : isSteamDeck ? "Linux (Steam Deck)" : isLinux ? "Linux" : "Unknown";
+  let browser = isSafari ? "Safari" : isEdge ? "Edge" : isChrome ? "Chrome/Chromium" : isFirefox ? "Firefox" : "Unknown";
+  return { os, browser };
+}
+document.getElementById("env").textContent = (()=>{
+  const e = detectEnv();
+  return `Detected: ${e.os} · ${e.browser}`;
+})();
+
+// =============== Question Data ===============
+/*
+Types supported:
+- "mcq_single": radio choices (one correct), with explanation
+- "mcq_multi": checkbox choices (multiple correct), with explanation
+- "numeric": text/number answer (accepts numeric), with explanation
+- "code_output": text area to fill expected output (string compare, trimmed)
+- "classify": classify items into categories (e.g., Valid / Invalid)
+- "compound": multiple sub-prompts (e.g., value & type)
+*/
+const questions = [
+  // ---- 2.2 Q1: Expressions -> Correct C++ form ----
+  {
+    id: "2.2-Q1-a",
+    section: "EXERCISES 2.2 — Algebra → C++",
+    prompt: "Write the valid C++ for: (6 + 18) ÷ 2",
+    type: "mcq_single",
+    choices: [
+      { id: "a", text: "6+18/2", correct: false },
+      { id: "b", text: "(6 + 18) / 2", correct: true },
+      { id: "c", text: "6 + (18 / 2)", correct: false },
+      { id: "d", text: "6(18)/2", correct: false }
+    ],
+    explanation: "Division must apply to the sum; use parentheses: (6 + 18) / 2."
+  },
+  {
+    id: "2.2-Q1-b",
+    section: "EXERCISES 2.2 — Algebra → C++",
+    prompt: "Write the valid C++ for: 4.6 × (3.0 + 14.9)",
+    type: "mcq_single",
+    choices: [
+      { id: "a", text: "4.6*3.0+14.9", correct: false },
+      { id: "b", text: "4.6 * (3.0 + 14.9)", correct: true },
+      { id: "c", text: "4.6(3.0 + 14.9)", correct: false },
+      { id: "d", text: "4.6 * 3.0 + 14.9", correct: false }
+    ],
+    explanation: "Multiplication must apply to the entire sum in parentheses."
+  },
+  {
+    id: "2.2-Q1-c",
+    section: "EXERCISES 2.2 — Algebra → C++",
+    prompt: "Write the valid C++ for: 4.5 ÷ (12.2 − 3.1)",
+    type: "mcq_single",
+    choices: [
+      { id: "a", text: "4.5/12.2-3.1", correct: false },
+      { id: "b", text: "4.5 / (12.2 - 3.1)", correct: true },
+      { id: "c", text: "4.5 / 12.2 - 3.1", correct: false },
+      { id: "d", text: "(4.5 / 12.2) - 3.1", correct: false }
+    ],
+    explanation: "The denominator is (12.2 − 3.1), so parentheses are required."
+  },
+
+  // ---- 2.2 Q2: Integer expressions (evaluate) ----
+  ...[
+    ["a","3 + 4 * 6", 27, "4*6=24; 3+24=27"],
+    ["b","3 * 4 / 6 + 6", 8, "3*4=12; 12/6=2; 2+6=8"],
+    ["c","2 * 3 / 12 * 8 / 4", 0, "2*3=6; 6/12=0; 0*8=0; 0/4=0 (integer division truncates)"],
+    ["d","10 * (1 + 7 * 3)", 220, "7*3=21; 1+21=22; 10*22=220"],
+    ["e","20 - 2 / 6 + 3", 23, "2/6=0; 20-0+3=23"],
+    ["f","20 - 2 / (6 + 3)", 20, "6+3=9; 2/9=0; 20-0=20"],
+    ["g","(20 - 2) / 6 + 3", 6, "20-2=18; 18/6=3; 3+3=6"],
+    ["h","(20 - 2) / (6 + 3)", 2, "20-2=18; 6+3=9; 18/9=2"],
+    ["i","50 % 20", 10, "50 = 2*20 + 10 ⇒ remainder 10"],
+    ["j","(10 + 3) % 4", 1, "10+3=13; 13 = 3*4 + 1 ⇒ remainder 1"]
+  ].map(([key, expr, value, why]) => ({
+    id: "2.2-Q2-" + key,
+    section: "EXERCISES 2.2 — Integer Evaluation",
+    type: "numeric",
+    prompt: `Evaluate (integer rules): ${expr}`,
+    answer: value,
+    explanation: why
+  })),
+
+  // ---- 2.2 Q3: Floating expressions ----
+  ...[
+    ["a","3.0 + 4.0 * 6.0", 27.0],
+    ["b","3.0 * 4.0 / 6.0 + 6.0", 8.0],
+    ["c","2.0 * 3.0 / 12.0 * 8.0 / 4.0", 1.0],
+    ["d","10.0 * (1.0 + 7.0 * 3.0)", 220.0],
+    ["e","20.0 - 2.0 / 6.0 + 3.0", 22.6666667],
+    ["f","20.0 - 2.0 / (6.0 + 3.0)", 19.7777778],
+    ["g","(20.0 - 2.0) / 6.0 + 3.0", 6.0],
+    ["h","(20.0 - 2.0) / (6.0 + 3.0)", 2.0]
+  ].map(([key, expr, value]) => ({
+    id: "2.2-Q3-" + key,
+    section: "EXERCISES 2.2 — Floating‑Point Evaluation",
+    type: "numeric",
+    prompt: `Evaluate (floating rules): ${expr}`,
+    answer: value,
+    tolerance: 1e-6,
+    explanation: "Any operand with a decimal makes the expression floating‑point."
+  })),
+
+  // ---- 2.2 Q4: Mixed (value + type) ----
+  {
+    id: "2.2-Q4-a",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 10.0 + 15 / 2 + 4.3",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 21.3, tolerance: 1e-9 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "double" }
+    ],
+    explanation: "15/2 uses integer division → 7; 10.0 + 7 + 4.3 = 21.3 (double)."
+  },
+  {
+    id: "2.2-Q4-b",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 10.0 + 15.0 / 2 + 4.3",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 21.8, tolerance: 1e-9 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "double" }
+    ],
+    explanation: "15.0/2 = 7.5; sum is 21.8 (double)."
+  },
+  {
+    id: "2.2-Q4-c",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 3.0 * (4 / 6) + 6",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 6.0, tolerance: 1e-9 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "double" }
+    ],
+    explanation: "4/6 with integers is 0; 3.0*0 + 6 = 6.0 (double)."
+  },
+  {
+    id: "2.2-Q4-d",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 3 * 4.0 / 6 + 6",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 8.0, tolerance: 1e-9 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "double" }
+    ],
+    explanation: "3*4.0=12.0; 12.0/6=2.0; +6=8.0 (double)."
+  },
+  {
+    id: "2.2-Q4-e",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 20.0 - 2 / 6 + 3",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 23.0, tolerance: 1e-9 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "double" }
+    ],
+    explanation: "2/6 with integers is 0; 20.0 - 0 + 3 = 23.0 (double)."
+  },
+  {
+    id: "2.2-Q4-f",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 10 + 17 * 3 + 4",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 65, tolerance: 1e-9 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "int" }
+    ],
+    explanation: "All integers → result is int."
+  },
+  {
+    id: "2.2-Q4-g",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 10 + 17 / 3.0 + 4",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 19.6666667, tolerance: 1e-6 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "double" }
+    ],
+    explanation: "17/3.0 is a floating division."
+  },
+  {
+    id: "2.2-Q4-h",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 3.0 * (4 % 6) + 6",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 18.0, tolerance: 1e-9 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "double" }
+    ],
+    explanation: "4 % 6 = 4; 3.0*4 + 6 = 18.0."
+  },
+  {
+    id: "2.2-Q4-i",
+    section: "EXERCISES 2.2 — Mixed Types",
+    type: "compound",
+    prompt: "Compute the value and select the resulting type: 10 + 17 % 3 + 4",
+    subs: [
+      { id: "val", label: "Value", input: "numeric", answer: 16, tolerance: 1e-9 },
+      { id: "type", label: "Type", input: "select", choices: ["int","double"], answer: "int" }
+    ],
+    explanation: "17%3 = 2; sum is integer."
+  },
+
+  // ---- 2.2 Q8 & Q9: Code outputs ----
+  {
+    id: "2.2-Q8",
+    section: "EXERCISES 2.2 — Desk Check",
+    type: "code_output",
+    prompt: "What does this print? (Write the two lines exactly.)",
+    code: `int answer1, answer2;
+answer1 = 9 / 4;
+answer2 = 17 / 3;
+cout << "answer1 is the integer " << answer1 << endl;
+cout << "answer2 is the integer " << answer2 << endl;`,
+    expected: `answer1 is the integer 2
+answer2 is the integer 5`,
+    explanation: "Integer division truncates: 9/4 → 2, 17/3 → 5."
+  },
+  {
+    id: "2.2-Q9",
+    section: "EXERCISES 2.2 — Desk Check",
+    type: "code_output",
+    prompt: "What does this print? (Write the two lines exactly.)",
+    code: `int remainder1, remainder2, number1 = 9, number2 = 17;
+remainder1 = number1 % 4;
+remainder2 = number2 % 3;
+cout << "The remainder is " << remainder1 << endl;
+cout << "The remainder is " << remainder2 << endl;`,
+    expected: `The remainder is 1
+The remainder is 2`,
+    explanation: "% yields remainder."
+  },
+
+  // ---- Program Q11: outputs ----
+  {
+    id: "2.2-Q11",
+    section: "Program — Expression Results",
+    type: "code_output",
+    prompt: "What does this print? (Three lines)",
+    code: `cout << "15/4 = " << (15/4) << endl;
+cout << "15%4 = " << (15%4) << endl;
+cout << "5*3 - (6*4) = " << (5*3 - (6*4)) << endl;`,
+    expected: `15/4 = 3
+15%4 = 3
+5*3 - (6*4) = -9`,
+    explanation: "15/4 is 3 (int division), 15%4 is 3, and 15 - 24 = -9."
+  },
+
+  // ---- 2.3 Q1: Valid vs Invalid identifiers ----
+  {
+    id: "2.3-Q1",
+    section: "EXERCISES 2.3 — Variable Names",
+    type: "classify",
+    prompt: "Mark each as Valid or Invalid (per class rules).",
+    categories: ["Valid","Invalid"],
+    items: [
+      { text: "prod_a", correct: "Valid", why: "Letters/underscore allowed." },
+      { text: "c1234", correct: "Valid", why: "Starts with a letter; digits allowed." },
+      { text: "abcd", correct: "Valid", why: "Letters only." },
+      { text: "_c3", correct: "Invalid", why: "Class rule: must begin with a letter." },
+      { text: "12345", correct: "Invalid", why: "Cannot start with a digit." },
+      { text: "newbal", correct: "Valid", why: "Letters only." },
+      { text: "while", correct: "Invalid", why: "C++ keyword." },
+      { text: "$total", correct: "Invalid", why: "‘$’ not allowed." },
+      { text: "new bal", correct: "Invalid", why: "Spaces not allowed." },
+      { text: "a1b2c3d4", correct: "Valid", why: "Letters+digits, starts with letter." },
+      { text: "9ab6", correct: "Invalid", why: "Cannot start with a digit." },
+      { text: "sum.of", correct: "Invalid", why: "‘.’ not allowed." },
+      { text: "average", correct: "Valid", why: "Meaningful and valid." },
+      { text: "grade1", correct: "Valid", why: "Meaningful and valid." },
+      { text: "finGrad", correct: "Valid", why: "Meaningful and valid." }
+    ],
+    explanation: "Identifiers: letters/digits/_; cannot start with a digit; avoid keywords and special symbols."
+  },
+
+  // ---- 2.3 Q2: Valid + meaningful ----
+  {
+    id: "2.3-Q2",
+    section: "EXERCISES 2.3 — Variable Names & Meaning",
+    type: "classify",
+    prompt: "Mark each as Valid or Invalid (and we’ll tell you if it’s meaningful).",
+    categories: ["Valid","Invalid"],
+    items: [
+      { text: "salestax", correct: "Valid", why: "Valid & meaningful." },
+      { text: "a243", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "r2d2", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "firstNum", correct: "Valid", why: "Valid & meaningful." },
+      { text: "cc_a1", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "harry", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "sue", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "c3p0", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "average", correct: "Valid", why: "Valid & meaningful." },
+      { text: "sum", correct: "Valid", why: "Valid & meaningful." },
+      { text: "maximum", correct: "Valid", why: "Valid & meaningful." },
+      { text: "okay", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "a", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "awesome", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "goforit", correct: "Valid", why: "Valid but not meaningful." },
+      { text: "3sum", correct: "Invalid", why: "Cannot start with a digit." },
+      { text: "for", correct: "Invalid", why: "C++ keyword." },
+      { text: "tot.a1", correct: "Invalid", why: "‘.’ not allowed." },
+      { text: "c$five", correct: "Invalid", why: "‘$’ not allowed." },
+      { text: "netpay", correct: "Valid", why: "Valid & meaningful." }
+    ],
+    explanation: "Prefer meaningful names for readability (e.g., netpay)."
+  },
+
+  // ---- 2.3 Q3: Declarations ----
+  {
+    id: "2.3-Q3",
+    section: "EXERCISES 2.3 — Declarations",
+    type: "mcq_multi",
+    prompt: "Select all correct declaration statements (there may be more than one).",
+    choices: [
+      { id: "a", text: "int count;", correct: true },
+      { id: "b", text: "float grade;", correct: true },
+      { id: "c", text: "double yield;", correct: true },
+      { id: "d", text: "char initial;", correct: true },
+      { id: "e", text: "string name;", correct: true },
+      { id: "f", text: "bool valid;", correct: true },
+      { id: "g", text: "int count", correct: false },
+      { id: "h", text: "double 42rate;", correct: false }
+    ],
+    explanation: "Declaration syntax: dataType identifier; (with semicolon and valid identifier)."
+  },
+
+  // ---- 2.3 Q4: Grouped declarations ----
+  {
+    id: "2.3-Q4",
+    section: "EXERCISES 2.3 — Grouped Declarations",
+    type: "mcq_multi",
+    prompt: "Which are correct ‘one statement per set’ grouped declarations? (Select all)",
+    choices: [
+      { id: "a", text: "int num1, num2, num3;", correct: true },
+      { id: "b", text: "double grade1, grade2, grade3, grade4;", correct: true },
+      { id: "c", text: "double temp1 temp2 temp3;", correct: false },
+      { id: "d", text: "char let1, let2, let3, let4;", correct: true }
+    ],
+    explanation: "Separate identifiers with commas; end with a semicolon."
+  },
+
+  // ---- 2.3 Q5: More grouped declarations ----
+  {
+    id: "2.3-Q5",
+    section: "EXERCISES 2.3 — Grouped Declarations",
+    type: "mcq_multi",
+    prompt: "Select the correct declarations (select all).",
+    choices: [
+      { id: "a", text: "int firstnum, secnum;", correct: true },
+      { id: "b", text: "double price, yield, coupon;", correct: true },
+      { id: "c", text: "double average;", correct: true },
+      { id: "d", text: "int first num;", correct: false }
+    ],
+    explanation: "Spaces not allowed inside identifiers."
+  },
+
+  // ---- 2.3 Q6: Split into three ----
+  {
+    id: "2.3-Q6-a",
+    section: "EXERCISES 2.3 — Split Combined",
+    type: "mcq_single",
+    prompt: "Which correctly splits: int month, day = 30, year; (choose one)",
+    choices: [
+      { id: "a", text: "int month; int day = 30; int year;", correct: true },
+      { id: "b", text: "int month; int day = 30, year;", correct: false },
+      { id: "c", text: "int month, day; int year = 30;", correct: false }
+    ],
+    explanation: "Each becomes a separate declaration; keep initializer with day."
+  },
+  {
+    id: "2.3-Q6-b",
+    section: "EXERCISES 2.3 — Split Combined",
+    type: "mcq_single",
+    prompt: "Which correctly splits: double hours, volt, power = 15.62; (choose one)",
+    choices: [
+      { id: "a", text: "double hours; double volt; double power = 15.62;", correct: true },
+      { id: "b", text: "double hours, volt; double power = 15.62;", correct: false },
+      { id: "c", text: "double hours; double volt = 15.62; double power;", correct: false }
+    ],
+    explanation: "Each declared separately; initializer stays with power."
+  },
+
+  // ---- Program 9 & 10: quick checks ----
+  {
+    id: "2.3-P9",
+    section: "Program — Rectangle Perimeter",
+    type: "numeric",
+    prompt: "With length=16 and width=18 (ints), what is perimeter = 2*(length + width)?",
+    answer: 68,
+    explanation: "Compute inside parentheses first: 16+18=34; 2*34=68."
+  },
+  {
+    id: "2.3-P10",
+    section: "Program — Total & Average",
+    type: "compound",
+    prompt: "With num1=16, num2=18 (ints), compute total and integer average (average = total/2.0 assigned to int).",
+    subs: [
+      { id: "tot", label: "Total", input: "numeric", answer: 34, tolerance: 1e-9 },
+      { id: "avg", label: "Average (int)", input: "numeric", answer: 17, tolerance: 1e-9 }
+    ],
+    explanation: "total=34; total/2.0=17.0 but assigned to int → 17."
+  }
+];
+
+// =============== Render ===============
+const root = document.getElementById("quizRoot");
+
+function groupBySection(qs) {
+  const map = new Map();
+  for (const q of qs) {
+    if (!map.has(q.section)) map.set(q.section, []);
+    map.get(q.section).push(q);
+  }
+  return map;
+}
+
+function createEl(tag, attrs={}, ...children) {
+  const el = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs)) {
+    if (k === "class") el.className = v;
+    else if (k === "for") el.htmlFor = v;
+    else el.setAttribute(k, v);
+  }
+  for (const c of children) {
+    if (typeof c === "string") el.appendChild(document.createTextNode(c));
+    else if (c) el.appendChild(c);
+  }
+  return el;
+}
+
+function renderQuestion(q, idx) {
+  const box = createEl("div", { class: "q", id: "q-" + q.id });
+  box.dataset.qid = q.id;
+  box.dataset.type = q.type;
+
+  const title = createEl("h3", {}, `${idx}. ${q.prompt}`);
+  const meta = createEl("div", { class: "meta" }, q.tags ? q.tags.join(" · ") : "");
+  box.appendChild(title);
+  if (q.code) box.appendChild(createEl("pre", {}, q.code));
+  if (q.meta) box.appendChild(meta);
+
+  const controls = createEl("div", { class: "controls" });
+
+  // Input area per type
+  let inputArea = createEl("div");
+  if (q.type === "mcq_single") {
+    const group = createEl("div", { class: "choices" });
+    q.choices.forEach((ch, i) => {
+      const id = `${q.id}-opt-${i}`;
+      const lab = createEl("label", { class: "choice", for: id });
+      const radio = createEl("input", { type: "radio", name: q.id, id, "data-correct": ch.correct ? "1" : "0" });
+      const span = createEl("span", {}, ch.text);
+      lab.appendChild(radio);
+      lab.appendChild(span);
+      group.appendChild(lab);
+    });
+    inputArea.appendChild(group);
+  } else if (q.type === "mcq_multi") {
+    const group = createEl("div", { class: "choices" });
+    q.choices.forEach((ch, i) => {
+      const id = `${q.id}-opt-${i}`;
+      const lab = createEl("label", { class: "choice", for: id });
+      const cb = createEl("input", { type: "checkbox", id, "data-correct": ch.correct ? "1" : "0" });
+      const span = createEl("span", {}, ch.text);
+      lab.appendChild(cb);
+      lab.appendChild(span);
+      group.appendChild(lab);
+    });
+    inputArea.appendChild(group);
+  } else if (q.type === "numeric") {
+    const row = createEl("div", { class: "row" });
+    const inp = createEl("input", { type: "text", inputmode: "decimal", placeholder: "Enter number", "data-answer": q.answer, "data-tol": q.tolerance || "0" });
+    row.appendChild(inp);
+    inputArea.appendChild(row);
+  } else if (q.type === "code_output") {
+    const ta = createEl("textarea", { rows: "4", placeholder: "Type the exact output" });
+    inputArea.appendChild(ta);
+  } else if (q.type === "classify") {
+    const container = createEl("div", { class: "row" });
+    const left = createEl("div");
+    const right = createEl("div");
+    left.appendChild(createEl("div", { class: "small pill" }, `Category A: ${q.categories[0]}`));
+    right.appendChild(createEl("div", { class: "small pill" }, `Category B: ${q.categories[1]}`));
+    const list = createEl("div");
+    q.items.forEach((it, i) => {
+      const row = createEl("div", { style: "margin:8px 0;" });
+      row.appendChild(createEl("div", { class: "small" }, it.text));
+      const sel = createEl("select", { "data-correct": it.correct });
+      sel.appendChild(createEl("option", { value: "" }, "Choose…"));
+      sel.appendChild(createEl("option", { value: q.categories[0] }, q.categories[0]));
+      sel.appendChild(createEl("option", { value: q.categories[1] }, q.categories[1]));
+      row.appendChild(sel);
+      list.appendChild(row);
+    });
+    container.appendChild(list);
+    inputArea.appendChild(container);
+  } else if (q.type === "compound") {
+    const grid = createEl("div", { class: "row" });
+    q.subs.forEach((s, i) => {
+      const cell = createEl("div");
+      cell.appendChild(createEl("div", { class: "small" }, s.label));
+      if (s.input === "numeric") {
+        const inp = createEl("input", { type: "text", inputmode: "decimal", placeholder: "Enter number", "data-answer": s.answer, "data-tol": s.tolerance || "0" });
+        cell.appendChild(inp);
+      } else if (s.input === "select") {
+        const sel = createEl("select", { "data-answer": s.answer });
+        sel.appendChild(createEl("option", { value: "" }, "Choose…"));
+        s.choices.forEach(c => sel.appendChild(createEl("option", { value: c }, c)));
+        cell.appendChild(sel);
+      }
+      grid.appendChild(cell);
+    });
+    inputArea.appendChild(grid);
+  }
+
+  const feedback = createEl("div", { class: "feedback hidden", id: `fb-${q.id}` });
+  const explain = createEl("div", { class: "explain" }, q.explanation || "");
+
+  // Controls
+  const checkBtn = createEl("button", { class: "btn", type: "button" }, "Check");
+  checkBtn.addEventListener("click", () => {
+    const res = gradeOne(q, box);
+    showFeedback(feedback, res.ok, res.msg, q.explanation);
+    updateScore();
+  });
+  const revealBtn = createEl("button", { class: "btn btn-ghost", type: "button" }, "Show Answer");
+  revealBtn.addEventListener("click", () => {
+    const res = reveal(q, box);
+    showFeedback(feedback, true, res.msg, q.explanation, true);
+  });
+  controls.appendChild(checkBtn);
+  controls.appendChild(revealBtn);
+
+  box.appendChild(inputArea);
+  box.appendChild(controls);
+  box.appendChild(feedback);
+  return box;
+}
+
+function render() {
+  root.innerHTML = "";
+  const sections = groupBySection(questions);
+  let idx = 1;
+  for (const [sec, qs] of sections) {
+    const secBox = createEl("section", { class: "section" });
+    secBox.appendChild(createEl("h2", {}, sec));
+    qs.forEach(q => {
+      secBox.appendChild(renderQuestion(q, idx++));
+    });
+    root.appendChild(secBox);
+  }
+  updateScore();
+}
+render();
+
+// =============== Grading Helpers ===============
+function approxEqual(a, b, tol=0) {
+  const da = Number(a), db = Number(b);
+  if (Number.isNaN(da) || Number.isNaN(db)) return false;
+  return Math.abs(da - db) <= tol;
+}
+
+function gradeOne(q, box) {
+  let ok = false, msg = "";
+  if (q.type === "mcq_single") {
+    const checked = box.querySelector("input[type=radio]:checked");
+    if (!checked) { msg = "Choose one option."; }
+    else {
+      ok = checked.dataset.correct === "1";
+      msg = ok ? "Correct!" : "Not quite. Try again.";
+    }
+  } else if (q.type === "mcq_multi") {
+    const checks = Array.from(box.querySelectorAll("input[type=checkbox]"));
+    const chosen = checks.filter(c => c.checked).map(c => c.dataset.correct);
+    if (chosen.length === 0) { msg = "Select at least one option."; }
+    else {
+      ok = checks.every(c => (c.checked ? c.dataset.correct === "1" : c.dataset.correct === "0"));
+      msg = ok ? "Correct combination!" : "Some selections are off. Compare with the definition and try again.";
+    }
+  } else if (q.type === "numeric") {
+    const inp = box.querySelector("input[type=text]");
+    const ans = inp.dataset.answer;
+    const tol = Number(inp.dataset.tol || "0");
+    const val = (inp.value || "").trim();
+    ok = approxEqual(val, ans, tol);
+    msg = ok ? "Correct!" : `Not quite. Check integer vs floating rules.`;
+  } else if (q.type === "code_output") {
+    const ta = box.querySelector("textarea");
+    const got = (ta.value || "").trim();
+    const exp = (q.expected || "").trim();
+    ok = got === exp;
+    msg = ok ? "Exact match. Well done!" : "Output differs. Mind spaces, line breaks, and punctuation.";
+  } else if (q.type === "classify") {
+    const selects = Array.from(box.querySelectorAll("select"));
+    ok = selects.every(s => s.value && s.value === s.dataset.correct);
+    if (ok) msg = "All classifications correct!";
+    else msg = "Some classifications are off—review the naming rules.";
+  } else if (q.type === "compound") {
+    const subs = q.subs;
+    let allOk = true;
+    for (let i=0; i<subs.length; i++) {
+      const s = subs[i];
+      let good = false;
+      if (s.input === "numeric") {
+        const inp = box.querySelectorAll("input[type=text]")[i];
+        const tol = s.tolerance || 0;
+        good = approxEqual((inp.value || "").trim(), s.answer, tol);
+      } else if (s.input === "select") {
+        const sel = box.querySelectorAll("select")[i];
+        good = sel.value === s.answer;
+      }
+      allOk = allOk && good;
+    }
+    ok = allOk;
+    msg = ok ? "Both parts correct!" : "One or more parts need correction.";
+  }
+  // Save attempt
+  saveAttempt(q.id, ok);
+  return { ok, msg };
+}
+
+function reveal(q, box) {
+  let msg = "";
+  if (q.type === "mcq_single") {
+    const radios = box.querySelectorAll("input[type=radio]");
+    radios.forEach(r => { r.checked = (r.dataset.correct === "1"); });
+    msg = "Highlighted the correct choice.";
+  } else if (q.type === "mcq_multi") {
+    const cbs = box.querySelectorAll("input[type=checkbox]");
+    cbs.forEach(c => { c.checked = (c.dataset.correct === "1"); });
+    msg = "Checked the correct combination.";
+  } else if (q.type === "numeric") {
+    const inp = box.querySelector("input[type=text]");
+    inp.value = q.answer;
+    msg = `Correct value entered: ${q.answer}`;
+  } else if (q.type === "code_output") {
+    const ta = box.querySelector("textarea");
+    ta.value = (q.expected || "").trim();
+    msg = "Filled with the expected output.";
+  } else if (q.type === "classify") {
+    const selects = Array.from(box.querySelectorAll("select"));
+    selects.forEach(s => s.value = s.dataset.correct);
+    msg = "Set each item to its correct category.";
+  } else if (q.type === "compound") {
+    const subs = q.subs;
+    let idxNum = 0, idxSel = 0;
+    subs.forEach(s => {
+      if (s.input === "numeric") {
+        const inp = box.querySelectorAll("input[type=text]")[idxNum++];
+        inp.value = s.answer;
+      } else if (s.input === "select") {
+        const sel = box.querySelectorAll("select")[idxSel++];
+        sel.value = s.answer;
+      }
+    });
+    msg = "Filled in the correct values and types.";
+  }
+  // Save reveal as incorrect attempt (no score change but tracked)
+  saveAttempt(q.id, false, true);
+  updateScore();
+  return { msg };
+}
+
+function showFeedback(panel, ok, msg, explanation, revealed=false) {
+  panel.classList.remove("hidden", "ok", "bad", "warn");
+  panel.classList.add(ok ? "ok" : (revealed ? "warn" : "bad"));
+  panel.innerHTML = "";
+  panel.appendChild(createEl("div", {}, msg));
+  if (explanation) {
+    panel.appendChild(createEl("div", { class: "explain" }, "Why: " + explanation));
+  }
+}
+
+// =============== Scoring & Persistence ===============
+function allQuestionIds() { return questions.map(q => q.id); }
+
+function saveAttempt(qid, ok, revealed=false) {
+  const key = "cpp_quiz_v1";
+  const data = JSON.parse(localStorage.getItem(key) || "{}");
+  const prev = data[qid] || { attempts: 0, correct: false, revealed: false };
+  prev.attempts += 1;
+  prev.correct = ok ? true : prev.correct;
+  prev.revealed = prev.revealed || revealed;
+  data[qid] = prev;
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function getProgress() {
+  const key = "cpp_quiz_v1";
+  const data = JSON.parse(localStorage.getItem(key) || "{}");
+  let correct = 0;
+  for (const q of questions) {
+    if (data[q.id]?.correct) correct++;
+  }
+  return { correct, total: questions.length, data };
+}
+
+function updateScore() {
+  const p = getProgress();
+  const pct = p.total ? (p.correct / p.total) * 100 : 0;
+  document.getElementById("scoreFill").style.width = pct.toFixed(1) + "%";
+  document.getElementById("scoreText").textContent = `Score: ${p.correct} / ${p.total}`;
+}
+
+document.getElementById("checkAllBtn").addEventListener("click", () => {
+  // Grade each question as-is (without changing answers)
+  const boxes = root.querySelectorAll(".q");
+  boxes.forEach(b => {
+    const qid = b.dataset.qid;
+    const q = questions.find(x => x.id === qid);
+    const panel = b.querySelector(".feedback");
+    const res = gradeOne(q, b);
+    showFeedback(panel, res.ok, res.msg, q.explanation);
+  });
+  updateScore();
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (!confirm("Reset answers and progress?")) return;
+  localStorage.removeItem("cpp_quiz_v1");
+  // Clear inputs
+  root.querySelectorAll("input[type=radio], input[type=checkbox]").forEach(i => i.checked = false);
+  root.querySelectorAll("input[type=text]").forEach(i => i.value = "");
+  root.querySelectorAll("textarea").forEach(i => i.value = "");
+  root.querySelectorAll("select").forEach(s => s.value = "");
+  root.querySelectorAll(".feedback").forEach(fb => fb.classList.add("hidden"));
+  updateScore();
+});
+
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  const p = getProgress();
+  const payload = {
+    exportedAt: new Date().toISOString(),
+    env: detectEnv(),
+    progress: p
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "cpp_ch2_quiz_results.json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+</script>
+</body>
+</html>

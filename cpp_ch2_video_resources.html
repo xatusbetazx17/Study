@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C++ Chapter 2 — Quick Video Resources</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --fg: #eef3f7;
+      --muted: #b8c2cc;
+      --accent: #7dd3fc;
+      --card: #10161d;
+      --border: #22303d;
+      --ok: #22c55e;
+      --bad: #ef4444;
+    }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Noto Sans", Arial, sans-serif; }
+    .wrap { max-width: 1024px; margin: 0 auto; padding: 20px; }
+    h1 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); line-height: 1.25; margin: 0 0 8px; }
+    .muted { color: var(--muted); }
+    .row { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 800px) { .row { grid-template-columns: 1fr; } }
+    .card { border: 1px solid var(--border); background: var(--card); border-radius: 14px; padding: 12px; }
+    .frame { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; }
+    iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .title { font-weight: 600; margin-top: 8px; }
+    .desc { color: var(--muted); font-size: 0.95rem; }
+    .env { font-size: 0.9rem; color: var(--muted); border: 1px dashed var(--border); padding: 8px 10px; border-radius: 10px; margin: 12px 0 18px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .pill { display:inline-block; font-size: 0.8rem; border:1px solid var(--border); border-radius:999px; padding: 3px 8px; color:var(--muted); margin-right:6px; }
+    footer { margin: 26px 0 8px; color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>📺 C++ Chapter 2 — Quick Video Resources</h1>
+    <div class="muted">Data types, declarations, <code>cout</code>/<code>cin</code>, arithmetic, precedence, integer vs. floating division, and the modulus operator.</div>
+    <div id="env" class="env">Detecting your environment…</div>
+
+    <div class="pill">Beginner‑friendly</div>
+    <div class="pill">No install required</div>
+    <div class="pill">Works on Safari / iOS / Android / Desktop</div>
+
+    <p class="muted" style="margin-top:12px">Videos stream from YouTube (internet required). For fewer cookies, embeds use <code>youtube‑nocookie.com</code>.</p>
+
+    <div class="row">
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/zB9RI8_wExo"
+                  title="Variables in C++ — The Cherno" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">Variables in C++ — The Cherno</div>
+        <div class="desc">What variables are, how they map to memory, and why types matter. <a href="https://www.youtube.com/watch?v=zB9RI8_wExo" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/solufpKPDwY"
+                  title="C++ FOR BEGINNERS (2025): Variables & Data Types" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">Variables &amp; Data Types (2025)</div>
+        <div class="desc">Clean overview of ints, floats/doubles, chars, bools, and <code>sizeof</code>. <a href="https://www.youtube.com/watch?v=solufpKPDwY" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/buVmbxVez0Q"
+                  title="C++ integer data types — ranges & sizes" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">Integer types — ranges &amp; memory</div>
+        <div class="desc">Quick tour of the integer family (int, long, unsigned) &amp; why ranges matter. <a href="https://www.youtube.com/watch?v=buVmbxVez0Q" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/qWDZ4ZZGAmQ"
+                  title="iostream cout/cin — basic I/O (SavvyNik)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">Console I/O: <code>cout</code>, <code>cin</code>, <code>cerr</code>, <code>clog</code></div>
+        <div class="desc">How the iostream library works and how to format simple input/output. <a href="https://www.youtube.com/watch?v=qWDZ4ZZGAmQ" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/OmyS0wQpCAc"
+                  title="cout & cin — quick intro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">cout &amp; cin — quick intro</div>
+        <div class="desc">Another short look at printing and reading values in C++. <a href="https://www.youtube.com/watch?v=OmyS0wQpCAc" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/qShbH8hyfwg"
+                  title="Operator precedence & associativity" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">Operator precedence &amp; associativity</div>
+        <div class="desc">How C++ decides the order of evaluation in expressions. <a href="https://www.youtube.com/watch?v=qShbH8hyfwg" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/2jxaYEpWX5s"
+                  title="Integer vs Floating Division in C++" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">Integer vs. floating‑point division</div>
+        <div class="desc">Why <code>6/4</code> can be <code>1</code> or <code>1.5</code>, and how implicit casting works. <a href="https://www.youtube.com/watch?v=2jxaYEpWX5s" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/oN_3fN3KMRA"
+                  title="The modulus operator (%) — remainders in C++" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">Modulus operator (<code>%</code>)</div>
+        <div class="desc">Remainders, even/odd checks, and time conversions with modulus. <a href="https://www.youtube.com/watch?v=oN_3fN3KMRA" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+
+      <div class="card">
+        <div class="frame">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/rZ-8Qz0iIQk"
+                  title="Operators overview — arithmetic, relational, logical" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="title">Operators — quick tour</div>
+        <div class="desc">A beginner‑friendly summary of arithmetic, relational, and logical operators. <a href="https://www.youtube.com/watch?v=rZ-8Qz0iIQk" target="_blank" rel="noopener">Open on YouTube</a></div>
+      </div>
+    </div>
+
+    <footer>
+      Tip: You can share this file directly in your WhatsApp class group. Everyone can open it in their phone’s browser.
+    </footer>
+  </div>
+
+  <script>
+    // Simple environment banner
+    (function () {
+      function osName() {
+        const ua = navigator.userAgent;
+        if (/Windows/i.test(ua)) return "Windows";
+        if (/Macintosh|Mac OS X/i.test(ua) && !/like Mac OS X/i.test(ua)) return "macOS";
+        if (/like Mac OS X|iPhone|iPad|iPod/i.test(ua)) return "iOS/iPadOS";
+        if (/Android/i.test(ua)) return "Android";
+        if (/Linux|X11/i.test(ua)) return "Linux / Steam Deck";
+        return "Unknown OS";
+      }
+      function browserName() {
+        const ua = navigator.userAgent;
+        if (/Edg\//.test(ua)) return "Edge";
+        if (/Chrome\//.test(ua)) return "Chrome/Chromium";
+        if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) return "Safari";
+        if (/Firefox\//.test(ua)) return "Firefox";
+        return "Unknown Browser";
+      }
+      const env = document.getElementById("env");
+      env.textContent = `Environment detected: ${osName()} · ${browserName()}`;
+    })();
+  </script>
+</body>
+</html>

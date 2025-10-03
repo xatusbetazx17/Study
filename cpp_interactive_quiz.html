@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++ Fundamentals – Interactive Review (Ch. 1–3)</title>
+  <style>
+    :root{
+      --bg:#0f172a; /* slate-900 */
+      --panel:#111827; /* gray-900 */
+      --card:#1f2937; /* gray-800 */
+      --text:#e5e7eb; /* gray-200 */
+      --muted:#9ca3af; /* gray-400 */
+      --accent:#60a5fa; /* blue-400 */
+      --acc2:#22c55e; /* green-500 */
+      --warn:#f59e0b; /* amber-500 */
+      --err:#ef4444;  /* red-500 */
+    }
+    html,body{margin:0;height:100%;}
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: linear-gradient(180deg, var(--bg), #0b1026 50%, var(--bg));
+      color: var(--text);
+    }
+    .container{max-width: 980px; margin: 0 auto; padding: 1.2rem;}
+    header{
+      background: rgba(17,24,39,0.85);
+      backdrop-filter: blur(4px);
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0 1.2rem;
+      border: 1px solid #1f2937;
+    }
+    h1{margin:0;font-size:1.6rem;letter-spacing:.2px;}
+    .sub{color:var(--muted); margin-top:.35rem; font-size:.98rem;}
+    .badge{
+      display:inline-flex; align-items:center; gap:.5rem; padding:.45rem .7rem;
+      background: #0b122a; border:1px solid #1f2937; border-radius:12px; margin-top:.7rem;
+      font-size:.92rem;
+    }
+    .os { font-weight:600; color: var(--accent); }
+    .tips { color: var(--muted); font-size:.9rem; margin-left:.3rem;}
+    .panel{
+      background: var(--panel);
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 1rem 1rem;
+      margin-bottom: 1rem;
+    }
+    .controls { display:flex; flex-wrap:wrap; gap:.8rem; align-items:center;}
+    select, button, input[type="number"], input[type="text"]{
+      background: var(--card); color: var(--text);
+      border:1px solid #374151; border-radius:10px; padding:.55rem .7rem; font-size:1rem;
+    }
+    button{ cursor:pointer; }
+    button.primary{ background: #0b5bd7; border-color:#0b5bd7; }
+    button.ghost{ background: transparent; border-color:#374151; }
+    button:disabled{ opacity:.5; cursor:not-allowed; }
+    .progress{
+      height: 10px; background:#0b122a; border:1px solid #1f2937; border-radius:10px; overflow:hidden;
+      margin-top:.8rem;
+    }
+    .bar{height:100%; width:0%; background: linear-gradient(90deg, var(--accent), #34d399); transition: width .3s ease;}
+    .card{
+      background: var(--card);
+      border:1px solid #374151;
+      border-radius: 14px;
+      padding: 1rem;
+      margin:.8rem 0;
+    }
+    .q-title{ font-size:1.05rem; margin:0 0 .6rem; }
+    .choices{ display:grid; gap:.5rem; margin-top:.4rem; }
+    .choice{
+      display:flex; align-items:flex-start; gap:.6rem;
+      padding:.6rem .7rem; border:1px solid #374151; border-radius:10px; cursor:pointer;
+    }
+    .choice.correct{ border-color: #14532d; background: rgba(34,197,94,.12); }
+    .choice.incorrect{ border-color: #7f1d1d; background: rgba(239,68,68,.08); }
+    .explain{ margin-top:.6rem; color:#d1d5db; background:#0b122a; padding:.7rem .8rem; border-radius:10px; border:1px dashed #374151; }
+    .pill{ display:inline-block; padding:.15rem .5rem; border-radius:999px; background:#0b122a; border:1px solid #1f2937; color:#cbd5e1; font-size:.78rem; margin-right:.35rem;}
+    .row{ display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; }
+    .meta{ color:var(--muted); font-size:.92rem; margin-left:auto;}
+    .hidden{ display:none; }
+    .center{ text-align:center; }
+    .score{
+      font-size:1.6rem; font-weight:700; color:#e2e8f0;
+    }
+    .small{ font-size:.9rem; color:var(--muted);}
+    .footer{ color:var(--muted); font-size:.9rem; margin-top:1rem;}
+    a{ color:#93c5fd; }
+    .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+          background:#0b122a; border:1px solid #1f2937; border-radius:6px; padding:.05rem .35rem; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>C++ Fundamentals – Interactive Review (Ch. 1–3)</h1>
+      <div class="sub">Offline single‑file app · Works in any modern browser on Windows, macOS, Linux, and Steam Deck (Desktop Mode). Immediate feedback with explanations.</div>
+      <div class="badge">Detected OS: <span id="osName" class="os">…</span> <span id="osTip" class="tips"></span></div>
+    </header>
+
+    <div class="panel">
+      <div class="controls">
+        <label>Number of questions:
+          <input id="count" type="number" min="5" max="50" step="1" value="20" style="width:92px;">
+        </label>
+        <label>Topics:
+          <select id="topicFilter">
+            <option value="all">All (Ch. 1–3)</option>
+            <option value="Chapter 1">Chapter 1 – Intro & I/O</option>
+            <option value="Chapter 2">Chapter 2 – Data Types & Expressions</option>
+            <option value="Chapter 3">Chapter 3 – Assignment, Input, Formatting</option>
+          </select>
+        </label>
+        <button id="startBtn" class="primary">Start / Restart</button>
+        <button id="reviewBtn" class="ghost" disabled>Review wrong answers</button>
+        <span class="meta"><span id="progressMeta">0 / 0</span></span>
+        <div class="progress" style="flex-basis:100%"><div id="bar" class="bar"></div></div>
+      </div>
+    </div>
+
+    <div id="quizArea"></div>
+
+    <div id="summary" class="panel hidden">
+      <div class="center">
+        <div class="score" id="scoreText">Score: 0%</div>
+        <div class="small" id="scoreMeta">0 correct out of 0.</div>
+        <div class="row center" style="justify-content:center;margin-top:.8rem;">
+          <button id="exportBtn" class="ghost">Export wrong answers (JSON)</button>
+          <button id="restartBtn" class="primary">Restart</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="reviewPanel" class="panel hidden">
+      <h3 style="margin-top:0;">Review</h3>
+      <div id="reviewList"></div>
+    </div>
+
+    <div class="footer">
+      <strong>How to use:</strong> Choose the number of questions and topic, press <span class="kbd">Start</span>, pick an answer and click <span class="kbd">Check</span>. You’ll see why an answer is correct or not.
+      Works fully offline. To add your own questions, open this file in a text editor and search for <span class="kbd">QUESTION_BANK</span>.
+    </div>
+  </div>
+
+<script>
+(function(){
+  function detectOS(){
+    const ua = (navigator.userAgent || "").toLowerCase();
+    const plat = (navigator.platform || "").toLowerCase();
+    if (ua.includes("steam") || ua.includes("steam deck") || ua.includes("steamdeck")) return "Steam Deck (Linux)";
+    if (ua.includes("windows") || plat.includes("win")) return "Windows";
+    if (ua.includes("mac") || ua.includes("darwin") || plat.includes("mac")) return "macOS";
+    if (ua.includes("linux") || plat.includes("linux") || plat.includes("x11")) return "Linux";
+    if (/iphone|ipad|ipod/.test(ua)) return "iOS";
+    if (/android/.test(ua)) return "Android";
+    return "Unknown";
+  }
+  const osName = detectOS();
+  const osTipEl = document.getElementById("osTip");
+  document.getElementById("osName").textContent = osName;
+  const tips = {
+    "Windows": "Double‑click the HTML file. If needed, use Start-Quiz.bat.",
+    "macOS": "Double‑click the HTML file. If blocked, right‑click → Open.",
+    "Linux": "Double‑click the HTML file or run: xdg-open cpp_interactive_quiz.html",
+    "Steam Deck (Linux)": "Switch to Desktop Mode → open this file in your browser or run the Linux script.",
+    "iOS": "Open in Files → Share to a browser. (Best on desktop OS.)",
+    "Android": "Open in Files with your browser. (Best on desktop OS.)",
+    "Unknown": "Open this file in your default browser."
+  };
+  osTipEl.textContent = tips[osName] || tips["Unknown"];
+})();
+</script>
+
+<script>
+// === Question bank ===
+// Note: Explanations are written so the app can say WHAT is wrong and WHY.
+const QUESTION_BANK = [
+  // Chapter 1 — Intro & I/O
+  {
+    id:"ch1-1", topic:"Chapter 1", q:"Software is another term for…",
+    choices:["Hardware","Operating system","Computer program","Algorithm"],
+    answer:2,
+    why:"In your notes, software is defined as another term for a computer program — a structured combination of data and instructions that produces a result.",
+  },
+  {
+    id:"ch1-2", topic:"Chapter 1", q:"A computer program is best described as:",
+    choices:[
+      "A physical device that stores data",
+      "A structured combination of data and instructions to produce results",
+      "A list of parts used to build a computer",
+      "A network diagram"
+    ],
+    answer:1,
+    why:"A program combines data and instructions in a structured way to operate the computer and produce specific results.",
+  },
+  {
+    id:"ch1-3", topic:"Chapter 1", q:"High‑level languages are…",
+    choices:["Machine dependent","Machine independent","Written only in 0s and 1s","Only used for GUIs"],
+    answer:1,
+    why:"Your outline states: high‑level languages are machine independent; low‑level are machine dependent."
+  },
+  {
+    id:"ch1-4", topic:"Chapter 1", q:"Procedural vs. object‑oriented programming can be summarized as:",
+    choices:[
+      "Procedural: classes and methods; OOP: functions only",
+      "Procedural: self‑contained procedures/functions; OOP: classes and methods",
+      "They are identical",
+      "Procedural: for GUIs only; OOP: for math only"
+    ],
+    answer:1,
+    why:"Procedural groups steps into procedures/functions; object‑oriented organizes code around classes and their methods."
+  },
+  {
+    id:"ch1-5", topic:"Chapter 1", q:"An algorithm is:",
+    choices:[
+      "The compiled program",
+      "A step‑by‑step sequence of instructions to solve a problem",
+      "A programming language",
+      "A runtime error"
+    ],
+    answer:1,
+    why:"An algorithm is the step‑by‑step plan for solving a problem. It can be written as pseudocode or drawn as a flowchart."
+  },
+  {
+    id:"ch1-6", topic:"Chapter 1", q:"Pseudocode vs. flowchart:",
+    choices:[
+      "Pseudocode uses English‑like steps; flowcharts are diagrammatic",
+      "Both are compiled",
+      "Both are machine code",
+      "Flowcharts use only text"
+    ],
+    answer:0,
+    why:"Pseudocode is English‑like; flowcharts are pictorial with symbols and arrows to show flow."
+  },
+  {
+    id:"ch1-7", topic:"Chapter 1", q:"An interpreter:",
+    choices:[
+      "Translates and executes one statement at a time",
+      "Translates the whole program before any execution",
+      "Is the same as a linker",
+      "Only works for C++"
+    ],
+    answer:0,
+    why:"Interpreter executes line‑by‑line. Compiler translates the entire program first."
+  },
+  {
+    id:"ch1-8", topic:"Chapter 1", q:"Which pair matches the translation tool to example languages in your notes?",
+    choices:[
+      "Interpreter → C++ and Java",
+      "Compiler → QBASIC, Python, Perl",
+      "Interpreter → QBASIC, Python, Perl",
+      "Compiler → HTML and CSS"
+    ],
+    answer:2,
+    why:"Your notes list QBASIC, Python, and Perl as interpreted; C++ and Java as compiled (in general coursework context)."
+  },
+  {
+    id:"ch1-9", topic:"Chapter 1", q:"Pick the correct pairing of error type and description.",
+    choices:[
+      "Syntax error → dividing by zero",
+      "Logical error → violates language rules",
+      "Runtime error → addition instead of multiplication",
+      "Syntax error → missing semicolon"
+    ],
+    answer:3,
+    why:"Missing semicolons/mistyped identifiers are syntax errors; dividing by zero is a runtime error; using the wrong operation is a logical error."
+  },
+  {
+    id:"ch1-10", topic:"Chapter 1", q:"The function that every C++ program must provide is named:",
+    choices:["Main","MAIN","Start","main"],
+    answer:3,
+    why:"C++ is case‑sensitive; the entry point function must be spelled exactly main in lowercase."
+  },
+  {
+    id:"ch1-11", topic:"Chapter 1", q:"What does this do?  cout << \"Hello\";",
+    choices:[
+      "Reads text from the keyboard",
+      "Displays text to the screen",
+      "Writes a file",
+      "Compiles the program"
+    ],
+    answer:1,
+    why:"cout with the insertion operator << sends output to the screen (standard output)."
+  },
+  {
+    id:"ch1-12", topic:"Chapter 1", q:"Which header provides cout and cin?",
+    choices:["<cmath>","<iomanip>","<iostream>","<string>"],
+    answer:2,
+    why:"The iostream header provides the standard stream objects for input (cin) and output (cout)."
+  },
+  {
+    id:"ch1-13", topic:"Chapter 1", q:"Pick the newline options shown in your notes:",
+    choices:["\\n and endl","nl and newline()","std::nl","/n"],
+    answer:0,
+    why:"Newlines can be inserted with \\n or the stream manipulator endl."
+  },
+  {
+    id:"ch1-14", topic:"Chapter 1", q:"Which are valid C++ comments?",
+    choices:["// one line", "/* multi line */", "Both A and B", "None"],
+    answer:2,
+    why:"C++ supports // single‑line and /* */ multi‑line comments."
+  },
+
+  // Chapter 2 — Data Types & Expressions
+  {
+    id:"ch2-1", topic:"Chapter 2", q:"Which is a 1‑byte character type in your notes?",
+    choices:["double","char","string","bool"],
+    answer:1,
+    why:"char is listed as 1 byte; it stores single character values like 'A'."
+  },
+  {
+    id:"ch2-2", topic:"Chapter 2", q:"According to your table, double typically stores:",
+    choices:["4 bytes","8 bytes","12 bytes","1 byte"],
+    answer:1,
+    why:"Your notes list double as 8 bytes."
+  },
+  {
+    id:"ch2-3", topic:"Chapter 2", q:"Unsigned vs. signed types:",
+    choices:[
+      "Unsigned stores only non‑negative values",
+      "Signed stores only positive values",
+      "They are identical",
+      "Unsigned stores characters only"
+    ],
+    answer:0,
+    why:"Unsigned types exclude negatives, allowing a larger non‑negative range."
+  },
+  {
+    id:"ch2-4", topic:"Chapter 2", q:"Which is integer division in C++?",
+    choices:["10 / 3 → 3.3333","10 / 3 → 3","10 / 3 → 4","10 / 3 → compiler error"],
+    answer:1,
+    why:"When both operands are int, C++ performs integer division and discards the fraction."
+  },
+  {
+    id:"ch2-5", topic:"Chapter 2", q:"Which modulus results are correct?",
+    choices:["10 % 3 → 0","10 % 3 → 1","3 % 5 → 5","3 % 5 → 0"],
+    answer:1,
+    why:"10 % 3 leaves remainder 1; and 3 % 5 equals 3 because 5 does not fit into 3."
+  },
+  {
+    id:"ch2-6", topic:"Chapter 2", q:"Operator precedence (left‑to‑right within a level) is:",
+    choices:[
+      "+, - have higher precedence than *, /, %",
+      "*, /, % have higher precedence than +, -",
+      "All have the same precedence",
+      "Only % has precedence"
+    ],
+    answer:1,
+    why:"*, /, % bind tighter than + and -; order among equals is left to right."
+  },
+  {
+    id:"ch2-7", topic:"Chapter 2", q:"If any operand in an arithmetic expression is floating‑point, the result is:",
+    choices:["int","char","double‑precision value","bool"],
+    answer:2,
+    why:"Your notes state: if one operand is floating point then the answer is a double‑precision value."
+  },
+  {
+    id:"ch2-8", topic:"Chapter 2", q:"Pick the correct declaration:",
+    choices:["int count;","double = salary;","string = name;","char letter = \"A\";"],
+    answer:0,
+    why:"Declarations are dataType variableName; initializations use '=' with correct literal types (chars use single quotes)."
+  },
+  {
+    id:"ch2-9", topic:"Chapter 2", q:"Which shows multiple declarations of the same type?",
+    choices:["float grade1, grade2, grade3;","float grade1; int grade2, grade3;","grade1, grade2, grade3 : float;","var grade1, grade2, grade3;"],
+    answer:0,
+    why:"Multiple variables of the same type can be declared with commas."
+  },
+
+  // Chapter 3 — Assignment, Input, Formatting
+  {
+    id:"ch3-1", topic:"Chapter 3", q:"Which compound assignment matches: sum = sum + grade;",
+    choices:["sum /= grade;","sum += grade;","sum *= grade;","sum %= grade;"],
+    answer:1,
+    why:"sum += grade is equivalent to sum = sum + grade."
+  },
+  {
+    id:"ch3-2", topic:"Chapter 3", q:"A symbolic constant declaration example is:",
+    choices:[
+      "const float TAX = 0.07;",
+      "float const; TAX = 0.07;",
+      "constant TAX = 0.07;",
+      "let TAX = 0.07;"
+    ],
+    answer:0,
+    why:"Use const dataType NAME = value; to create a compile‑time constant."
+  },
+  {
+    id:"ch3-3", topic:"Chapter 3", q:"What happens in: int num = 2.5;",
+    choices:[
+      "num becomes 2",
+      "num becomes 3",
+      "Compilation error",
+      "num becomes 2.5"
+    ],
+    answer:0,
+    why:"The floating value is coerced (truncated) to int, dropping the fractional part."
+  },
+  {
+    id:"ch3-4", topic:"Chapter 3", q:"Which input statement correctly reads two ints from the keyboard?",
+    choices:["cin >> x, y;","cin << x << y;","cin >> x >> y;","cin(x,y);"],
+    answer:2,
+    why:"Use the extraction operator >> and you can chain it: cin >> x >> y;"
+  },
+  {
+    id:"ch3-5", topic:"Chapter 3", q:"If A = 5 and B = 5 initially, what is printed?  cout << ++A; cout << B++;",
+    choices:["6 then 6","6 then 5","5 then 6","5 then 5"],
+    answer:1,
+    why:"Prefix ++A increments before printing (shows 6). Postfix B++ prints 5, then B becomes 6 afterward."
+  },
+  {
+    id:"ch3-6", topic:"Chapter 3", q:"Which iomanip manipulator sets two digits after the decimal (when used with fixed)?",
+    choices:["setw(2)","setprecision(2)","setfill('2')","showpoint(2)"],
+    answer:1,
+    why:"Use fixed and setprecision(2) for two places to the right of the decimal."
+  },
+  {
+    id:"ch3-7", topic:"Chapter 3", q:"Which line displays numbers in decimal (not scientific) format?",
+    choices:["cout << fixed;","cout << showpoint;","cout << left;","cout << setfill('*');"],
+    answer:0,
+    why:"fixed switches to fixed‑point (decimal) notation instead of scientific."
+  },
+  {
+    id:"ch3-8", topic:"Chapter 3", q:"Pick the correct math library function match:",
+    choices:[
+      "pow(x,y) → x raised to power y",
+      "sqrt(x) → x · x",
+      "ceil(3.1) → 3",
+      "floor(3.7) → 4"
+    ],
+    answer:0,
+    why:"pow(x,y) computes x^y. (sqrt is square root; ceil rounds up to 4 for 3.1; floor rounds down to 3 for 3.7.)"
+  },
+  {
+    id:"ch3-9", topic:"Chapter 3", q:"A C++ style cast that happens at runtime is:",
+    choices:[
+      "static_cast<int>(a*b)",
+      "(int)(a*b) only",
+      "cast<int>(a*b)",
+      "force<int>(a*b)"
+    ],
+    answer:0,
+    why:"static_cast<dataType>(expr) is the C++‑style cast (your notes mention both C‑style and static_cast)."
+  }
+];
+
+// Simple shuffle
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+const state = {
+  questions: [],
+  index: 0,
+  correct: 0,
+  wrong: [], // {id, q, chosen, correct, why}
+};
+
+function el(tag, attrs={}, ...children){
+  const e = document.createElement(tag);
+  Object.entries(attrs).forEach(([k,v])=>{
+    if(k==="class") e.className=v;
+    else if(k.startsWith("on") && typeof v==="function") e.addEventListener(k.slice(2), v);
+    else if(k==="html") e.innerHTML = v;
+    else e.setAttribute(k,v);
+  });
+  for(const c of children){
+    if(c==null) continue;
+    if(typeof c === "string") e.appendChild(document.createTextNode(c));
+    else e.appendChild(c);
+  }
+  return e;
+}
+
+function start(){
+  const count = Math.max(5, Math.min(50, parseInt(document.getElementById("count").value||"20",10)));
+  const topic = document.getElementById("topicFilter").value;
+  let pool = QUESTION_BANK.slice();
+  if(topic!=="all") pool = pool.filter(q => q.topic===topic);
+  shuffle(pool);
+  state.questions = pool.slice(0, count);
+  state.index=0;
+  state.correct=0;
+  state.wrong=[];
+  document.getElementById("summary").classList.add("hidden");
+  document.getElementById("reviewPanel").classList.add("hidden");
+  document.getElementById("reviewBtn").disabled = true;
+  renderCurrent();
+  updateProgress();
+}
+
+function updateProgress(){
+  const total = state.questions.length;
+  const idx = Math.min(state.index, total);
+  document.getElementById("progressMeta").textContent = `${idx} / ${total}`;
+  const pct = total? (idx/total)*100 : 0;
+  document.getElementById("bar").style.width = pct+"%";
+}
+
+function renderCurrent(){
+  const area = document.getElementById("quizArea");
+  area.innerHTML = "";
+  if(state.index >= state.questions.length){
+    // finished
+    const total = state.questions.length;
+    const scorePct = total? Math.round((state.correct/total)*100) : 0;
+    document.getElementById("scoreText").textContent = `Score: ${scorePct}%`;
+    document.getElementById("scoreMeta").textContent = `${state.correct} correct out of ${total}.`;
+    document.getElementById("summary").classList.remove("hidden");
+    document.getElementById("reviewBtn").disabled = state.wrong.length===0;
+    return;
+  }
+  const q = state.questions[state.index];
+  const card = renderQuestionCard(q);
+  area.appendChild(card);
+}
+
+function renderQuestionCard(q){
+  const wrapper = el("div", {class:"card"});
+  wrapper.appendChild(el("div", {class:"row"},
+    el("span", {class:"pill"}, q.topic),
+    el("span", {class:"pill"}, `Question ${state.index+1}`),
+  ));
+  wrapper.appendChild(el("h3", {class:"q-title"}, q.q));
+  const choicesContainer = el("div", {class:"choices"});
+  const name = "q-"+state.index;
+  q.choices.forEach((ch, idx)=>{
+    const choice = el("label", {class:"choice"});
+    const radio = el("input", {type:"radio", name, value:idx, style:"margin-top:.2rem;"});
+    choice.appendChild(radio);
+    choice.appendChild(el("div", {}, ch));
+    choicesContainer.appendChild(choice);
+  });
+  wrapper.appendChild(choicesContainer);
+  const explain = el("div", {class:"explain hidden", id:"explain"});
+  wrapper.appendChild(explain);
+  const btns = el("div", {class:"row", style:"margin-top:.7rem"},
+    el("button", {class:"primary", id:"checkBtn", onclick:onCheck}, "Check"),
+    el("button", {class:"ghost", id:"skipBtn", onclick:onSkip}, "Skip"),
+    el("span", {class:"meta", id:"metaInfo"}, ""),
+  );
+  wrapper.appendChild(btns);
+
+  function onCheck(){
+    const checked = wrapper.querySelector("input[type=radio]:checked");
+    if(!checked) { 
+      document.getElementById("metaInfo").textContent = "Select an answer first.";
+      return;
+    }
+    const chosen = parseInt(checked.value,10);
+    const correct = q.answer;
+    const nodes = wrapper.querySelectorAll(".choice");
+    nodes.forEach((n, i)=>{
+      n.classList.remove("correct","incorrect");
+      if(i===correct) n.classList.add("correct");
+      if(i===chosen && chosen!==correct) n.classList.add("incorrect");
+    });
+    const isRight = chosen===correct;
+    explain.classList.remove("hidden");
+    explain.textContent = (isRight? "Correct! " : "Incorrect. ") + q.why;
+    state.correct += isRight ? 1 : 0;
+    if(!isRight){
+      state.wrong.push({ id:q.id, topic:q.topic, question:q.q, choices:q.choices, chosen, correct, why:q.why });
+    }
+    // next after short delay
+    setTimeout(()=>{
+      state.index++;
+      updateProgress();
+      renderCurrent();
+    }, 800);
+  }
+
+  function onSkip(){
+    state.index++;
+    updateProgress();
+    renderCurrent();
+  }
+
+  return wrapper;
+}
+
+function buildReview(){
+  const list = document.getElementById("reviewList");
+  list.innerHTML = "";
+  if(state.wrong.length===0){
+    list.appendChild(el("div", {}, "No wrong answers to review."));
+    return;
+  }
+  state.wrong.forEach((w, k)=>{
+    const card = el("div", {class:"card"});
+    card.appendChild(el("div", {class:"row"},
+      el("span", {class:"pill"}, w.topic),
+      el("span", {class:"pill"}, `Wrong #${k+1}`),
+    ));
+    card.appendChild(el("div", {class:"q-title"}, w.question));
+    const ul = el("ul");
+    w.choices.forEach((c, i)=>{
+      const li = el("li", {}, (i===w.correct? "✔ " : (i===w.chosen? "✖ " : "• "))+c);
+      ul.appendChild(li);
+    });
+    card.appendChild(ul);
+    card.appendChild(el("div", {class:"explain"}, "Why: "+w.why));
+    list.appendChild(card);
+  });
+}
+
+function exportWrong(){
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    total: state.questions.length,
+    correct: state.correct,
+    wrong: state.wrong
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "cpp_review_results.json";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 5000);
+}
+
+document.getElementById("startBtn").addEventListener("click", start);
+document.getElementById("restartBtn").addEventListener("click", start);
+document.getElementById("reviewBtn").addEventListener("click", ()=>{
+  buildReview();
+  document.getElementById("reviewPanel").classList.remove("hidden");
+});
+document.getElementById("exportBtn").addEventListener("click", exportWrong);
+
+// Auto-start with defaults
+start();
+</script>
+</body>
+</html>

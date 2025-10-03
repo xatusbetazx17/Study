@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#121212" />
+  <title>C++ Fundamentals Quiz — Mobile & Desktop</title>
+  <style>
+    :root{
+      --bg:#0e0f13;
+      --card:#161821;
+      --text:#e9eef6;
+      --muted:#aab3c5;
+      --accent:#4aa3ff;
+      --accent-2:#39d98a;
+      --warning:#ff6b6b;
+      --border:#272a36;
+      --shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:linear-gradient(180deg, #0b0c10 0%, #0e0f13 60%, #0a0b0f 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .wrap{
+      max-width: 900px;
+      margin: 0 auto;
+      padding: clamp(12px, 2.5vw, 24px);
+    }
+    header{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;margin-bottom:16px;
+    }
+    h1{
+      font-size: clamp(20px, 3.5vw, 32px);
+      margin:0;
+      letter-spacing:.2px;
+    }
+    .pill{
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,.05);
+      border:1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      display:inline-flex; align-items:center; gap:6px;
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: clamp(14px, 3vw, 24px);
+    }
+    .controls{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px;
+    }
+    button{
+      appearance:none; border:1px solid var(--border);
+      background: #1d2230; color:var(--text);
+      padding:12px 16px; border-radius:12px; font-weight:600;
+      font-size:16px; cursor:pointer; box-shadow: var(--shadow);
+      transition: transform .06s ease, background .2s ease, border .2s ease, opacity .2s ease;
+      touch-action: manipulation;
+    }
+    button:active{ transform: translateY(1px); }
+    button[disabled]{ opacity:.5; cursor:not-allowed;}
+    .btn-primary{ background: linear-gradient(180deg, #2672ff, #1559d6); border-color:#114ebe;}
+    .btn-good{ background: linear-gradient(180deg, #2fbf81, #159f67); border-color:#0b8555;}
+    .btn-warn{ background: linear-gradient(180deg, #ff7b7b, #e04f4f); border-color:#be3f3f;}
+    .hint{ color: var(--muted); font-size:14px; margin-top:8px;}
+    .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center;}
+    select{
+      background:#11141c;color:var(--text);border:1px solid var(--border);
+      padding:10px 12px;border-radius:10px;
+      font-size: 16px;
+    }
+    .hidden{display:none !important;}
+    .q-header{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px;}
+    .q-counter{ font-weight:700; color: var(--muted); }
+    .question{
+      font-size: clamp(18px, 2.8vw, 22px);
+      line-height: 1.35;
+      margin: 8px 0 12px 0;
+    }
+    ul.choices{ list-style:none; padding:0; margin:0; display:grid; gap:10px;}
+    .choice{
+      background:#0f121a; border:1px solid var(--border); border-radius:12px; padding: 10px 12px;
+      display:flex; align-items:flex-start; gap:10px;
+    }
+    .choice input{ width:22px; height:22px; margin-top:2px; transform: translateY(1px); }
+    .choice label { display:flex; gap:10px; align-items:flex-start; width:100%; cursor:pointer;}
+    .choice span{ line-height: 1.35; }
+    .feedback{
+      margin-top: 12px; border:1px solid var(--border); border-radius:12px;
+      padding: 12px; background:#0d1318; font-size: 15px;
+    }
+    .feedback.correct{ border-color:#1f8d62; box-shadow: inset 0 0 0 1px #1f8d62; }
+    .feedback.incorrect{ border-color:#a33f3f; box-shadow: inset 0 0 0 1px #a33f3f; }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      border:1px solid var(--border);
+      padding:2px 6px; border-radius:6px; background:#10131b; font-size: 13px; color: var(--muted);
+    }
+    .summary h2{ margin:0 0 8px 0; font-size: clamp(18px, 3vw, 24px); }
+    .summary .score{ font-weight:800; font-size: clamp(20px, 4vw, 28px); margin-bottom:8px; }
+    .review-item{ border-top:1px dashed var(--border); padding-top:10px; margin-top:10px;}
+    .review-item .tag{ font-size:12px; padding:2px 8px; border-radius: 999px; border:1px solid var(--border); color:var(--muted); }
+    .footer-note{ color:var(--muted); font-size: 12.5px; margin-top: 12px; }
+    .os-note{ font-size: 13px; color: var(--muted); }
+    .top-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+    .monospace{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    @media (hover:hover){
+      button:hover{ filter: brightness(1.06); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>📘 C++ Fundamentals: Interactive Quiz</h1>
+      <div class="top-actions">
+        <span class="pill" id="osPill">Detecting OS…</span>
+        <button class="btn-primary" id="fullscreenBtn" title="Go fullscreen (useful on phones)">Fullscreen</button>
+        <button id="themeBtn" title="Toggle dark/light">Theme</button>
+      </div>
+    </header>
+
+    <div id="startScreen" class="card">
+      <p class="os-note" id="osNote">
+        This single HTML file runs offline in any modern browser on Windows, macOS, Linux, Android, iOS, and Steam Deck (Desktop Mode). Add it to your phone’s home screen for a full‑screen feel.
+      </p>
+      <div class="row">
+        <label for="numQuestions"><strong>How many questions?</strong></label>
+        <select id="numQuestions">
+          <option value="6">6</option>
+          <option value="10" selected>10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+      <p class="hint">Questions are randomized every time you start. After you check your answer, a <em>Continue</em> button appears so you can read the feedback before moving on.</p>
+      <div class="controls">
+        <button class="btn-primary" id="startBtn">Start Quiz</button>
+      </div>
+    </div>
+
+    <div id="quizScreen" class="card hidden" aria-live="polite">
+      <div class="q-header">
+        <div class="q-counter" id="qCounter"></div>
+        <div class="pill" id="scorePill">Score: 0</div>
+      </div>
+      <div id="questionText" class="question"></div>
+      <ul id="choices" class="choices"></ul>
+      <div id="feedback" class="feedback hidden"></div>
+      <div class="controls">
+        <button id="checkBtn" class="btn-primary" disabled>Check answer</button>
+        <button id="continueBtn" class="btn-good hidden">Continue</button>
+        <button id="resetBtn" class="">Reset</button>
+      </div>
+      <p class="hint">Tip: choices are large on touch devices. You can also press <span class="kbd">Enter</span> to check once a choice is selected.</p>
+    </div>
+
+    <div id="summaryScreen" class="card hidden">
+      <div class="summary">
+        <h2>Quiz summary</h2>
+        <div class="score" id="finalScore"></div>
+        <div id="timeTaken" class="hint"></div>
+        <div class="controls" style="margin-top:8px;">
+          <button class="btn-primary" id="retakeBtn">Retake (new random set)</button>
+          <button id="reviewToggleBtn">Show/Hide review</button>
+        </div>
+        <div id="reviewList" class="hidden" style="margin-top:10px;"></div>
+      </div>
+      <p class="footer-note">
+        This is a portable, dependency‑free HTML app. You can copy it to any machine or phone and open it in the browser. For Steam Deck, open in Desktop Mode (e.g., Chromium/Firefox).
+      </p>
+    </div>
+  </div>
+
+  <script>
+  // ---------- Utilities ----------
+  const $ = (q) => document.querySelector(q);
+  const $$ = (q) => Array.from(document.querySelectorAll(q));
+  const byId = (id) => document.getElementById(id);
+  const shuffle = (arr) => { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; };
+
+  function detectOS() {
+    const ua = navigator.userAgent || "";
+    const platform = navigator.platform || "";
+    const isSteam = /Steam/i.test(ua) || /Valve/i.test(ua);
+    if (/Android/i.test(ua)) return "Android";
+    if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+    if (/Win/i.test(platform)) return "Windows";
+    if (/Mac/i.test(platform)) return "macOS";
+    if (/Linux/i.test(platform)) return isSteam ? "SteamOS (Linux)" : "Linux";
+    return "Your device";
+  }
+
+  function goFullscreen() {
+    const el = document.documentElement;
+    const req = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+    if (req) req.call(el);
+  }
+
+  function prefersDark(){
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  function toggleTheme(){
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    if(isLight){
+      // simple light palette override
+      document.documentElement.style.setProperty('--bg','#f6f7fb');
+      document.documentElement.style.setProperty('--card','#ffffff');
+      document.documentElement.style.setProperty('--text','#0f1117');
+      document.documentElement.style.setProperty('--muted','#4d5769');
+      document.documentElement.style.setProperty('--border','#e5e7ef');
+      document.documentElement.style.setProperty('--shadow','0 8px 24px rgba(0,0,0,.08)');
+    } else {
+      document.documentElement.style.cssText = '';
+    }
+  }
+
+  // ---------- Question Bank ----------
+  // Each item: { q, choices:[], answer, explanation }
+  const QUESTION_BANK = [
+    {
+      q: "In this course context, which statement best describes a computer program?",
+      choices: ["A set of hardware components that store data", "A structured collection of data and instructions that produces specific results when executed", "A device driver that controls I/O devices only", "A compiled binary without any data"],
+      answer: 1,
+      explanation: "A program (software) is a structured combination of data and instructions used to operate a computer and produce results."
+    },
+    {
+      q: "Which phrase best defines programming?",
+      choices: ["Designing microprocessors", "Writing a computer program in a language computers can execute and programmers can understand", "Soldering circuits for embedded systems", "Drawing system flowcharts only"],
+      answer: 1,
+      explanation: "Programming is the process of writing a program in a language that computers can respond to and other programmers can understand."
+    },
+    {
+      q: "High‑level languages are…",
+      choices: ["Machine dependent", "Machine independent", "Written only in binary", "Another name for assembly language"],
+      answer: 1,
+      explanation: "High‑level languages are machine independent; low‑level languages are machine dependent."
+    },
+    {
+      q: "Object‑oriented languages primarily organize code around…",
+      choices: ["Procedures only", "Classes and methods", "Opcode tables", "Memory addresses"],
+      answer: 1,
+      explanation: "Object‑oriented programming centers around classes and methods."
+    },
+    {
+      q: "An algorithm is…",
+      choices: ["Executable machine code", "A step‑by‑step sequence of instructions to solve a problem", "A single C++ function", "A graphic user interface"],
+      answer: 1,
+      explanation: "An algorithm is a step‑by‑step procedure that describes how to solve a problem."
+    },
+    {
+      q: "Two common ways to represent algorithms are…",
+      choices: ["Macros and templates", "Pseudocode and flowcharts", "Heaps and stacks", "Debuggers and profilers"],
+      answer: 1,
+      explanation: "Algorithms are often expressed using pseudocode or flowcharts."
+    },
+    {
+      q: "An interpreter…",
+      choices: ["Translates and executes one statement at a time", "Translates the whole program before executing any statement", "Only runs on Windows", "Produces an .exe and then exits"],
+      answer: 0,
+      explanation: "Interpreters translate and execute statements one at a time; compilers translate the whole program first."
+    },
+    {
+      q: "Which is a runtime error?",
+      choices: ["Missing semicolon", "Using + when you meant *", "Division by zero", "Misspelling an identifier in comments"],
+      answer: 2,
+      explanation: "Division by zero is a runtime error. A missing semicolon is syntax; using + instead of * is a logical error."
+    },
+    {
+      q: "Every C++ program must have at least one function named…",
+      choices: ["start", "Main", "main", "program"],
+      answer: 2,
+      explanation: "The entry point is the function named main (all lowercase)."
+    },
+    {
+      q: "Which statement about cout is true?",
+      choices: ["It requires the extraction operator >>", "It displays output using the insertion operator <<", "It can only output integers", "It is defined in <cmath>"],
+      answer: 1,
+      explanation: "cout outputs to the screen using the insertion operator << and is provided by <iostream>."
+    },
+    {
+      q: "What does #include &lt;iostream&gt; do?",
+      choices: ["Deletes a file", "Inserts the contents of the iostream header during preprocessing", "Runs the linker", "Defines the main function automatically"],
+      answer: 1,
+      explanation: "The preprocessor includes the contents of the header where the directive appears."
+    },
+    {
+      q: "What is the typical storage size of a C++ int on many systems (per course notes)?",
+      choices: ["1 byte", "2 bytes", "4 bytes", "8 bytes"],
+      answer: 2,
+      explanation: "In the provided notes, int is listed as 4 bytes (implementation‑dependent in general)."
+    },
+    {
+      q: "Which literal is a character constant?",
+      choices: ["\"A\"", "'A'", "A", "65.0"],
+      answer: 1,
+      explanation: "Character constants use single quotes, e.g., 'A'."
+    },
+    {
+      q: "Unsigned types can store…",
+      choices: ["Only negative values", "Only non‑negative values (wider positive range)", "Both negative and positive with the same range as signed", "Only zero"],
+      answer: 1,
+      explanation: "Unsigned types store non‑negative values and can fit roughly twice the positive range of their signed counterpart."
+    },
+    {
+      q: "What is the result of integer division 10 / 3 in C++?",
+      choices: ["3.3333", "3", "4", "A compile error"],
+      answer: 1,
+      explanation: "With integer operands, the fractional part is discarded; 10/3 yields 3."
+    },
+    {
+      q: "What does the modulus operator (%) return?",
+      choices: ["The integer quotient", "The remainder", "The floating result", "The bitwise AND"],
+      answer: 1,
+      explanation: "a % b gives the remainder of integer division; both operands should be integers."
+    },
+    {
+      q: "If all operands in an expression are integers, the result is…",
+      choices: ["Always a double", "An integer (fractional part discarded where applicable)", "Always promoted to long double", "Undefined"],
+      answer: 1,
+      explanation: "With only integer operands, C++ uses integer arithmetic and results are integral."
+    },
+    {
+      q: "Operator precedence (highest among the following)?",
+      choices: ["+ and -", "% / *", "Assignment =", "Comma ,"],
+      answer: 1,
+      explanation: "Among the listed, %, /, and * have higher precedence than + and -."
+    },
+    {
+      q: "Which declaration defines a constant with value 0.07?",
+      choices: ["const TAX = .07;", "float const TAX = .07;", "const float TAX = .07;", "let TAX = .07;"],
+      answer: 2,
+      explanation: "Use const datatype NAME = value; e.g., const float TAX = .07;"
+    },
+    {
+      q: "What is the effect of: X *= a + b;",
+      choices: ["X = a + b;", "X = X * (a + b);", "X = (a*b) + X;", "X = a * b;"],
+      answer: 1,
+      explanation: "It’s equivalent to X = X * (a + b); the right side is evaluated first."
+    },
+    {
+      q: "What does this line do: int num = 2.5;",
+      choices: ["Stores 2.5 exactly", "Rounds to 3", "Stores 2 (truncation)", "Compiler error in C++"],
+      answer: 2,
+      explanation: "The double literal 2.5 is converted to int, truncating to 2 (loss of .5)."
+    },
+    {
+      q: "Which input statement reads two integers x and y from the keyboard?",
+      choices: ["cin &gt;&gt; x; cin &gt;&gt; y;", "cout &gt;&gt; x &gt;&gt; y;", "cin &lt;&lt; x, y;", "scanf(x, y);"],
+      answer: 0,
+      explanation: "Use the extraction operator >> with cin, optionally chaining: cin >> x >> y;"
+    },
+    {
+      q: "What is the difference between prefix ++i and postfix i++ in an expression?",
+      choices: ["No difference at all", "Prefix increments then yields the incremented value; postfix yields the original value then increments", "Postfix does not increment", "Prefix only works with doubles"],
+      answer: 1,
+      explanation: "Prefix increments first; postfix returns the old value and increments afterward."
+    },
+    {
+      q: "Which header enables setw and setprecision formatting?",
+      choices: ["<cmath>", "<iomanip>", "<string>", "<format>"],
+      answer: 1,
+      explanation: "Formatting manipulators like setw and setprecision come from <iomanip>."
+    },
+    {
+      q: "What does fixed and showpoint do together when formatting floating output?",
+      choices: ["Exponential form with no decimals", "Force decimal format and show trailing zeros per precision", "Hide the decimal point", "Round to nearest int"],
+      answer: 1,
+      explanation: "fixed uses decimal notation; showpoint shows trailing zeros according to the chosen precision."
+    },
+    {
+      q: "Which function computes the square root?",
+      choices: ["pow(x, 2)", "sqrt(x)", "root(x)", "square(x)"],
+      answer: 1,
+      explanation: "sqrt(x) comes from <cmath>."
+    },
+    {
+      q: "Casting at run time with static_cast is written as…",
+      choices: ["cast&lt;T&gt;(x)", "static_cast&lt;T&gt;(expression)", "(T) expression only", "to&lt;T&gt;(expression)"],
+      answer: 1,
+      explanation: "Use static_cast<T>(expression) for explicit casts in C++."
+    },
+    {
+      q: "Pick the valid C++ identifier:",
+      choices: ["2fast2furious", "_totalCount", "float", "gross-pay"],
+      answer: 1,
+      explanation: "Identifiers can start with a letter or underscore, cannot be keywords, and cannot include hyphens."
+    },
+    {
+      q: "C++ is case sensitive. Which pair are considered different identifiers?",
+      choices: ["total and total", ["TOTAL and total"].toString(), "Total and total", "None of these"],
+      answer: 2,
+      explanation: "Case matters: Total and total are different names."
+    },
+    {
+      q: "What does the newline escape sequence \"\\n\" do in an output string?",
+      choices: ["Starts a new output stream", "Inserts a newline", "Clears the screen", "Backspaces one character"],
+      answer: 1,
+      explanation: "\\n inserts a newline; endl also ends the line."
+    },
+    {
+      q: "Only a ____ can appear on the left side of an assignment operator (=).",
+      choices: ["literal", "keyword", "variable (lvalue)", "function call"],
+      answer: 2,
+      explanation: "The left side must be an assignable location (an lvalue), typically a variable."
+    }
+  ];
+
+  // ---------- State ----------
+  let state = {
+    quiz: [],
+    idx: 0,
+    score: 0,
+    startedAt: 0,
+    answers: [] // {q, choices, correct, picked, isCorrect, explanation}
+  };
+
+  function pickQuizSet(n){
+    const pool = shuffle([...QUESTION_BANK]);
+    return pool.slice(0, Math.min(n, pool.length));
+  }
+
+  function renderQuestion(){
+    const item = state.quiz[state.idx];
+    byId('qCounter').textContent = `Question ${state.idx+1} of ${state.quiz.length}`;
+    byId('questionText').innerHTML = item.q;
+    const list = byId('choices');
+    list.innerHTML = '';
+    const choiceOrder = shuffle(item.choices.map((c, i) => ({c, i})));
+    list.setAttribute('data-order', choiceOrder.map(x => x.i).join(','));
+    choiceOrder.forEach(({c, i}, pos) => {
+      const li = document.createElement('li');
+      li.className = 'choice';
+      const id = `choice_${state.idx}_${pos}`;
+      li.innerHTML = `
+        <label for="${id}">
+          <input type="radio" name="q${state.idx}" id="${id}" value="${pos}" />
+          <span>${c}</span>
+        </label>
+      `;
+      list.appendChild(li);
+    });
+    byId('feedback').className = 'feedback hidden';
+    byId('feedback').textContent = '';
+    byId('checkBtn').disabled = true;
+    byId('continueBtn').classList.add('hidden');
+  }
+
+  function getSelected(){
+    const selected = document.querySelector('input[type="radio"]:checked');
+    return selected ? Number(selected.value) : null;
+  }
+
+  function enableCheckOnSelect(){
+    byId('choices').addEventListener('change', (e) => {
+      if(e.target && e.target.matches('input[type="radio"]')){
+        byId('checkBtn').disabled = false;
+      }
+    }, { once: true });
+  }
+
+  function indexOfCorrectInRendered(){
+    const order = (byId('choices').getAttribute('data-order') || '').split(',').map(Number);
+    return order.indexOf(state.quiz[state.idx].answer);
+  }
+
+  function checkAnswer(){
+    const pickedRenderedIdx = getSelected();
+    if(pickedRenderedIdx === null) return;
+    const correctRenderedIdx = indexOfCorrectInRendered();
+
+    const item = state.quiz[state.idx];
+    const pickedOriginalIdx = (byId('choices').getAttribute('data-order') || '').split(',').map(Number)[pickedRenderedIdx];
+    const isCorrect = pickedRenderedIdx === correctRenderedIdx;
+    if(isCorrect) state.score++;
+
+    // lock choices
+    $$('#choices input').forEach(inp => inp.disabled = true);
+
+    // feedback
+    const fb = byId('feedback');
+    fb.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+    const pickedText = byId('choices').children[pickedRenderedIdx].querySelector('span').textContent;
+    const correctText = byId('choices').children[correctRenderedIdx].querySelector('span').textContent;
+    fb.innerHTML = isCorrect
+      ? `✅ Correct. <span class="hint">${item.explanation}</span>`
+      : `❌ Not quite. <strong>Correct:</strong> <span class="monospace">${correctText}</span><br><span class="hint">${item.explanation}</span>`;
+    fb.classList.remove('hidden');
+
+    // store answer for review
+    state.answers.push({
+      q: item.q,
+      choices: $$('#choices span').map(n => n.textContent),
+      correct: correctText,
+      picked: pickedText,
+      isCorrect,
+      explanation: item.explanation
+    });
+
+    byId('scorePill').textContent = `Score: ${state.score}`;
+    byId('continueBtn').classList.remove('hidden');
+    byId('checkBtn').disabled = true; // require Continue to proceed
+  }
+
+  function nextQuestion(){
+    state.idx++;
+    if(state.idx >= state.quiz.length){
+      showSummary();
+    } else {
+      renderQuestion();
+      enableCheckOnSelect();
+    }
+  }
+
+  function showSummary(){
+    byId('quizScreen').classList.add('hidden');
+    byId('summaryScreen').classList.remove('hidden');
+    const elapsed = Math.round((performance.now() - state.startedAt) / 1000);
+    const mins = Math.floor(elapsed/60), secs = elapsed % 60;
+    byId('finalScore').textContent = `You scored ${state.score} / ${state.quiz.length}`;
+    byId('timeTaken').textContent = `Time: ${mins}m ${secs}s`;
+
+    const review = byId('reviewList');
+    review.innerHTML = '';
+    state.answers.forEach((a, idx) => {
+      const div = document.createElement('div');
+      div.className = 'review-item';
+      div.innerHTML = `
+        <div class="row" style="justify-content:space-between; align-items:baseline;">
+          <strong>Q${idx+1}.</strong> <span class="tag">${a.isCorrect ? 'Correct' : 'Incorrect'}</span>
+        </div>
+        <div class="question" style="font-size:16px;">${a.q}</div>
+        <div><strong>Your answer:</strong> ${a.picked}</div>
+        ${a.isCorrect ? '' : `<div><strong>Correct:</strong> ${a.correct}</div>`}
+        <div class="hint" style="margin-top:6px;">${a.explanation}</div>
+      `;
+      review.appendChild(div);
+    });
+  }
+
+  function reset(){
+    // Show start screen, clear state
+    byId('summaryScreen').classList.add('hidden');
+    byId('quizScreen').classList.add('hidden');
+    byId('startScreen').classList.remove('hidden');
+    state = { quiz:[], idx:0, score:0, startedAt:0, answers:[] };
+  }
+
+  function start(){
+    const n = Number(byId('numQuestions').value);
+    state.quiz = pickQuizSet(n);
+    state.idx = 0;
+    state.score = 0;
+    state.startedAt = performance.now();
+    state.answers = [];
+    byId('scorePill').textContent = `Score: 0`;
+    byId('startScreen').classList.add('hidden');
+    byId('summaryScreen').classList.add('hidden');
+    byId('quizScreen').classList.remove('hidden');
+    renderQuestion();
+    enableCheckOnSelect();
+  }
+
+  // ---------- Init ----------
+  document.addEventListener('DOMContentLoaded', () => {
+    // Set theme
+    if(!prefersDark()) toggleTheme();
+    // OS info
+    const os = detectOS();
+    byId('osPill').textContent = `Detected: ${os}`;
+    byId('osNote').innerHTML = `${byId('osNote').innerHTML} <br><br><strong>Tip:</strong> On Android open in Chrome and “Add to Home screen”. On iOS open in Safari and “Add to Home Screen”.`;
+
+    // Buttons
+    byId('startBtn').addEventListener('click', start);
+    byId('checkBtn').addEventListener('click', checkAnswer);
+    byId('continueBtn').addEventListener('click', nextQuestion);
+    byId('resetBtn').addEventListener('click', reset);
+    byId('retakeBtn').addEventListener('click', () => { reset(); start(); });
+    byId('reviewToggleBtn').addEventListener('click', () => byId('reviewList').classList.toggle('hidden'));
+    byId('themeBtn').addEventListener('click', toggleTheme);
+    byId('fullscreenBtn').addEventListener('click', goFullscreen);
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      if(!byId('quizScreen').classList.contains('hidden')){
+        if(e.key === 'Enter' && !byId('checkBtn').disabled){
+          e.preventDefault(); checkAnswer();
+        } else if((e.key === ' ' || e.key.toLowerCase() === 'n') && !byId('continueBtn').classList.contains('hidden')){
+          e.preventDefault(); nextQuestion();
+        }
+      }
+    });
+  });
+  </script>
+</body>
+</html>
