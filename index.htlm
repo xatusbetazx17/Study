@@ -37,6 +37,19 @@
     <h2>Mobile Quiz Shell</h2>
     <a href="First_cpp_interactive_quiz_mobile_option02.html">First_cpp_interactive_quiz_mobile_option02.html</a>
   </div>
+
+  <!-- Added Final Review card -->
+  <div class="card">
+    <h2>Final Review (Ch. 1–6) + Payroll Project</h2>
+    <p>Cheat sheet, extra loops, and a full Payroll walkthrough. Includes new practice for Tests 4–6.</p>
+    <p>
+      <a
+        style="display:inline-block;border:1px solid #30456b;background:#15213a;color:#e6edf3;padding:8px 12px;border-radius:8px"
+        href="final_review_ch1_6_and_payroll.html" rel="noopener"
+      >Open Final Review</a>
+    </p>
+  </div>
+
 </main>
 </body>
 </html>
