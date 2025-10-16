@@ -16,6 +16,8 @@
       display:inline-block;border:1px solid #30456b;background:#15213a;color:#e6edf3;
       padding:8px 12px;border-radius:8px;font-weight:600;text-decoration:none
     }
+    /* small helper */
+    .small{color:#a7b4c6;font-size:.95rem}
   </style>
 </head>
 <body>
@@ -52,7 +54,7 @@
     </p>
   </div>
 
-  <!-- NEW: Interactive Lab card -->
+  <!-- Interactive Lab card -->
   <div class="card">
     <h2>Interactive Lab (Ch. 1–6) + Payroll + Videos</h2>
     <p>New interactive practice for all chapters, a live Payroll calculator to verify results, and curated video lessons.</p>
@@ -61,6 +63,45 @@
     </p>
   </div>
 
+  <!-- NEW: Auto site map (lists every .html in repo root) -->
+  <div class="card" id="auto-sitemap">
+    <h2>All HTML files (auto site map)</h2>
+    <p class="small">This list loads directly from the repository contents. It will include any new <code>.html</code> you add to the root.</p>
+    <ul id="file-list"></ul>
+  </div>
+
 </main>
+
+<!-- Auto site map script -->
+<script>
+(async function(){
+  // Change these if you rename the repo/user
+  const USER = 'xatusbetazx17';
+  const REPO = 'Study';
+
+  const listEl = document.getElementById('file-list');
+  try {
+    const res = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/`);
+    if (!res.ok) throw new Error('GitHub API error');
+    const data = await res.json();
+
+    // Only show .html files (things that open like a website on GitHub Pages)
+    const pages = (data || [])
+      .filter(it => it.type === 'file' && /\.html?$/i.test(it.name))
+      .sort((a,b) => a.name.localeCompare(b.name));
+
+    if (pages.length === 0) {
+      listEl.innerHTML = '<li class="small">No .html files found in the repo root.</li>';
+      return;
+    }
+
+    listEl.innerHTML = pages.map(p => {
+      return `<li><a href="${p.name}">${p.name}</a></li>`;
+    }).join('');
+  } catch (e) {
+    listEl.innerHTML = '<li class="small">Could not load repo file list.</li>';
+  }
+})();
+</script>
 </body>
 </html>
