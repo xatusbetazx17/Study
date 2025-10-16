@@ -11,6 +11,11 @@
     .card{border:1px solid #1f2a44;border-radius:12px;padding:16px;margin:12px 0;background:#0f1a30}
     h1{margin:0 0 8px}
     h2{margin:16px 0 8px}
+    /* optional: simple button look for featured links */
+    .btn{
+      display:inline-block;border:1px solid #30456b;background:#15213a;color:#e6edf3;
+      padding:8px 12px;border-radius:8px;font-weight:600;text-decoration:none
+    }
   </style>
 </head>
 <body>
@@ -38,15 +43,21 @@
     <a href="First_cpp_interactive_quiz_mobile_option02.html">First_cpp_interactive_quiz_mobile_option02.html</a>
   </div>
 
-  <!-- Added Final Review card -->
+  <!-- Final Review card -->
   <div class="card">
     <h2>Final Review (Ch. 1–6) + Payroll Project</h2>
     <p>Cheat sheet, extra loops, and a full Payroll walkthrough. Includes new practice for Tests 4–6.</p>
     <p>
-      <a
-        style="display:inline-block;border:1px solid #30456b;background:#15213a;color:#e6edf3;padding:8px 12px;border-radius:8px"
-        href="final_review_ch1_6_and_payroll.html" rel="noopener"
-      >Open Final Review</a>
+      <a class="btn" href="final_review_ch1_6_and_payroll.html" rel="noopener">Open Final Review</a>
+    </p>
+  </div>
+
+  <!-- NEW: Interactive Lab card -->
+  <div class="card">
+    <h2>Interactive Lab (Ch. 1–6) + Payroll + Videos</h2>
+    <p>New interactive practice for all chapters, a live Payroll calculator to verify results, and curated video lessons.</p>
+    <p>
+      <a class="btn" href="interactive_ch1_6_plus_payroll.html" rel="noopener">Open Interactive Lab</a>
     </p>
   </div>
 
