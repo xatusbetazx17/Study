@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C++ Fundamentals – Interactive Lab (Ch.1–6) + Payroll + Videos</title>
+<meta name="description" content="Interactive practice for Chapters 1–6 (skeleton, I/O, data types, selection, loops, functions), a Payroll walkthrough, and curated video explanations.">
+<style>
+:root{
+  --bg:#0b1220;--layer:#0f1a30;--bd:#1f2a44;--txt:#e6edf3;--muted:#a7b4c6;
+  --btn:#15213a;--btn-bd:#30456b;--link:#7ec0ff;--accent:#3a7bfd;--ok:#1f8e5f;--err:#cc4455;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+     background:var(--bg);color:var(--txt);line-height:1.55}
+a{color:var(--link);text-decoration:none}
+header{position:sticky;top:0;background:#0e1628;border-bottom:1px solid var(--bd);z-index:5}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-weight:700}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.section{border:1px solid var(--bd);background:var(--layer);border-radius:12px;padding:16px;margin:14px 0}
+h1,h2,h3{margin:0 0 8px}
+.small{font-size:.95rem;color:var(--muted)}
+.card{border:1px solid var(--bd);background:#0f1930;border-radius:12px;padding:12px;margin:10px 0}
+.grid{display:grid;gap:12px}
+@media (min-width:980px){.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:1fr 1fr 1fr}}
+.btn{display:inline-block;border:1px solid var(--btn-bd);background:var(--btn);color:var(--txt);
+     padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:focus{outline:2px solid var(--accent);outline-offset:2px}
+kbd{background:#14213a;border:1px solid #27406e;border-radius:6px;padding:2px 6px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:#0c1427;border:1px solid #1e2c4a;border-radius:10px;padding:12px;overflow:auto;margin:10px 0}
+.code{white-space:pre; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.q{border:1px solid var(--bd);background:#0f1930;border-radius:12px;padding:12px;margin:10px 0}
+.q h4{margin:0 0 6px;font-size:1rem}
+.choices{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.feedback{margin-top:6px;min-height:1.4em}
+.feedback.ok{color:var(--ok)}
+.feedback.ng{color:var(--err)}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.hr{border:none;border-top:1px dashed #29406d;margin:16px 0}
+.callout{border-left:4px solid #5a9bff;background:#112142;padding:10px;border-radius:8px;margin:10px 0}
+.ok{color:#b2f1cf}.ng{color:#ffb3bd}
+.input-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.input-row label{display:flex;flex-direction:column;gap:6px}
+.input-row input{padding:8px;border-radius:8px;border:1px solid #2b406a;background:#0d1730;color:var(--txt);width:140px}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{border:1px solid #24345b;padding:6px 8px;text-align:left}
+.video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px}
+.video .caption{margin-top:6px;color:var(--muted);font-size:.92rem}
+footer{max-width:1100px;margin:14px auto 28px;padding:0 16px;color:var(--muted);font-size:.95rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">C++ Interactive Lab — Chapters 1–6 + Payroll</div>
+    <div class="small">Works offline (practice). Videos need internet.</div>
+  </div>
+</header>
+<main>
+
+  <section class="section">
+    <h2>Quick Navigation</h2>
+    <div class="controls">
+      <a class="btn" href="#ch1">Ch.1 Skeleton & I/O</a>
+      <a class="btn" href="#ch2">Ch.2 Data Types</a>
+      <a class="btn" href="#ch3">Ch.3 Expressions & Formatting</a>
+      <a class="btn" href="#ch4">Ch.4 Selection</a>
+      <a class="btn" href="#ch5">Ch.5 Loops</a>
+      <a class="btn" href="#ch6">Ch.6 Functions</a>
+      <a class="btn" href="#payroll">Payroll Walkthrough</a>
+      <a class="btn" href="#videos">Video Library</a>
+      <button class="btn" id="reset">Reset Answers</button>
+      <button class="btn" id="export">Export Results CSV</button>
+    </div>
+  </section>
+
+  <!-- Chapter 1 -->
+  <section class="section" id="ch1">
+    <h2>Chapter 1 — Program Skeleton & Console I/O</h2>
+    <div class="card">
+      <h3>Essentials</h3>
+      <pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    cout &lt;&lt; "Hello" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      <div class="small">Use <code>cout</code> for output, <code>cin</code> for input, <code>\\n</code> or <code>endl</code> for a new line. Comments: <code>//</code> and <code>/* ... */</code>.</div>
+    </div>
+    <div id="q-ch1"></div>
+  </section>
+
+  <!-- Chapter 2 -->
+  <section class="section" id="ch2">
+    <h2>Chapter 2 — Variables & Data Types</h2>
+    <div class="card">
+      <h3>Essentials</h3>
+      <pre><code>int count = 0;      // whole numbers
+double price = 2.99;// money (format with precision 2)
+char initial = 'M'; // single character
+bool valid = true;  // true/false
+string name = "Marc";</code></pre>
+      <div class="small">Pick types that match data. Counts → <code>int</code>, money → <code>double</code>, flags → <code>bool</code>, single char → <code>char</code>, text → <code>string</code>.</div>
+    </div>
+    <div id="q-ch2"></div>
+  </section>
+
+  <!-- Chapter 3 -->
+  <section class="section" id="ch3">
+    <h2>Chapter 3 — Expressions & Formatting</h2>
+    <div class="card">
+      <h3>Essentials</h3>
+      <pre><code>cout.setf(ios::fixed); cout.setf(ios::showpoint);
+cout.precision(2); // money
+int a=7/2;   // 3 (integer division)
+double b=7/2.0; // 3.5</code></pre>
+      <div class="small">Integer division truncates. Control money formatting with <code>fixed</code>, <code>showpoint</code>, <code>precision(2)</code>.</div>
+    </div>
+    <div id="q-ch3"></div>
+  </section>
+
+  <!-- Chapter 4 -->
+  <section class="section" id="ch4">
+    <h2>Chapter 4 — Selection (if / else / switch)</h2>
+    <div class="card">
+      <h3>Essentials</h3>
+      <pre><code>if (score >= 90) grade='A';
+else if (score >= 80) grade='B';
+else grade='C';</code></pre>
+      <pre><code>switch (day) {
+  case 1: cout &lt;&lt; "Mon"; break;
+  case 2: cout &lt;&lt; "Tue"; break;
+  default: cout &lt;&lt; "Other";
+}</code></pre>
+    </div>
+    <div id="q-ch4"></div>
+  </section>
+
+  <!-- Chapter 5 -->
+  <section class="section" id="ch5">
+    <h2>Chapter 5 — Loops (for / while / do‑while)</h2>
+    <div class="card">
+      <h3>Essentials</h3>
+      <pre><code>for (int i=1;i<=5;++i) cout &lt;&lt; i;  // known count
+int x; do { cin &gt;&gt; x; } while(x<1||x>10); // validate
+int n=10,sum=0; while(n!=0){ sum+=n; --n; }</code></pre>
+      <div class="small">Use <code>for</code> for known counts, <code>while</code> for sentinel, and <code>do‑while</code> when the body must run at least once.</div>
+    </div>
+    <div id="q-ch5"></div>
+  </section>
+
+  <!-- Chapter 6 -->
+  <section class="section" id="ch6">
+    <h2>Chapter 6 — Functions</h2>
+    <div class="card">
+      <h3>Essentials</h3>
+      <pre><code>double area(double L,double W); // prototype
+int main(){ cout &lt;&lt; area(3,4); }
+double area(double L,double W){ return L*W; }</code></pre>
+      <div class="small">Functions return exactly one value. Define before use, or provide a prototype above <code>main</code>.</div>
+    </div>
+    <div id="q-ch6"></div>
+  </section>
+
+  <!-- Payroll -->
+  <section class="section" id="payroll">
+    <h2>Payroll — Interactive Visualizer + C++ Snippet</h2>
+    <div class="callout small">
+      Enter sample inputs to preview <em>gross</em>, <em>tax</em>, and <em>net</em>. This helps you verify your C++ output.
+    </div>
+    <div class="input-row">
+      <label>Hours
+        <input id="phours" type="number" min="0" max="120" step="0.25" value="42">
+      </label>
+      <label>Rate ($/hr)
+        <input id="prate" type="number" min="0" step="0.01" value="20">
+      </label>
+      <label>OT threshold
+        <input id="pot" type="number" min="0" step="0.5" value="40">
+      </label>
+      <label>OT multiplier
+        <input id="potm" type="number" min="1" step="0.1" value="1.5">
+      </label>
+      <label>Fed+State tax (fraction)
+        <input id="ptax" type="number" min="0" max="1" step="0.01" value="0.17">
+      </label>
+      <button class="btn" id="pcalc">Calculate</button>
+    </div>
+    <table class="table">
+      <thead><tr><th>Gross</th><th>Tax</th><th>Net</th></tr></thead>
+      <tbody><tr><td id="pgross">$—</td><td id="ptaxout">$—</td><td id="pnet">$—</td></tr></tbody>
+    </table>
+
+    <div class="card">
+      <h3>C++ core (Ch.1–6 only: no arrays/files)</h3>
+      <pre><code>double computeGross(double h,double r,double ot=40,double mult=1.5){
+  if(h<=ot) return h*r;
+  return ot*r + (h-ot)*r*mult;
+}
+double computeTax(double g,double rate){ return g*rate; }</code></pre>
+    </div>
+  </section>
+
+  <!-- Videos -->
+  <section class="section" id="videos">
+    <h2>Video Library — Beginner Friendly</h2>
+    <div class="grid two">
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/ZzaPdXTrSb8" title="C++ in 1 Hour" allowfullscreen></iframe>
+        <div class="caption">C++ in 1 Hour — full quick intro</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/sATW9EG8kKg" title="cin / cout" allowfullscreen></iframe>
+        <div class="caption">Master cin / cout (I/O basics)</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/zgutFVxOlTY" title="Variables & Data Types" allowfullscreen></iframe>
+        <div class="caption">Variables & Data Types</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/AY96XFqb934" title="if / else / switch" allowfullscreen></iframe>
+        <div class="caption">Selection: if / else / switch</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/jNl5gJ_xSNQ" title="Loops" allowfullscreen></iframe>
+        <div class="caption">Loops: for / while / do‑while</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/RWZi2nnxJow" title="Functions basics" allowfullscreen></iframe>
+        <div class="caption">Writing & calling functions</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/FXzpFn8LJUI" title="Pass by reference vs value" allowfullscreen></iframe>
+        <div class="caption">Pass‑by‑value vs Pass‑by‑reference</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/KkodP59s3RE" title="Gross pay with overtime" allowfullscreen></iframe>
+        <div class="caption">Payroll: gross pay with overtime</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/wamii3dlWnM" title="Salary calculator" allowfullscreen></iframe>
+        <div class="caption">Employee salary calculator</div>
+      </div>
+      <div class="video card">
+        <iframe src="https://www.youtube.com/embed/-8Xy7gz84hA" title="Payroll system project" allowfullscreen></iframe>
+        <div class="caption">Project: Payroll system (overview)</div>
+      </div>
+    </div>
+    <div class="small">Note: Videos are streamed from YouTube and require internet.</div>
+  </section>
+
+</main>
+<footer>
+  © 2025 • C++ Interactive Lab (Ch.1–6) • Works offline locally or on GitHub Pages
+</footer>
+
+<script>
+(function(){
+  // Question banks per chapter
+  const banks = {
+    ch1: [
+      {id:'ch1-1', q:'Pick the correct newline in C++ (same line as Python\\'s \\n).', type:'mc',
+       choices:['/n','\\n','endl()','\\t'], ans:'\\n', why:'Use \\\\n or endl for a new line.'},
+      {id:'ch1-2', q:'Minimum lines required for a valid program?', code:'#include <iostream>\\nint main(){return 0;}',
+       type:'mc', choices:['2','3','4','5'], ans:'3', why:'#include, main header, and return body line.'},
+      {id:'ch1-3', q:'What does this print?', code:'cout << "Hi" << endl << "C++";',
+       type:'mc', choices:['Hi C++ (same line)','Hi\\nC++','Hi\\n\\nC++','C++\\nHi'], ans:'Hi\\nC++', why:'endl moves to the next line.'}
+    ],
+    ch2: [
+      {id:'ch2-1', q:'Best type for a student count?', type:'mc',
+       choices:['double','int','string','char'], ans:'int', why:'Counts are whole numbers.'},
+      {id:'ch2-2', q:'Which declaration is valid?', type:'mc',
+       choices:['int 2x;','double price=2.99;','char name="M";','bool yes=2;'],
+       ans:'double price=2.99;', why:'Names cannot start with digits; char needs single quotes; bool should be true/false.'},
+      {id:'ch2-3', q:'Value of a after code?', code:'int a=7/2;', type:'mc',
+       choices:['3.5','4','3','0'], ans:'3', why:'Integer division truncates.'}
+    ],
+    ch3: [
+      {id:'ch3-1', q:'Format money to two decimals:', type:'mc',
+       choices:['cout<<precision(2);','cout.precision(2); cout<<fixed<<showpoint;','cout<<setprecision(2);','cout.fixed(2);'],
+       ans:'cout.precision(2); cout<<fixed<<showpoint;', why:'Use fixed + showpoint + precision(2).'},
+      {id:'ch3-2', q:'Which expression forces floating division?', code:'7 / ?', type:'mc',
+       choices:['2','2.0','(int)2','(7)'], ans:'2.0', why:'A double operand makes the result double.'},
+      {id:'ch3-3', q:'Result of (5+3*2)?', type:'mc', choices:['16','11','13','10'], ans:'11', why:'* before + → 3*2=6; 5+6=11.'}
+    ],
+    ch4: [
+      {id:'ch4-1', q:'Choose condition for 18..64 inclusive:', type:'mc',
+       choices:['age>18 && age<64','age>=18 && age<=64','age>=18 || age<=64','!(age<18 && age>64)'],
+       ans:'age>=18 && age<=64', why:'Inclusive bounds use >= and <=.'},
+      {id:'ch4-2', q:'Which switch branch runs for day==5?', type:'mc',
+       choices:['case 4','case 5','default','break'], ans:'case 5', why:'Exact match selects branch.'},
+      {id:'ch4-3', q:'Fix: add missing break', code:'switch(x){case 1: cout<<"A"; case 2: cout<<"B"; default: cout<<"C";}',
+       type:'mc', choices:['Insert break; after A and B','Remove default','Move default first','Change to if/else'],
+       ans:'Insert break; after A and B', why:'Without break, fall-through occurs.'}
+    ],
+    ch5: [
+      {id:'ch5-1', q:'How many prints?', code:'for(int i=1;i<=4;++i) cout<<i;', type:'mc',
+       choices:['3','4','5','0'], ans:'4', why:'i=1..4 inclusive.'},
+      {id:'ch5-2', q:'Best loop to validate 1..10 (must run once)?', type:'mc',
+       choices:['for','while','do-while','range-for'], ans:'do-while', why:'Body executes at least once.'},
+      {id:'ch5-3', q:'Convert while to for: sum 1..n', code:'int s=0,i=1; while(i<=n){ s+=i; ++i; }',
+       type:'mc',
+       choices:['for(int i=1;i<=n;i++){ s+=i; }','for(i=1;i<=n;i++){ s++; }','for(int i=0;i<n;i++){ s+=i; }','for(;;){break;}'],
+       ans:'for(int i=1;i<=n;i++){ s+=i; }', why:'Same init/cond/inc; same accumulation.'}
+    ],
+    ch6: [
+      {id:'ch6-1', q:'Prototype that returns true if n is prime:', type:'mc',
+       choices:['int isPrime(int n);','bool isPrime(int n);','void isPrime(int n);','double isPrime(int n);'],
+       ans:'bool isPrime(int n);', why:'Use bool for true/false.'},
+      {id:'ch6-2', q:'Output?', code:'int f(int x){x*=2;return x;} int a=5; cout<<f(a)<<" "<<a;',
+       type:'mc', choices:['10 10','10 5','5 10','compile error'], ans:'10 5', why:'Pass-by-value leaves a unchanged.'},
+      {id:'ch6-3', q:'Where to place prototypes?', type:'mc',
+       choices:['Before main','After main','Inside loops','Inside switch'], ans:'Before main',
+       why:'They must be visible at the call site.'}
+    ]
+  };
+
+  function renderBank(where, items){
+    const host=document.getElementById(where);
+    items.forEach(item=>{
+      const card=document.createElement('div'); card.className='q'; card.dataset.id=item.id;
+      const h=document.createElement('h4'); h.textContent=item.q; card.appendChild(h);
+      if(item.code){
+        const pre=document.createElement('pre'); pre.textContent=item.code; card.appendChild(pre);
+      }
+      const box=document.createElement('div'); box.className='choices';
+      item.choices.forEach(c=>{
+        const label=document.createElement('label'); label.className='mono';
+        label.innerHTML='<input type="radio" name="'+item.id+'" value="'+c+'"> '+c;
+        box.appendChild(label);
+      });
+      card.appendChild(box);
+      const fb=document.createElement('div'); fb.id=item.id+'_fb'; fb.className='feedback'; card.appendChild(fb);
+      const actions=document.createElement('div'); actions.className='controls';
+      const bC=document.createElement('button'); bC.className='btn'; bC.textContent='Check';
+      const bS=document.createElement('button'); bS.className='btn'; bS.textContent='Show Answer';
+      actions.appendChild(bC); actions.appendChild(bS); card.appendChild(actions);
+      host.appendChild(card);
+
+      // restore state
+      try{
+        const all=JSON.parse(localStorage.getItem('labState')||'{}');
+        if(all[item.id]){
+          const {answer,correct}=all[item.id];
+          const r=[...card.querySelectorAll('input[type=radio]')].find(x=>x.value===answer);
+          if(r) r.checked=true;
+          fb.textContent = correct? 'Correct' : 'Incorrect';
+          fb.className='feedback '+(correct?'ok':'ng');
+        }
+      }catch{}
+
+      bC.addEventListener('click',()=>{
+        const sel=card.querySelector('input[type=radio]:checked');
+        if(!sel){ fb.textContent='Pick an answer.'; fb.className='feedback ng'; return; }
+        const ok = sel.value===item.ans;
+        fb.innerHTML=(ok?'Correct — ':'Incorrect — ') + '<span class="small">'+item.why+'</span>';
+        fb.className='feedback ' + (ok?'ok':'ng');
+        try{
+          const all=JSON.parse(localStorage.getItem('labState')||'{}'); all[item.id]={answer:sel.value,correct:ok};
+          localStorage.setItem('labState', JSON.stringify(all));
+        }catch{}
+      });
+      bS.addEventListener('click',()=>{
+        fb.innerHTML='<span class="small">Answer: '+item.ans+' — '+item.why+'</span>';
+        fb.className='feedback';
+      });
+    });
+  }
+
+  renderBank('q-ch1', banks.ch1);
+  renderBank('q-ch2', banks.ch2);
+  renderBank('q-ch3', banks.ch3);
+  renderBank('q-ch4', banks.ch4);
+  renderBank('q-ch5', banks.ch5);
+  renderBank('q-ch6', banks.ch6);
+
+  // Payroll calculator
+  function fmt(x){ return '$'+x.toFixed(2); }
+  document.getElementById('pcalc').addEventListener('click', ()=>{
+    const h=parseFloat(document.getElementById('phours').value||'0');
+    const r=parseFloat(document.getElementById('prate').value||'0');
+    const ot=parseFloat(document.getElementById('pot').value||'40');
+    const mult=parseFloat(document.getElementById('potm').value||'1.5');
+    const tr=parseFloat(document.getElementById('ptax').value||'0.17');
+    const gross = h<=ot ? h*r : (ot*r + (h-ot)*r*mult);
+    const tax   = gross * tr;
+    const net   = gross - tax;
+    document.getElementById('pgross').textContent = fmt(gross);
+    document.getElementById('ptaxout').textContent= fmt(tax);
+    document.getElementById('pnet').textContent   = fmt(net);
+  });
+
+  // Reset & Export
+  document.getElementById('reset').addEventListener('click', ()=>{
+    localStorage.removeItem('labState');
+    document.querySelectorAll('.feedback').forEach(f=>{f.textContent='';f.className='feedback';});
+    document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+  });
+  document.getElementById('export').addEventListener('click', ()=>{
+    try{
+      const all=JSON.parse(localStorage.getItem('labState')||'{}');
+      const rows=[['qid','answer','correct']];
+      Object.entries(all).forEach(([k,v])=>rows.push([k,v.answer,v.correct?'correct':'incorrect']));
+      const csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+      const blob=new Blob([csv],{type:'text/csv'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='lab_results_ch1_6.csv';
+      document.body.appendChild(a); a.click(); URL.revokeObjectURL(a.href); a.remove();
+    }catch(e){ alert('Nothing to export yet.'); }
+  });
+})();
+</script>
+</body>
+</html>
