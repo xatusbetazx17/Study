@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Final Review — C++ Chapters 1–6 + Payroll Project (Selection • Loops • Functions)</title>
+<meta name="description" content="Final review for C++ Chapters 1–6: cheat sheet, extra loop examples (for/while/do‑while), selection & functions recap, and a step‑by‑step Payroll project walkthrough. Includes fresh practice questions and links to your other quizzes.">
+<style>
+:root{
+  --bg:#0b1220; --layer:#0f1a30; --bd:#1f2a44; --txt:#e6edf3; --muted:#a7b4c6;
+  --btn:#15213a; --btn-bd:#30456b; --link:#7ec0ff; --accent:#3a7bfd; --ok:#1f8e5f; --err:#cc4455;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+     background:var(--bg);color:var(--txt);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}
+header{position:sticky;top:0;background:#0e1628;border-bottom:1px solid var(--bd);z-index:5}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-weight:700;letter-spacing:.2px}
+.env{font-size:.9rem;opacity:.9}
+main{max-width:1100px;margin:0 auto;padding:16px}
+h1,h2,h3{margin:0 0 8px}
+.section{border:1px solid var(--bd);background:var(--layer);border-radius:12px;padding:16px;margin:14px 0}
+.grid{display:grid;gap:12px;grid-template-columns:1fr}
+@media (min-width:980px){.grid.two{grid-template-columns:1fr 1fr} .grid.three{grid-template-columns:1fr 1fr 1fr}}
+.btn{display:inline-block;border:1px solid var(--btn-bd);background:var(--btn);color:var(--txt);
+     padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:focus{outline:2px solid var(--accent);outline-offset:2px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.badge{display:inline-block;background:#17305d;border:1px solid #2b4e86;border-radius:999px;padding:2px 8px;margin-left:6px;font-size:.75rem}
+.small{font-size:.92rem}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:#0c1427;border:1px solid #1e2c4a;border-radius:10px;padding:12px;overflow:auto;margin:10px 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.example{border-left:4px solid var(--accent);background:#13223c;padding:12px;border-radius:8px;margin:10px 0}
+.question{border:1px solid var(--bd);background:#0f1930;border-radius:12px;padding:12px;margin:10px 0}
+.question h4{margin:0 0 6px;font-size:1rem}
+.choices{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.feedback{margin-top:6px;min-height:1.4em}
+.feedback.ok{color:var(--ok)}
+.feedback.ng{color:var(--err)}
+.q-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+hr.sep{border:none;border-top:1px dashed #29406d;margin:16px 0}
+footer{max-width:1100px;margin:14px auto 28px;padding:0 16px;color:var(--muted);font-size:.95rem}
+.exam-mode .hint,.exam-mode .show-answer{display:none!important}
+kbd{background:#14213a;border:1px solid #27406e;border-radius:6px;padding:2px 6px}
+.callout{border-left:4px solid #5a9bff;background:#112142;padding:10px;border-radius:8px;margin:10px 0}
+.ok{color:#b2f1cf}
+.ng{color:#ffb3bd}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">Final Review — Chapters 1–6</div>
+    <div class="env">Selection • Loops • Functions • Payroll Project</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- DASHBOARD -->
+  <section class="section">
+    <h2>Review Dashboard</h2>
+    <p class="small">Use this page together with your existing quiz pages. Everything here is single‑file and works offline (no installs). Videos require internet.</p>
+    <div class="controls">
+      <a class="btn" href="First_interactive_quizpar_t01.html">Open Ch. 1–3 Quiz</a>
+      <a class="btn" href="Second_cpp_ch4,5,6_quiz.html">Open Ch. 4–6 Quiz</a>
+      <a class="btn" href="practice_ch4_5_6_loops_selection_functions.html">Extra Loops + Practice</a>
+      <button class="btn" id="toggleExam">Toggle Exam Mode</button>
+      <button class="btn" id="checkAll">Check All</button>
+      <button class="btn" id="resetAll">Reset</button>
+      <button class="btn" id="exportCsv">Export CSV</button>
+    </div>
+  </section>
+
+  <!-- CHEAT SHEET -->
+  <section class="section">
+    <h2>Cheat Sheet — Chapters 1–6</h2>
+    <div class="grid two">
+      <div class="example">
+        <h3>Chapter 1 — Program Skeleton & I/O</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    cout &lt;&lt; "Hello\n";   // newline: \n or endl
+    return 0;
+}</code></pre>
+        <ul class="small">
+          <li><code>//</code> single‑line, <code>/* ... */</code> multi‑line comments.</li>
+          <li><code>cout</code> (output), <code>cin</code> (input). Use prompts so users know what to enter.</li>
+        </ul>
+      </div>
+      <div class="example">
+        <h3>Chapter 2 — Variables & Types</h3>
+        <pre><code>int count = 0;        // whole numbers
+double rate = 19.75;  // floating point
+char letter = 'A';    // single char
+bool ok = true;       // true/false
+string name = "Marc"; // text</code></pre>
+        <ul class="small">
+          <li>Choose types that match data (e.g., money → <code>double</code>, counts → <code>int</code>).</li>
+          <li><code>sizeof(type)</code> gives bytes (platform/compiler dependent).</li>
+        </ul>
+      </div>
+      <div class="example">
+        <h3>Chapter 3 — Assignment, Input, Formatting</h3>
+        <pre><code>double total = price * qty;
+cout.setf(ios::fixed); cout.setf(ios::showpoint);
+cout.precision(2); // money</code></pre>
+        <ul class="small">
+          <li>Order of evaluation matters; integer division truncates.</li>
+          <li>Always validate user input (see do‑while sample below).</li>
+        </ul>
+      </div>
+      <div class="example">
+        <h3>Chapter 4 — Selection</h3>
+        <pre><code>if (score >= 90) grade='A';
+else if (score >= 80) grade='B';
+else grade='C';</code></pre>
+        <pre><code>switch(day){
+  case 1: cout<<"Mon"; break;
+  case 2: cout<<"Tue"; break;
+  default: cout<<"Other";
+}</code></pre>
+      </div>
+      <div class="example">
+        <h3>Chapter 5 — Loops</h3>
+        <pre><code>for (int i=0; i<5; ++i) cout<<i;   // count
+while (n!=0) { cin>>n; sum+=n; }    // sentinel
+int x; do { cin>>x; } while(x<1||x>10); // validate</code></pre>
+        <ul class="small">
+          <li>Pick <code>for</code> when count is known; <code>while</code> for sentinel; <code>do‑while</code> when you need to run at least once.</li>
+        </ul>
+      </div>
+      <div class="example">
+        <h3>Chapter 6 — Functions</h3>
+        <pre><code>double area(double L,double W); // prototype
+int main(){ cout << area(3,4); }
+double area(double L,double W){ return L*W; }</code></pre>
+        <ul class="small">
+          <li>Return exactly one value. Parameters here are passed by value.</li>
+          <li>Put prototypes before <code>main</code> or define functions before use.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOOP COOKBOOK -->
+  <section class="section">
+    <h2>Loop Pattern Cookbook <span class="badge">extra practice</span></h2>
+    <div class="grid two">
+      <div class="example">
+        <h3>1) Multiplication table (1..N)</h3>
+        <pre><code>int N=5;
+for (int r=1; r<=N; ++r){
+  for (int c=1; c<=N; ++c){
+    cout << (r*c) << "\t";
+  }
+  cout << "\n";
+}</code></pre>
+      </div>
+      <div class="example">
+        <h3>2) Sum of digits</h3>
+        <pre><code>int n=7531, sum=0;
+while(n>0){ sum += n%10; n/=10; }</code></pre>
+      </div>
+      <div class="example">
+        <h3>3) Factorial (n!)</h3>
+        <pre><code>int n=5; long long f=1;
+for(int i=2;i<=n;++i) f*=i; // 120</code></pre>
+      </div>
+      <div class="example">
+        <h3>4) GCD (Euclid)</h3>
+        <pre><code>int a=48,b=18;
+while(b!=0){ int r=a%b; a=b; b=r; }
+cout << a; // 6</code></pre>
+      </div>
+      <div class="example">
+        <h3>5) Triangle pattern</h3>
+        <pre><code>int rows=4;
+for(int r=1;r<=rows;++r){
+  for(int c=1;c<=r;++c) cout<<"*";
+  cout<<"\n";
+}</code></pre>
+      </div>
+      <div class="example">
+        <h3>6) Prime test (basic)</h3>
+        <pre><code>int n=29; bool prime=true;
+for(int d=2; d*d<=n; ++d){
+  if(n%d==0){ prime=false; break; }
+}
+cout<<(prime?"prime":"not");</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAYROLL PROJECT -->
+  <section class="section">
+    <h2>Final Project Walkthrough — Payroll (Ch. 1–6 only)</h2>
+
+    <div class="callout small">
+      <strong>Goal:</strong> compute pay for one or more employees using <em>input</em>, <em>selection</em>, <em>loops</em>, and <em>functions</em> (no arrays or files to stay within Ch. 1–6). Optional upgrade for file I/O is shown at the end (ignore if your course limits to 6 chapters).
+    </div>
+
+    <h3>Requirements (example)</h3>
+    <ul class="small">
+      <li>Input per employee: <code>name</code> (string), <code>hours</code> (double), <code>rate</code> (double).</li>
+      <li>Overtime: hours over 40 paid at 1.5× rate.</li>
+      <li>Taxes: use constants (e.g., <code>FED=0.12</code>, <code>STATE=0.05</code>).</li>
+      <li>Compute: <code>gross</code>, <code>tax</code>, <code>net</code>. Format money to 2 decimals.</li>
+      <li>Allow multiple employees until user types <kbd>done</kbd> as the name (sentinel), and show totals.</li>
+      <li>Validate: hours ≥ 0 (and maybe ≤ 80), rate ≥ 0.</li>
+    </ul>
+
+    <h3>Pseudocode</h3>
+<pre><code>loop:
+  ask for name
+  if name == "done" stop
+  read hours, rate (validate)
+  gross = computeGross(hours, rate)
+  tax   = computeTax(gross)
+  net   = gross - tax
+  printPayStub(...)
+  update running totals
+end loop
+print overall totals</code></pre>
+
+    <h3>Functions</h3>
+<pre><code>double computeGross(double h, double r){
+    const double OT = 40.0, OT_MULT = 1.5;
+    if (h <= OT) return h * r;
+    return OT * r + (h - OT) * r * OT_MULT;
+}
+
+double computeTax(double gross){
+    const double FED=0.12, STATE=0.05;
+    return gross * (FED + STATE);
+}
+
+void printMoney(double v){
+    cout.setf(ios::fixed); cout.setf(ios::showpoint); cout.precision(2);
+    cout << v;
+}
+
+void printPayStub(const string& name, double h, double r, double g, double tax, double net){
+    cout << "----- PAY STUB -----\n";
+    cout << "Name: " << name << "\n";
+    cout << "Hours: " << h << "  Rate: $"; printMoney(r); cout << "\n";
+    cout << "Gross: $"; printMoney(g); cout << "  Tax: $"; printMoney(tax);
+    cout << "  Net: $"; printMoney(net); cout << "\n\n";
+}</code></pre>
+
+    <h3>Main (sentinel loop • no arrays • no files)</h3>
+<pre><code>#include <iostream>
+#include <string>
+using namespace std;
+
+double computeGross(double h, double r);
+double computeTax(double gross);
+void   printMoney(double v);
+void   printPayStub(const string& name, double h, double r, double g, double tax, double net);
+
+int main(){
+    string name;
+    double hours, rate;
+    double totalGross=0, totalTax=0, totalNet=0;
+    int count=0;
+
+    while (true){
+        cout << "Employee name (or 'done'): ";
+        if (!(cin >> name)) return 0; // input failure
+        if (name == "done") break;
+
+        // input validation (do-while)
+        do {
+            cout << "Hours worked: ";
+            cin  >> hours;
+        } while (hours < 0 || hours > 80);
+
+        do {
+            cout << "Hourly rate: ";
+            cin  >> rate;
+        } while (rate < 0);
+
+        double gross = computeGross(hours, rate);
+        double tax   = computeTax(gross);
+        double net   = gross - tax;
+
+        printPayStub(name, hours, rate, gross, tax, net);
+
+        totalGross += gross; totalTax += tax; totalNet += net; ++count;
+    }
+
+    cout.setf(ios::fixed); cout.setf(ios::showpoint); cout.precision(2);
+    cout << "----- TOTALS (" << count << " employees) -----\n";
+    cout << "Gross: $" << totalGross << "  Tax: $" << totalTax
+         << "  Net: $" << totalNet << "\n";
+    return 0;
+}</code></pre>
+
+    <h3>Sample run</h3>
+<pre><code>Employee name (or 'done'): Alice
+Hours worked: 42
+Hourly rate: 20
+----- PAY STUB -----
+Name: Alice
+Hours: 42  Rate: $20.00
+Gross: $860.00  Tax: $146.20  Net: $713.80
+
+Employee name (or 'done'): Bob
+Hours worked: 38
+Hourly rate: 18.5
+----- PAY STUB -----
+Name: Bob
+Hours: 38  Rate: $18.50
+Gross: $703.00  Tax: $119.51  Net: $583.49
+
+Employee name (or 'done'): done
+----- TOTALS (2 employees) -----
+Gross: $1563.00  Tax: $265.71  Net: $1297.29</code></pre>
+
+    <div class="callout small">
+      <strong>Tip:</strong> Replace the flat tax with your assignment’s rules if different (e.g., separate FICA/Medicare, or tiered rates). Use <code>const double</code> for named rates.
+    </div>
+
+    <h3 class="small">Optional upgrade (if allowed): File I/O</h3>
+<pre><code>// Read employees from input file and write pay stubs to output file
+#include <fstream>
+int main(){
+  ifstream fin("employees.txt");
+  ofstream fout("payroll.txt");
+  string name; double h,r;
+  while (fin >> name >> h >> r){
+    double g = computeGross(h,r);
+    double t = computeTax(g);
+    double n = g - t;
+    fout.setf(ios::fixed); fout.setf(ios::showpoint); fout.precision(2);
+    fout << name << " " << h << " " << r << " "
+         << g << " " << t << " " << n << "\n";
+  }
+}</code></pre>
+  </section>
+
+  <!-- FRESH PRACTICE (focused on 4,5,6) -->
+  <section class="section">
+    <h2>Fresh Practice — Tests 4, 5, 6</h2>
+    <p class="small">New questions beyond your existing quizzes.</p>
+    <div id="practice"></div>
+  </section>
+
+</main>
+
+<footer>
+  © 2025 • Final Review (Ch. 1–6) • Single file (offline‑ready). Add this to your GitHub repo root and link from index.html.
+</footer>
+
+<script>
+(function(){
+  const root = document.getElementById('practice');
+  const $ = (s,el=document)=>el.querySelector(s);
+  function el(tag, attrs={}, html=''){
+    const e = document.createElement(tag);
+    Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k, v));
+    if(html) e.innerHTML = html; return e;
+  }
+  function saveState(id, data){
+    try{ const all=JSON.parse(localStorage.getItem('finalReviewState')||'{}'); all[id]=data;
+         localStorage.setItem('finalReviewState', JSON.stringify(all)); }catch(e){}
+  }
+  function loadState(id){
+    try{ const all=JSON.parse(localStorage.getItem('finalReviewState')||'{}'); return all[id]; }catch(e){ return null; }
+  }
+
+  // New mixed bank (12 questions)
+  const Q = [
+    {id:'sel-1', q:'Which condition selects ages 18..64 inclusive?', type:'mc',
+     choices:['age>18 && age<64','age>=18 && age<=64','age>=18 || age<=64','!(age<18 && age>64)'],
+     ans:'age>=18 && age<=64', why:'Inclusive bounds use >= and <=.'},
+
+    {id:'sel-2', q:'What is printed?', code:`int x=4,y=4;
+if (x>y) cout<<"A";
+else if (x>=y) cout<<"B";
+else cout<<"C";`, type:'mc',
+     choices:['A','B','C'], ans:'B', why:'x==y, so second condition prints B.'},
+
+    {id:'loop-1', q:'How many times does this run?', code:`int k=10; while(k>3){ --k; }`, type:'mc',
+     choices:['6','7','8','9'], ans:'7', why:'k: 10→9→8→7→6→5→4→3 (stops). 7 iterations.'},
+
+    {id:'loop-2', q:'Pick correct do‑while menu exit when choice==4', type:'mc',
+     choices:[
+       'do{ cin>>choice; } while (choice==4);',
+       'do{ cin>>choice; } while (choice!=4);',
+       'while(choice!=4){ cin>>choice; }',
+       'for(;choice!=4;){ cin>>choice; }'
+     ], ans:'do{ cin>>choice; } while (choice!=4);',
+     why:'Menu must run at least once; loop continues until user enters 4.'},
+
+    {id:'loop-3', q:'Output?', code:`for(int i=1;i<=4;++i){ for(int j=1;j<=2;++j) cout<<i; }`,
+     type:'mc', choices:['11223344','12121212','12233445','11221122'], ans:'11223344', why:'Each i prints twice: 1 1 2 2 3 3 4 4.'},
+
+    {id:'func-1', q:'Which prototype matches a function returning true if n is prime?', type:'mc',
+     choices:['int isPrime(int n);','bool isPrime(int n);','void isPrime(int n);','double isPrime(int n);'],
+     ans:'bool isPrime(int n);', why:'Return type should represent true/false.'},
+
+    {id:'func-2', q:'What is printed?', code:`int f(int x){ x*=2; return x; }
+int main(){ int a=5; cout<<f(a)<<" "<<a; }`,
+     type:'mc', choices:['10 10','10 5','5 10','compile error'], ans:'10 5',
+     why:'Pass‑by‑value: a stays 5, function returns 10.'},
+
+    {id:'loop-4', q:'Fix the off‑by‑one to print 1..10 (inclusive):', code:`for(int i=1;i<10;++i) cout<<i<<" ";`,
+     type:'mc', choices:[
+       'for(int i=0;i<10;++i)',
+       'for(int i=1;i<=10;++i)',
+       'for(int i=1;i<10;i+=2)',
+       'while(i<=10)'
+     ], ans:'for(int i=1;i<=10;++i)', why:'Use <= 10 to include 10.'},
+
+    {id:'sel-3', q:'Pick the correct “outside 0..100” test', type:'mc',
+     choices:['score<0 && score>100','score<=0 || score>=100','score<0 || score>100','!(score>=0 || score<=100)'],
+     ans:'score<0 || score>100', why:'Outside means less than 0 OR greater than 100.'},
+
+    {id:'func-3', q:'Where should prototypes be placed?', type:'mc',
+     choices:['Before main','After main','Inside switch','Inside a loop'], ans:'Before main',
+     why:'They must be visible at first call.'},
+
+    {id:'loop-5', q:'Which builds a running total until user enters 0?', type:'mc',
+     choices:[
+      'int x=0,sum=0; while(x==0){ cin>>x; sum+=x; }',
+      'int x,sum=0; while(x!=0){ sum+=x; cin>>x; }',
+      'int x,sum=0; cin>>x; while(x!=0){ sum+=x; cin>>x; }',
+      'int x,sum=0; do{ cin>>x; }while(x==0);'
+     ], ans:'int x,sum=0; cin>>x; while(x!=0){ sum+=x; cin>>x; }',
+     why:'Priming read, accumulate, read again.'},
+
+    {id:'pay-1', q:'Payroll: which is correct OT gross formula (h>40, rate r)?', type:'mc',
+     choices:[
+       'gross = h*r + (h-40)*r;',
+       'gross = h*r + (h-40)*1.5;',
+       'gross = 40*r + (h-40)*r*1.5;',
+       'gross = 40*r*1.5 + (h-40)*r;'
+     ], ans:'gross = 40*r + (h-40)*r*1.5;',
+     why:'First 40 at base rate + overtime hours at 1.5×.'}
+  ];
+
+  function renderQ(item){
+    const card = el('div',{class:'question','data-id':item.id});
+    const head = el('h4',{}, item.q);
+    card.appendChild(head);
+    if(item.code){
+      const pre = el('pre',{}, '<code>'+item.code.replace(/</g,'&lt;')+'</code>');
+      card.appendChild(pre);
+    }
+    const box = el('div',{class:'choices'});
+    item.choices.forEach((c,i)=>{
+      const row = el('label',{class:'mono'});
+      row.innerHTML = '<input type="radio" name="'+item.id+'" value="'+c+'"> '+c;
+      box.appendChild(row);
+    });
+    card.appendChild(box);
+    const fb = el('div',{class:'feedback',id:item.id+'_fb'});
+    card.appendChild(fb);
+    const actions = el('div',{class:'q-actions'});
+    const bCheck = el('button',{class:'btn'},'Check');
+    const bShow  = el('button',{class:'btn show-answer'},'Show Answer');
+    actions.appendChild(bCheck); actions.appendChild(bShow);
+    card.appendChild(actions);
+
+    const st = loadState(item.id);
+    if(st && st.answer){
+      const radios = card.querySelectorAll('input[type=radio]');
+      radios.forEach(r=>{ if(r.value===st.answer) r.checked=true; });
+      if(st.correct!==undefined){
+        fb.textContent = st.correct ? 'Correct' : 'Incorrect';
+        fb.classList.toggle('ok', st.correct);
+        fb.classList.toggle('ng', !st.correct);
+      }
+    }
+
+    bCheck.addEventListener('click', ()=>{
+      const sel = card.querySelector('input[type=radio]:checked');
+      if(!sel){ fb.textContent='Pick an answer.'; fb.className='feedback ng'; return; }
+      const ans = sel.value;
+      const ok = ans === item.ans;
+      fb.innerHTML = (ok? 'Correct — ' : 'Incorrect — ')+ '<span class="small">'+item.why+'</span>';
+      fb.className = 'feedback ' + (ok?'ok':'ng');
+      saveState(item.id, {answer:ans, correct:ok, why:item.why});
+    });
+    bShow.addEventListener('click', ()=>{
+      fb.innerHTML = '<span class="small">Answer: '+item.ans+' — '+item.why+'</span>';
+      fb.className = 'feedback';
+    });
+    return card;
+  }
+
+  Q.forEach(q => root.appendChild(renderQ(q)));
+
+  // global buttons
+  $('#toggleExam').addEventListener('click', ()=>{
+    document.body.classList.toggle('exam-mode');
+    $('#toggleExam').textContent = document.body.classList.contains('exam-mode') ? 'Disable Exam Mode' : 'Toggle Exam Mode';
+  });
+  $('#checkAll').addEventListener('click', ()=>{
+    document.querySelectorAll('.question .q-actions .btn:first-child').forEach(btn=>btn.click());
+  });
+  $('#resetAll').addEventListener('click', ()=>{
+    localStorage.removeItem('finalReviewState');
+    document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+    document.querySelectorAll('.feedback').forEach(fb=>{ fb.textContent=''; fb.className='feedback'; });
+  });
+  $('#exportCsv').addEventListener('click', ()=>{
+    try{
+      const all=JSON.parse(localStorage.getItem('finalReviewState')||'{}');
+      const rows=[['qid','answer','correct','why']];
+      Object.entries(all).forEach(([k,v])=>rows.push([k, v.answer??'', v.correct?'correct':'incorrect', v.why??'']));
+      const csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+      const blob=new Blob([csv],{type:'text/csv'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='final_review_ch1_6_results.csv';
+      document.body.appendChild(a); a.click(); URL.revokeObjectURL(a.href); a.remove();
+    }catch(e){ alert('Nothing to export yet.'); }
+  });
+})();
+</script>
+</body>
+</html>
