@@ -32,6 +32,16 @@ This repository hosts **single‑file, mobile‑friendly C++ learning pages** th
 - **`First_cpp_interactive_quiz_mobile_option02.html`**  
   Mobile/desktop quiz shell (touch‑friendly UI, offline‑ready).  
   - **URL:** `https://xatusbetazx17.github.io/Study/First_cpp_interactive_quiz_mobile_option02.html`
+ 
+    - **`final_review_ch1_6_and_payroll.html`**  
+  Chapters: 1–6 — Final review cheat sheet, extra practice for selection/loops/functions, and a full Payroll walkthrough.  
+  - **URL:** `https://xatusbetazx17.github.io/Study/final_review_ch1_6_and_payroll.html`
+
+- **`interactive_ch1_6_plus_payroll.html`**  
+  Chapters: 1–6 — Interactive lab covering skeleton/I/O/types/expressions/selection/loops/functions + live Payroll calculator + curated videos.  
+  - **URL:** `https://xatusbetazx17.github.io/Study/interactive_ch1_6_plus_payroll.html`
+
+    
 
 
 
