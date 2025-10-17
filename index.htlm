@@ -63,7 +63,7 @@
     </p>
   </div>
 
-  <!-- NEW: Auto site map (lists every .html in repo root) -->
+  <!-- Auto site map (lists every .html in repo root) -->
   <div class="card" id="auto-sitemap">
     <h2>All HTML files (auto site map)</h2>
     <p class="small">This list loads directly from the repository contents. It will include any new <code>.html</code> you add to the root.</p>
