@@ -87,7 +87,7 @@ int main() {
     cout &lt;&lt; "Hello" &lt;&lt; endl;
     return 0;
 }</code></pre>
-      <div class="small">Use <code>cout</code> for output, <code>cin</code> for input, <code>\\n</code> or <code>endl</code> for a new line. Comments: <code>//</code> and <code>/* ... */</code>.</div>
+      <div class="small">Use <code>cout</code> for output, <code>cin</code> for input, <code>\n</code> or <code>endl</code> for a new line. Comments: <code>//</code> and <code>/* ... */</code>.</div>
     </div>
     <div id="q-ch1"></div>
   </section>
@@ -164,15 +164,16 @@ double area(double L,double W){ return L*W; }</code></pre>
     <div id="q-ch6"></div>
   </section>
 
-  <!-- Payroll -->
+  <!-- Payroll (UPDATED SECTION) -->
   <section class="section" id="payroll">
     <h2>Payroll — Interactive Visualizer + C++ Snippet</h2>
     <div class="callout small">
-      Enter sample inputs to preview <em>gross</em>, <em>tax</em>, and <em>net</em>. This helps you verify your C++ output.
+      Enter sample inputs to preview <em>gross</em>, <em>tax</em>, and <em>net</em>. Helps you verify your C++ output.
     </div>
+
     <div class="input-row">
       <label>Hours
-        <input id="phours" type="number" min="0" max="120" step="0.25" value="42">
+        <input id="phours" type="number" min="0" max="300" step="0.25" value="42">
       </label>
       <label>Rate ($/hr)
         <input id="prate" type="number" min="0" step="0.01" value="20">
@@ -183,15 +184,30 @@ double area(double L,double W){ return L*W; }</code></pre>
       <label>OT multiplier
         <input id="potm" type="number" min="1" step="0.1" value="1.5">
       </label>
-      <label>Fed+State tax (fraction)
-        <input id="ptax" type="number" min="0" max="1" step="0.01" value="0.17">
+      <label>Tax (fraction or %)
+        <input id="ptax" type="number" min="0" step="0.01" value="17">
       </label>
       <button class="btn" id="pcalc">Calculate</button>
     </div>
-    <table class="table">
+
+    <div id="perr" class="small" style="color:#ffb3bd;min-height:1.2em"></div>
+
+    <table class="table" style="margin-top:8px">
       <thead><tr><th>Gross</th><th>Tax</th><th>Net</th></tr></thead>
       <tbody><tr><td id="pgross">$—</td><td id="ptaxout">$—</td><td id="pnet">$—</td></tr></tbody>
     </table>
+
+    <table class="table" style="margin-top:8px">
+      <thead><tr><th>Regular Hours</th><th>OT Hours</th><th>Regular Pay</th><th>OT Pay</th></tr></thead>
+      <tbody><tr>
+        <td id="pregH">—</td>
+        <td id="potH">—</td>
+        <td id="pregP">—</td>
+        <td id="potP">—</td>
+      </tr></tbody>
+    </table>
+
+    <p class="small">Tip: Enter tax as <code>0.17</code> or <code>17</code> (percent); both work. Values are rounded to cents.</p>
 
     <div class="card">
       <h3>C++ core (Ch.1–6 only: no arrays/files)</h3>
@@ -375,24 +391,83 @@ double computeTax(double g,double rate){ return g*rate; }</code></pre>
   renderBank('q-ch4', banks.ch4);
   renderBank('q-ch5', banks.ch5);
   renderBank('q-ch6', banks.ch6);
+})();
 
-  // Payroll calculator
-  function fmt(x){ return '$'+x.toFixed(2); }
-  document.getElementById('pcalc').addEventListener('click', ()=>{
-    const h=parseFloat(document.getElementById('phours').value||'0');
-    const r=parseFloat(document.getElementById('prate').value||'0');
-    const ot=parseFloat(document.getElementById('pot').value||'40');
-    const mult=parseFloat(document.getElementById('potm').value||'1.5');
-    const tr=parseFloat(document.getElementById('ptax').value||'0.17');
-    const gross = h<=ot ? h*r : (ot*r + (h-ot)*r*mult);
-    const tax   = gross * tr;
-    const net   = gross - tax;
-    document.getElementById('pgross').textContent = fmt(gross);
-    document.getElementById('ptaxout').textContent= fmt(tax);
-    document.getElementById('pnet').textContent   = fmt(net);
+// Payroll calculator (robust version)
+(function(){
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => document.querySelectorAll(sel);
+  const toNumber = el => {
+    // Support comma decimal (e.g., "12,5") and empty values
+    const raw = (el.value ?? '').toString().trim().replace(',', '.');
+    const v = parseFloat(raw);
+    return Number.isFinite(v) ? v : 0;
+  };
+  const clamp = (x,min,max)=> Math.min(Math.max(x,min),max);
+  const round2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+  const fmtUSD = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format;
+
+  function calcPayroll(){
+    const errEl = $('#perr');
+    errEl.textContent = '';
+
+    // Read inputs
+    let h = toNumber($('#phours'));   // hours
+    let r = toNumber($('#prate'));    // rate
+    let ot = toNumber($('#pot'));     // OT threshold
+    let mult = toNumber($('#potm'));  // OT multiplier
+    let tr = toNumber($('#ptax'));    // tax input (fraction or %)
+
+    // Interpret tax: if user typed a percent (e.g., 17), convert to 0.17
+    if (tr > 1) tr = tr / 100;
+
+    // Validate & clamp to practical ranges
+    const errs = [];
+    if (h < 0) errs.push('Hours cannot be negative.');
+    if (r < 0) errs.push('Rate cannot be negative.');
+    if (ot < 0) errs.push('OT threshold cannot be negative.');
+    if (mult < 1) errs.push('OT multiplier must be ≥ 1.');
+    if (tr < 0) errs.push('Tax rate cannot be negative.');
+    if (tr > 1) errs.push('Tax rate must be ≤ 1 (or enter percent like 17).');
+
+    h = clamp(h, 0, 300);
+    r = clamp(r, 0, 10000);
+    ot = clamp(ot, 0, 300);
+    mult = Math.max(mult, 1);
+    tr = clamp(tr, 0, 1);
+
+    if (errs.length) errEl.textContent = errs.join(' ');
+
+    // Break down hours/pay
+    const regH = Math.min(h, ot);
+    const otH  = Math.max(0, h - ot);
+
+    const regPay = round2(regH * r);
+    const otPay  = round2(otH * r * mult);
+    const gross  = round2(regPay + otPay);
+    const tax    = round2(gross * tr);
+    const net    = round2(gross - tax);
+
+    // Output
+    $('#pgross').textContent = fmtUSD(gross);
+    $('#ptaxout').textContent = fmtUSD(tax);
+    $('#pnet').textContent = fmtUSD(net);
+
+    $('#pregH').textContent = regH.toFixed(2);
+    $('#potH').textContent  = otH.toFixed(2);
+    $('#pregP').textContent = fmtUSD(regPay);
+    $('#potP').textContent  = fmtUSD(otPay);
+  }
+
+  // Button + Enter key support in any field
+  $('#pcalc').addEventListener('click', calcPayroll);
+  $$('#payroll input').forEach(inp=>{
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') calcPayroll(); });
   });
+})();
 
-  // Reset & Export
+// Reset & Export (unchanged)
+(function(){
   document.getElementById('reset').addEventListener('click', ()=>{
     localStorage.removeItem('labState');
     document.querySelectorAll('.feedback').forEach(f=>{f.textContent='';f.className='feedback';});
