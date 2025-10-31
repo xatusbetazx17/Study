@@ -164,60 +164,243 @@ double area(double L,double W){ return L*W; }</code></pre>
     <div id="q-ch6"></div>
   </section>
 
-  <!-- Payroll — NEW SECTION -->
-  <section class="section" id="payroll">
-    <h2>Payroll — Interactive Visualizer + C++ Snippet</h2>
-    <div class="callout small">
-      Enter sample inputs to preview <em>gross</em>, <em>tax</em>, and <em>net</em>. Helps you verify your C++ output.
-    </div>
+ <!-- Payroll — UPDATED: supports 1–2 employees + totals -->
+<section class="section" id="payroll">
+  <h2>Payroll — Interactive Visualizer (1–2 employees) + C++ Snippet</h2>
 
+  <div class="callout small">
+    Choose 1 or 2 employees, enter inputs, and preview <em>gross</em>, <em>tax</em>, <em>net</em> and breakdowns.
+    You can enter tax as a fraction (0.17) or percent (17). Values round to cents.
+  </div>
+
+  <!-- how many employees -->
+  <div class="input-row" style="align-items:end">
+    <label>Employees
+      <select id="numEmp" style="padding:8px;border-radius:8px;border:1px solid #2b406a;background:#0d1730;color:var(--txt);width:140px">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+      </select>
+    </label>
+    <button class="btn" id="pcalc">Calculate</button>
+  </div>
+
+  <!-- Employee A inputs -->
+  <div class="card" id="empA">
+    <h3>Employee A — Inputs</h3>
     <div class="input-row">
-      <label>Hours
-        <input id="phours" type="number" min="0" max="300" step="0.25" value="42">
-      </label>
-      <label>Rate ($/hr)
-        <input id="prate" type="number" min="0" step="0.01" value="20">
-      </label>
-      <label>OT threshold
-        <input id="pot" type="number" min="0" step="0.5" value="40">
-      </label>
-      <label>OT multiplier
-        <input id="potm" type="number" min="1" step="0.1" value="1.5">
-      </label>
-      <label>Tax (fraction or %)
-        <input id="ptax" type="number" min="0" step="0.01" value="17">
-      </label>
-      <button class="btn" id="pcalc">Calculate</button>
+      <label>Hours <input id="a_hours" type="number" min="0" max="300" step="0.25" value="42"></label>
+      <label>Rate ($/hr) <input id="a_rate" type="number" min="0" step="0.01" value="20"></label>
+      <label>OT threshold <input id="a_ot" type="number" min="0" step="0.5" value="40"></label>
+      <label>OT multiplier <input id="a_mult" type="number" min="1" step="0.1" value="1.5"></label>
+      <label>Tax (fraction or %) <input id="a_tax" type="number" min="0" step="0.01" value="17"></label>
     </div>
-
-    <div id="perr" class="small" style="color:#ffb3bd;min-height:1.2em"></div>
+    <div id="a_err" class="small" style="color:#ffb3bd;min-height:1.2em"></div>
 
     <table class="table" style="margin-top:8px">
       <thead><tr><th>Gross</th><th>Tax</th><th>Net</th></tr></thead>
-      <tbody><tr><td id="pgross">$—</td><td id="ptaxout">$—</td><td id="pnet">$—</td></tr></tbody>
+      <tbody><tr><td id="a_gross">$—</td><td id="a_taxout">$—</td><td id="a_net">$—</td></tr></tbody>
     </table>
 
     <table class="table" style="margin-top:8px">
       <thead><tr><th>Regular Hours</th><th>OT Hours</th><th>Regular Pay</th><th>OT Pay</th></tr></thead>
       <tbody><tr>
-        <td id="pregH">—</td>
-        <td id="potH">—</td>
-        <td id="pregP">—</td>
-        <td id="potP">—</td>
+        <td id="a_regH">—</td>
+        <td id="a_otH">—</td>
+        <td id="a_regP">—</td>
+        <td id="a_otP">—</td>
       </tr></tbody>
     </table>
+  </div>
 
-    <p class="small">Tip: Enter tax as <code>0.17</code> or <code>17</code> (percent); both work. Values are rounded to cents.</p>
-
-    <div class="card">
-      <h3>C++ core (Ch.1–6 only: no arrays/files)</h3>
-      <pre><code>double computeGross(double h,double r,double ot=40,double mult=1.5){
-  if(h<=ot) return h*r;
-  return ot*r + (h-ot)*r*mult;
-}
-double computeTax(double g,double rate){ return g*rate; }</code></pre>
+  <!-- Employee B inputs (hidden until “2 employees” is chosen) -->
+  <div class="card" id="empB" style="display:none">
+    <h3>Employee B — Inputs</h3>
+    <div class="input-row">
+      <label>Hours <input id="b_hours" type="number" min="0" max="300" step="0.25" value="38"></label>
+      <label>Rate ($/hr) <input id="b_rate" type="number" min="0" step="0.01" value="18.50"></label>
+      <label>OT threshold <input id="b_ot" type="number" min="0" step="0.5" value="40"></label>
+      <label>OT multiplier <input id="b_mult" type="number" min="1" step="0.1" value="1.5"></label>
+      <label>Tax (fraction or %) <input id="b_tax" type="number" min="0" step="0.01" value="17"></label>
     </div>
-  </section>
+    <div id="b_err" class="small" style="color:#ffb3bd;min-height:1.2em"></div>
+
+    <table class="table" style="margin-top:8px">
+      <thead><tr><th>Gross</th><th>Tax</th><th>Net</th></tr></thead>
+      <tbody><tr><td id="b_gross">$—</td><td id="b_taxout">$—</td><td id="b_net">$—</td></tr></tbody>
+    </table>
+
+    <table class="table" style="margin-top:8px">
+      <thead><tr><th>Regular Hours</th><th>OT Hours</th><th>Regular Pay</th><th>OT Pay</th></tr></thead>
+      <tbody><tr>
+        <td id="b_regH">—</td>
+        <td id="b_otH">—</td>
+        <td id="b_regP">—</td>
+        <td id="b_otP">—</td>
+      </tr></tbody>
+    </table>
+  </div>
+
+  <!-- Totals -->
+  <div class="card">
+    <h3>Totals</h3>
+    <table class="table">
+      <thead><tr><th>Total Gross</th><th>Total Tax</th><th>Total Net</th></tr></thead>
+      <tbody><tr><td id="t_gross">$—</td><td id="t_tax">$—</td><td id="t_net">$—</td></tr></tbody>
+    </table>
+  </div>
+
+  <p class="small">Tip: Enter tax as <code>0.17</code> or <code>17</code> (percent). Results update when you click <strong>Calculate</strong> or press <kbd>Enter</kbd> in any field.</p>
+
+  <div class="card">
+    <h3>C++ reference code (Ch.1–6 only)</h3>
+    <pre><code class="code">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+double computeGross(double h,double r,double ot=40,double mult=1.5){
+    if(h &lt;= ot) return h*r;
+    return ot*r + (h-ot)*r*mult;
+}
+double computeTax(double g,double rate){ return g*rate; }
+
+int main(){
+    cout.setf(ios::fixed); cout.setf(ios::showpoint); cout.precision(2);
+
+    int n=1; 
+    cout &lt;&lt; "Employees (1 or 2): ";
+    if(!(cin &gt;&gt; n) || n&lt;1 || n&gt;2) { n=1; }
+
+    for(int i=1;i&lt;=n;++i){
+        double h,r,ot,mult,taxRate;
+        cout &lt;&lt; "\nEmployee " &lt;&lt; i
+             &lt;&lt; " - enter: hours rate otThreshold otMultiplier tax(%, e.g., 17):\n";
+        cin &gt;&gt; h &gt;&gt; r &gt;&gt; ot &gt;&gt; mult &gt;&gt; taxRate;
+        if (taxRate &gt; 1) taxRate /= 100.0;
+
+        double regH = min(h, ot);
+        double otH  = max(0.0, h-ot);
+        double regP = regH * r;
+        double otP  = otH  * r * mult;
+        double gross= regP + otP;
+        double tax  = computeTax(gross, taxRate);
+        double net  = gross - tax;
+
+        cout &lt;&lt; "Gross: $" &lt;&lt; gross
+             &lt;&lt; "  Tax: $" &lt;&lt; tax
+             &lt;&lt; "  Net: $" &lt;&lt; net &lt;&lt; '\n';
+        cout &lt;&lt; "Breakdown  RegH=" &lt;&lt; regH
+             &lt;&lt; "  OTH=" &lt;&lt; otH
+             &lt;&lt; "  RegPay=$" &lt;&lt; regP
+             &lt;&lt; "  OTPay=$" &lt;&lt; otP &lt;&lt; "\n";
+    }
+    return 0;
+}</code></pre>
+  </div>
+</section>
+<script>
+/* ===== Payroll calculator (1–2 employees, robust & standalone) ===== */
+(function(){
+  const $  = sel => document.querySelector(sel);
+  const $$ = sel => document.querySelectorAll(sel);
+
+  const toNumber = el => {
+    const raw = (el && el.value ? String(el.value) : '').trim().replace(',', '.');
+    const v = parseFloat(raw);
+    return Number.isFinite(v) ? v : 0;
+  };
+  const clamp  = (x,min,max)=> Math.min(Math.max(x,min),max);
+  const round2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+  const money  = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+
+  function calcOne(prefix){
+    const err = $(`#${prefix}_err`);
+    if (err) err.textContent = '';
+
+    // read
+    let h   = toNumber($(`#${prefix}_hours`));
+    let r   = toNumber($(`#${prefix}_rate`));
+    let ot  = toNumber($(`#${prefix}_ot`));
+    let mult= toNumber($(`#${prefix}_mult`));
+    let tr  = toNumber($(`#${prefix}_tax`));  // fraction or %
+
+    // interpret percent
+    if (tr > 1) tr = tr/100;
+
+    const errs = [];
+    if (h   < 0) errs.push('Hours cannot be negative.');
+    if (r   < 0) errs.push('Rate cannot be negative.');
+    if (ot  < 0) errs.push('OT threshold cannot be negative.');
+    if (mult< 1) errs.push('OT multiplier must be ≥ 1.');
+    if (tr  < 0) errs.push('Tax rate cannot be negative.');
+    if (tr  > 1) errs.push('Tax rate must be ≤ 1 (or enter percent like 17).');
+
+    h    = clamp(h, 0, 300);
+    r    = clamp(r, 0, 10000);
+    ot   = clamp(ot,0,300);
+    mult = Math.max(mult,1);
+    tr   = clamp(tr,0,1);
+
+    if (err && errs.length) err.textContent = errs.join(' ');
+
+    const regH  = Math.min(h, ot);
+    const otH   = Math.max(0, h - ot);
+    const regP  = round2(regH * r);
+    const otP   = round2(otH * r * mult);
+    const gross = round2(regP + otP);
+    const tax   = round2(gross * tr);
+    const net   = round2(gross - tax);
+
+    // write
+    const set = (id,val)=>{ const el = document.getElementById(id); if (el) el.textContent = val; };
+    set(`${prefix}_gross`,  money(gross));
+    set(`${prefix}_taxout`, money(tax));
+    set(`${prefix}_net`,    money(net));
+    set(`${prefix}_regH`, regH.toFixed(2));
+    set(`${prefix}_otH`,  otH.toFixed(2));
+    set(`${prefix}_regP`, money(regP));
+    set(`${prefix}_otP`,  money(otP));
+
+    return {gross, tax, net};
+  }
+
+  function calcAll(){
+    const num = ($('#numEmp')?.value === '2') ? 2 : 1;
+    // show/hide B
+    const empB = $('#empB');
+    if (empB) empB.style.display = (num === 2 ? '' : 'none');
+
+    // always calc A; calc B only if visible
+    const a = calcOne('a');
+    const b = (num === 2) ? calcOne('b') : {gross:0,tax:0,net:0};
+
+    const tGross = a.gross + b.gross;
+    const tTax   = a.tax   + b.tax;
+    const tNet   = a.net   + b.net;
+
+    const set = (id,val)=>{ const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('t_gross', money(tGross));
+    set('t_tax',   money(tTax));
+    set('t_net',   money(tNet));
+  }
+
+  // attach
+  window.addEventListener('DOMContentLoaded', () => {
+    $('#pcalc')?.addEventListener('click', calcAll);
+    $('#numEmp')?.addEventListener('change', calcAll);
+
+    // Enter/change in any payroll input triggers calc
+    $$('#payroll input').forEach(inp=>{
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') calcAll(); });
+      inp.addEventListener('change',  calcAll);
+    });
+
+    // initial render
+    calcAll();
+  });
+})();
+</script>
+
 
   <!-- Videos -->
   <section class="section" id="videos">
