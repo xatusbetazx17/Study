@@ -85,6 +85,18 @@
     </p>
   </div>
 
+<!-- NEW: Ch. 4–6 Practice (Extra) -->
+<div class="card">
+  <h2>Ch. 4–6 Practice (Extra)</h2>
+  <p>Extra interactive practice for Selection, Loops, and Functions with random problems and quick feedback.</p>
+  <p>
+    <a class="btn" href="interactive_ch4_5_6_practice.html" rel="noopener">
+      Open Ch. 4–6 Practice
+    </a>
+  </p>
+</div>
+
+
   <!-- Auto site map (lists every .html in repo root) -->
   <div class="card" id="auto-sitemap">
     <h2>All HTML files (auto site map)</h2>
