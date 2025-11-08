@@ -63,6 +63,17 @@
     </p>
   </div>
 
+  <!-- NEW: Ch. 4–6 Interactive + Projects card -->
+  <div class="card">
+    <h2>Ch. 4–6 Interactive + Projects</h2>
+    <p>Selection, Loops, Functions with random practice + Hotel Tax + Payroll (1–2 employees) + full Payroll Processing project spec & C++.</p>
+    <p>
+      <a class="btn" href="c46_interactive_projects_with_payroll_spec.html" rel="noopener">
+        Open Ch. 4–6 Interactive + Projects
+      </a>
+    </p>
+  </div>
+
   <!-- Auto site map (lists every .html in repo root) -->
   <div class="card" id="auto-sitemap">
     <h2>All HTML files (auto site map)</h2>
