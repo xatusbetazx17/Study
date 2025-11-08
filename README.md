@@ -28,6 +28,11 @@ This repository hosts **single‑file, mobile‑friendly C++ learning pages** th
 - **`Second_cpp_ch4,5,6_video_resources.html`**  
   **Chapters:** 4–6 — Curated beginner‑friendly videos (privacy‑enhanced embeds).  
   - **URL:** `https://xatusbetazx17.github.io/Study/Second_cpp_ch4,5,6_video_resources.html`
+ 
+  - - **`interactive_ch4_5_6_practice.html`**  
+  Chapters: 4–6 — Extra interactive practice for selection/loops/functions with random variants and auto-grading.  
+  - **URL:** `https://xatusbetazx17.github.io/Study/interactive_ch4_5_6_practice.html`
+
 
 - **`First_cpp_interactive_quiz_mobile_option02.html`**  
   Mobile/desktop quiz shell (touch‑friendly UI, offline‑ready).  
