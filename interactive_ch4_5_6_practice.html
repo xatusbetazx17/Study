@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C++ – Ch. 4–6 Interactive + Projects (Selection · Loops · Functions)</title>
+<meta name="description" content="Interactive study page for Chapters 4–6 with examples, random practice, and two small projects (Hotel Tax + Payroll), plus a full Payroll Processing project spec and sample program.">
+<style>
+:root{
+  --bg:#0b1220;--layer:#0f1a30;--bd:#1f2a44;--txt:#e6edf3;--muted:#a7b4c6;
+  --btn:#15213a;--btn-bd:#30456b;--link:#7ec0ff;--accent:#3a7bfd;--ok:#27b06e;--err:#e06773;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+a{color:var(--link);text-decoration:none}
+header{position:sticky;top:0;background:#0e1628;border-bottom:1px solid var(--bd);z-index:5}
+.wrap{max-width:1150px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:.2px}
+main{max-width:1150px;margin:0 auto;padding:16px}
+.section{border:1px solid var(--bd);background:var(--layer);border-radius:12px;padding:16px;margin:14px 0}
+h1,h2,h3{margin:0 0 8px}
+.small{font-size:.95rem;color:var(--muted)}
+.card{border:1px solid var(--bd);background:#0f1930;border-radius:12px;padding:12px;margin:10px 0}
+.grid{display:grid;gap:12px}
+@media (min-width:980px){.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:1fr 1fr 1fr}}
+.btn{display:inline-block;border:1px solid var(--btn-bd);background:var(--btn);color:var(--txt);
+     padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer;text-decoration:none}
+.btn:focus{outline:2px solid var(--accent);outline-offset:2px}
+kbd{background:#14213a;border:1px solid #27406e;border-radius:6px;padding:2px 6px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:#0c1427;border:1px solid #1e2c4a;border-radius:10px;padding:12px;overflow:auto;margin:10px 0}
+.q{border:1px solid var(--bd);background:#0f1930;border-radius:12px;padding:12px;margin:10px 0}
+.q h4{margin:0 0 6px;font-size:1rem}
+.choices{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.feedback{margin-top:6px;min-height:1.4em}
+.feedback.ok{color:var(--ok)}
+.feedback.ng{color:var(--err)}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.callout{border-left:4px solid #5a9bff;background:#112142;padding:10px;border-radius:8px;margin:10px 0}
+.ok{color:#b2f1cf}.ng{color:#ffb3bd}
+.input-row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.input-row label{display:flex;flex-direction:column;gap:6px}
+.input-row input, .input-row select{padding:8px;border-radius:8px;border:1px solid #2b406a;background:#0d1730;color:var(--txt);width:160px}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{border:1px solid #24345b;padding:6px 8px;text-align:left}
+.table tfoot td{font-weight:700}
+.flex{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #2d4270;background:#0f1a30;font-size:.8rem;color:#bcd0ee}
+details summary{cursor:pointer}
+footer{max-width:1150px;margin:14px auto 28px;padding:0 16px;color:var(--muted);font-size:.95rem}
+.hr{border:none;border-top:1px dashed #29406d;margin:16px 0}
+.warn{color:#ffb3bd}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">C++ — Chapters 4–6 Interactive + Projects</div>
+    <div class="small">Selection • Loops • Functions • Random practice • Projects</div>
+  </div>
+</header>
+<main>
+
+  <section class="section">
+    <h2>Quick Navigation</h2>
+    <div class="controls">
+      <a class="btn" href="#sel">Ch.4 Selection</a>
+      <a class="btn" href="#loops">Ch.5 Loops</a>
+      <a class="btn" href="#func">Ch.6 Functions</a>
+      <a class="btn" href="#hotel">Project: Hotel Tax (12%)</a>
+      <a class="btn" href="#payroll">Project: Payroll (1–2 employees)</a>
+      <a class="btn" href="#payroll-project-spec">Project: Payroll processing (Spec + Full C++)</a>
+      <a class="btn" href="#random">Random Practice Generator</a>
+      <button class="btn" id="reset">Reset Quiz Answers</button>
+      <button class="btn" id="export">Export Quiz Results CSV</button>
+    </div>
+  </section>
+
+  <!-- Selection -->
+  <section class="section" id="sel">
+    <h2>Chapter 4 — Selection (if / else / switch)</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Example: Multi‑way if/else</h3>
+        <pre><code class="mono">char letter;
+if (score >= 90)      letter = 'A';
+else if (score >= 80) letter = 'B';
+else if (score >= 70) letter = 'C';
+else if (score >= 60) letter = 'D';
+else                   letter = 'F';</code></pre>
+        <div class="small">Order matters. Once a condition is true, the rest are skipped.</div>
+      </div>
+      <div class="card">
+        <h3>Example: <code>switch</code></h3>
+        <pre><code class="mono">switch (menuChoice) {
+  case 1: cout << "Start";    break;
+  case 2: cout << "Settings"; break;
+  case 3: cout << "Quit";     break;
+  default: cout << "Invalid";
+}</code></pre>
+        <div class="small"><b>Always</b> add <code>break;</code> to avoid fall‑through (unless you intend it).</div>
+      </div>
+    </div>
+    <div id="q-sel"></div>
+  </section>
+
+  <!-- Loops -->
+  <section class="section" id="loops">
+    <h2>Chapter 5 — Loops (for / while / do‑while)</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Examples</h3>
+        <pre><code class="mono">// For: known count
+for (int i=1; i<=5; ++i) cout << i << " ";
+
+// While: sentinel (ends on 0)
+int x; cin >> x;
+while (x != 0) { /* process */ cin >> x; }
+
+// Do‑while: must run at least once
+int n;
+do {
+  cout << "Enter 1..10: ";
+  cin >> n;
+} while (n < 1 || n > 10);</code></pre>
+      </div>
+      <div class="card">
+        <h3>Trace a loop</h3>
+        <div class="input-row">
+          <label>N (1..50)<input id="tN" type="number" min="1" max="50" value="7"></label>
+          <button class="btn" id="tBtn">Run</button>
+        </div>
+        <pre id="tOut" class="mono" style="min-height:3.4em"></pre>
+        <div class="small">Demo prints 1..N and the running sum.</div>
+      </div>
+    </div>
+    <div id="q-loops"></div>
+  </section>
+
+  <!-- Functions -->
+  <section class="section" id="func">
+    <h2>Chapter 6 — Functions</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Prototype, Definition, Call</h3>
+        <pre><code class="mono">// Prototype (goes before main) — tells the compiler the function exists.
+double area(double L, double W);
+
+int main() {
+  cout << area(3,4); // <— function call (activates the function)
+  return 0;
+}
+
+// Definition (can be after main if prototype is above)
+double area(double L, double W) {
+  return L * W; // returns exactly one value
+}</code></pre>
+        <div class="callout small">
+          If you define a function <b>after</b> <code>main</code>, you must provide a <b>prototype</b> above
+          <code>main</code>, or the code won't compile (“not declared in this scope”). Always ensure braces close properly.
+        </div>
+      </div>
+      <div class="card">
+        <h3>Common helpers to “convert to functions”</h3>
+        <pre><code class="mono">bool inRange(int x, int lo, int hi){ return x>=lo && x<=hi; }
+double grossPay(double h,double r,double ot=40,double m=1.5){
+  return (h<=ot? h*r : ot*r + (h-ot)*r*m);
+}
+double taxOf(double amount,double rate){ return amount*rate; }</code></pre>
+        <div class="small">Think <em>inputs → processing → output</em>. Name functions by <em>what</em> they return.</div>
+      </div>
+    </div>
+    <div id="q-func"></div>
+  </section>
+
+  <!-- Project: Hotel tax -->
+  <section class="section" id="hotel">
+    <h2>Project — Hotel Tax (12%)</h2>
+    <div class="small">Inputs: guest name, days, price per night. Output: subtotal, tax (12%), total due.</div>
+    <div class="input-row">
+      <label>Guest name <input id="h_name" type="text" value="Guest A"></label>
+      <label># of nights <input id="h_days" type="number" min="1" max="365" value="3"></label>
+      <label>Price per night ($) <input id="h_price" type="number" min="0" step="0.01" value="99.99"></label>
+      <label>Tax % <input id="h_tax" type="number" min="0" step="0.01" value="12"></label>
+      <button class="btn" id="h_calc">Calculate</button>
+    </div>
+    <div id="h_err" class="small warn" style="min-height:1.2em"></div>
+    <table class="table">
+      <thead><tr><th>Guest</th><th>Nights</th><th>Price/Night</th><th>Subtotal</th><th>Tax</th><th>Total</th></tr></thead>
+      <tbody><tr>
+        <td id="h_o_name">—</td>
+        <td id="h_o_days">—</td>
+        <td id="h_o_ppn">—</td>
+        <td id="h_o_sub">—</td>
+        <td id="h_o_tax">—</td>
+        <td id="h_o_tot">—</td>
+      </tr></tbody>
+    </table>
+
+    <div class="card">
+      <h3>C++ sketch (single file)</h3>
+      <pre><code class="mono">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+using namespace std;
+
+int main(){
+  string name; int days; double price;
+  const double TAX = 0.12;
+
+  cout &lt;&lt; "Guest name: "; getline(cin, name);
+  cout &lt;&lt; "Nights: ";     cin &gt;&gt; days;
+  cout &lt;&lt; "Price/night: "; cin &gt;&gt; price;
+
+  double sub = days * price;
+  double tax = sub * TAX;
+  double tot = sub + tax;
+
+  cout &lt;&lt; fixed &lt;&lt; setprecision(2);
+  cout &lt;&lt; "\nSubtotal: $" &lt;&lt; sub
+       &lt;&lt; "\nTax (12%): $" &lt;&lt; tax
+       &lt;&lt; "\nTotal: $" &lt;&lt; tot &lt;&lt; endl;
+  return 0;
+}</code></pre>
+      <div class="small">
+        <b>IPO breakdown your prof expects:</b>
+        <ul>
+          <li><b>Local declarations:</b> <code>name</code>, <code>days</code>, <code>price</code>, <code>TAX</code></li>
+          <li><b>Input:</b> read name, days, price</li>
+          <li><b>Process:</b> <code>sub=days*price;</code> <code>tax=sub*TAX;</code> <code>tot=sub+tax;</code></li>
+          <li><b>Output:</b> print subtotal, tax, total; <code>return 0;</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project: Payroll 1–2 employees -->
+  <section class="section" id="payroll">
+    <h2>Project — Payroll (1–2 employees)</h2>
+    <div class="small">OT after threshold at multiplier. Tax can be fraction or % (e.g., 0.17 or 17).</div>
+    <div class="input-row">
+      <label>How many employees?
+        <select id="numEmp">
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+      </label>
+      <button class="btn" id="pcalc">Calculate Payroll</button>
+    </div>
+
+    <div class="grid two">
+      <div class="card" id="empA">
+        <div class="flex"><h3>Employee A</h3><span class="badge">required</span></div>
+        <div class="input-row">
+          <label>Hours <input id="a_hours" type="number" min="0" max="300" step="0.25" value="42"></label>
+          <label>Rate ($/h) <input id="a_rate" type="number" min="0" step="0.01" value="20"></label>
+          <label>OT threshold <input id="a_ot" type="number" min="0" step="0.5" value="40"></label>
+          <label>OT multiplier <input id="a_mult" type="number" min="1" step="0.1" value="1.5"></label>
+          <label>Tax (fraction or %) <input id="a_tax" type="number" min="0" step="0.01" value="17"></label>
+        </div>
+        <div id="a_err" class="small warn" style="min-height:1.2em"></div>
+        <table class="table">
+          <thead><tr><th>Regular H</th><th>OT H</th><th>Regular Pay</th><th>OT Pay</th><th>Gross</th><th>Tax</th><th>Net</th></tr></thead>
+          <tbody><tr>
+            <td id="a_regH">—</td><td id="a_otH">—</td><td id="a_regP">—</td><td id="a_otP">—</td><td id="a_gross">—</td><td id="a_taxout">—</td><td id="a_net">—</td>
+          </tr></tbody>
+        </table>
+      </div>
+
+      <div class="card" id="empB" style="display:none">
+        <div class="flex"><h3>Employee B</h3><span class="badge">optional</span></div>
+        <div class="input-row">
+          <label>Hours <input id="b_hours" type="number" min="0" max="300" step="0.25" value="38"></label>
+          <label>Rate ($/h) <input id="b_rate" type="number" min="0" step="0.01" value="22.5"></label>
+          <label>OT threshold <input id="b_ot" type="number" min="0" step="0.5" value="40"></label>
+          <label>OT multiplier <input id="b_mult" type="number" min="1" step="0.1" value="1.5"></label>
+          <label>Tax (fraction or %) <input id="b_tax" type="number" min="0" step="0.01" value="17"></label>
+        </div>
+        <div id="b_err" class="small warn" style="min-height:1.2em"></div>
+        <table class="table">
+          <thead><tr><th>Regular H</th><th>OT H</th><th>Regular Pay</th><th>OT Pay</th><th>Gross</th><th>Tax</th><th>Net</th></tr></thead>
+          <tbody><tr>
+            <td id="b_regH">—</td><td id="b_otH">—</td><td id="b_regP">—</td><td id="b_otP">—</td><td id="b_gross">—</td><td id="b_taxout">—</td><td id="b_net">—</td>
+          </tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <table class="table" style="margin-top:8px">
+      <thead><tr><th>Total Gross</th><th>Total Tax</th><th>Total Net</th></tr></thead>
+      <tbody><tr><td id="t_gross">—</td><td id="t_tax">—</td><td id="t_net">—</td></tr></tbody>
+    </table>
+
+    <div class="card">
+      <h3>C++ examples that match the assignment</h3>
+      <details open>
+        <summary><b>Option A — Exactly two employees (for‑loop)</b></summary>
+        <pre><code class="mono">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+using namespace std;
+
+double gross(double h,double r,double ot=40,double m=1.5){
+  return (h&lt;=ot? h*r : ot*r + (h-ot)*r*m);
+}
+double taxOf(double g,double rate){ return g*rate; }
+
+int main(){
+  cout &lt;&lt; fixed &lt;&lt; setprecision(2);
+  double totalGross=0, totalTax=0, totalNet=0;
+
+  for(int i=1;i&lt;=2;++i){
+    double h,r,ot=40,m=1.5,rate; // tax rate (e.g., 0.17)
+    cout &lt;&lt; "\nEmployee " &lt;&lt; i &lt;&lt; " hours, rate, taxRate: ";
+    cin  &gt;&gt; h &gt;&gt; r &gt;&gt; rate;
+
+    double g = gross(h,r,ot,m);
+    double t = taxOf(g, rate);
+    double n = g - t;
+
+    totalGross += g; totalTax += t; totalNet += n;
+
+    cout &lt;&lt; "Gross $" &lt;&lt; g &lt;&lt; "  Tax $" &lt;&lt; t &lt;&lt; "  Net $" &lt;&lt; n &lt;&lt; '\n';
+  }
+  cout &lt;&lt; "\nTotals  Gross $" &lt;&lt; totalGross
+       &lt;&lt; "  Tax $" &lt;&lt; totalTax
+       &lt;&lt; "  Net $" &lt;&lt; totalNet &lt;&lt; '\n';
+  return 0;
+}</code></pre>
+      </details>
+      <details>
+        <summary><b>Option B — Unlimited employees (sentinel Y/N loop)</b></summary>
+        <pre><code class="mono">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+using namespace std;
+
+double gross(double h,double r,double ot=40,double m=1.5){
+  return (h&lt;=ot? h*r : ot*r + (h-ot)*r*m);
+}
+double taxOf(double g,double rate){ return g*rate; }
+
+int main(){
+  cout &lt;&lt; fixed &lt;&lt; setprecision(2);
+  double totalGross=0, totalTax=0, totalNet=0;
+  char more='Y';
+
+  while (more=='Y' || more=='y'){
+    double h,r,rate; // hours, rate, tax rate (0..1)
+    cout &lt;&lt; "\nEnter hours, rate, taxRate (e.g., 0.17): ";
+    cin  &gt;&gt; h &gt;&gt; r &gt;&gt; rate;
+
+    double g = gross(h,r);
+    double t = taxOf(g, rate);
+    double n = g - t;
+    totalGross += g; totalTax += t; totalNet += n;
+
+    cout &lt;&lt; "Gross $" &lt;&lt; g &lt;&lt; "  Tax $" &lt;&lt; t &lt;&lt; "  Net $" &lt;&lt; n &lt;&lt; '\n';
+    cout &lt;&lt; "Add another employee? (Y/N): ";
+    cin  &gt;&gt; more;
+  }
+
+  cout &lt;&lt; "\nTotals  Gross $" &lt;&lt; totalGross
+       &lt;&lt; "  Tax $" &lt;&lt; totalTax
+       &lt;&lt; "  Net $" &lt;&lt; totalNet &lt;&lt; '\n';
+  return 0;
+}</code></pre>
+      </details>
+      <div class="small">Libraries used: <code>&lt;iostream&gt;</code> and <code>&lt;iomanip&gt;</code>. Set output format with <code>fixed</code> and <code>setprecision(2)</code>.</div>
+    </div>
+  </section>
+
+  <!-- =====================  PROJECT: Payroll processing  ===================== -->
+  <section class="section" id="payroll-project-spec">
+    <h2>Payroll processing — Project Section</h2>
+    <div class="callout small">
+      <b>Purpose:</b> Practice interactive input, mathematical operations, <b>loops</b>, <b>if</b> statements, and <b>formatted output</b> using
+      <code>setw()</code>, <code>setprecision()</code>, <code>fixed</code>, and <code>showpoint</code>.
+    </div>
+
+    <h3>Program specifications</h3>
+    <ul class="small">
+      <li>Accept: <b>employee first name</b>, <b>hours worked</b>, <b>hourly pay rate</b>.</li>
+      <li>Calculate for each employee: <b>gross pay</b>, <b>federal taxes</b>, <b>social security</b>, <b>state taxes</b>, <b>medical</b>, <b>overtime</b>, and <b>net pay</b>.</li>
+      <li><b>Overtime</b> is time-and-a-half for hours over 40 (i.e., 1.5 × rate for each hour &gt; 40).</li>
+    </ul>
+
+    <h3>Data validation (use loops)</h3>
+    <ul class="small">
+      <li>Hours: <b>25 ≤ hours ≤ 50</b>.</li>
+      <li>Rate: <b>$15.25 ≤ rate ≤ $40.50</b>.</li>
+      <li>Use an <b>if</b> statement to compute overtime only when hours &gt; 40.</li>
+      <li>Continue processing employees with a <b>sentinel</b> loop until user enters <b>'N'</b>.</li>
+    </ul>
+
+    <h3>Deductions (declare as <b>constants</b>)</h3>
+    <ul class="small">
+      <li>Federal tax rate = <b>11%</b></li>
+      <li>Social Security   = <b>12%</b></li>
+      <li>State tax rate    = <b>2%</b></li>
+      <li>Medical rate      = <b>2%</b></li>
+    </ul>
+
+    <h3>Sample output (format goals)</h3>
+    <pre class="mono" style="white-space:pre-wrap">
+                    Company Name
+Employee Name        Hours Worked       Pay Rate
+------------------   --------------     --------
+John                 38                 21.50
+
+Deductions:
+Deduction Type       Deduction Rate     Deduction Amount
+------------------   --------------     ----------------
+Federal Taxes        .11                XX.xx
+Social Security      .12                XX.xx
+State Taxes          .02                XX.xx
+Medical Taxes        .02                XX.xx
+
+Regular Pay:   xxx.xx
+Overtime Pay:  xxx.xx
+Gross Pay:     xxx.xx
+Net Pay:       xxx.xx
+    </pre>
+
+    <h3>C++ program (meets spec + grading rubric)</h3>
+    <pre class="mono" style="white-space:pre-wrap"><code>// Payroll processing project — Chapters 4–6
+// - Loops: validation loops + sentinel loop (Y/N)
+// - if statement: overtime only when hours > 40
+// - Formatting: setw, fixed, showpoint, setprecision
+// - Constants for all deduction rates
+// - Proper headings/titles and aligned output
+
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+#include &lt;string&gt;
+#include &lt;cctype&gt;   // toupper
+using namespace std;
+
+// ----- Constants (deductions) -----
+const double FED_RATE   = 0.11;   // 11%
+const double SOC_RATE   = 0.12;   // 12%
+const double STATE_RATE = 0.02;   // 2%
+const double MED_RATE   = 0.02;   // 2%
+
+// ----- Validation bounds -----
+const double MIN_HOURS = 25.0;
+const double MAX_HOURS = 50.0;
+const double MIN_RATE  = 15.25;
+const double MAX_RATE  = 40.50;
+
+int main(){
+    cout.setf(ios::fixed);
+    cout.setf(ios::showpoint);
+    cout &lt;&lt; setprecision(2);
+
+    cout &lt;&lt; "\n====================  Company Name  ====================\n";
+
+    char more = 'Y';
+    double grandGross = 0.0, grandDeduct = 0.0, grandNet = 0.0;
+
+    while (toupper(more) == 'Y') {
+        // ---- Input section ----
+        string fname;
+        cout &lt;&lt; "\nEmployee first name: ";
+        cin  &gt;&gt; fname;
+
+        double hours = 0.0;
+        // hours validation loop
+        while (true) {
+            cout &lt;&lt; "Hours worked (" &lt;&lt; MIN_HOURS &lt;&lt; " - " &lt;&lt; MAX_HOURS &lt;&lt; "): ";
+            cin  &gt;&gt; hours;
+            if (cin && hours >= MIN_HOURS && hours &lt;= MAX_HOURS) break;
+            cout &lt;&lt; "  ** Invalid hours. Please re-enter.\n";
+            cin.clear(); cin.ignore(10000, '\n');
+        }
+
+        double rate = 0.0;
+        // rate validation loop
+        while (true) {
+            cout &lt;&lt; "Hourly pay rate (" &lt;&lt; MIN_RATE &lt;&lt; " - " &lt;&lt; MAX_RATE &lt;&lt; "): ";
+            cin  &gt;&gt; rate;
+            if (cin && rate >= MIN_RATE && rate &lt;= MAX_RATE) break;
+            cout &lt;&lt; "  ** Invalid rate. Please re-enter.\n";
+            cin.clear(); cin.ignore(10000, '\n');
+        }
+
+        // ---- Process section ----
+        double regHours = hours;
+        double otHours  = 0.0;
+        if (hours &gt; 40.0) {                // IF for overtime per spec
+            regHours = 40.0;
+            otHours  = hours - 40.0;
+        }
+
+        double regPay = regHours * rate;
+        double otPay  = otHours  * rate * 1.5;   // time-and-a-half
+        double gross  = regPay + otPay;
+
+        // Deductions
+        double fed  = gross * FED_RATE;
+        double soc  = gross * SOC_RATE;
+        double st   = gross * STATE_RATE;
+        double med  = gross * MED_RATE;
+        double totalDed = fed + soc + st + med;
+
+        double net = gross - totalDed;
+
+        // accumulate totals
+        grandGross += gross; grandDeduct += totalDed; grandNet += net;
+
+        // ---- Output section ----
+        cout &lt;&lt; "\n";
+        cout &lt;&lt; left  &lt;&lt; setw(18) &lt;&lt; "Employee Name"   &lt;&lt; right &lt;&lt; setw(0) &lt;&lt; "  "
+             &lt;&lt; left  &lt;&lt; setw(16) &lt;&lt; "Hours Worked"    &lt;&lt; "  "
+             &lt;&lt; left  &lt;&lt; setw(10) &lt;&lt; "Pay Rate"        &lt;&lt; "\n";
+        cout &lt;&lt; left  &lt;&lt; setw(18) &lt;&lt; "------------------" &lt;&lt; "  "
+             &lt;&lt; left  &lt;&lt; setw(16) &lt;&lt; "----------------"   &lt;&lt; "  "
+             &lt;&lt; left  &lt;&lt; setw(10) &lt;&lt; "----------"         &lt;&lt; "\n";
+
+        cout &lt;&lt; left  &lt;&lt; setw(18) &lt;&lt; fname &lt;&lt; "  "
+             &lt;&lt; right &lt;&lt; setw(16) &lt;&lt; hours &lt;&lt; "  "
+             &lt;&lt; right &lt;&lt; setw(10) &lt;&lt; rate  &lt;&lt; "\n";
+
+        cout &lt;&lt; "\nDeductions:\n";
+        cout &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "Deduction Type"
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "Deduction Rate"
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "Deduction Amount" &lt;&lt; "\n";
+        cout &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "--------------------"
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "--------------------"
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "--------------------" &lt;&lt; "\n";
+
+        cout &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "Federal Taxes"
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; FED_RATE
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; fed &lt;&lt; "\n";
+        cout &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "Social Security"
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; SOC_RATE
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; soc &lt;&lt; "\n";
+        cout &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "State Taxes"
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; STATE_RATE
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; st  &lt;&lt; "\n";
+        cout &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; "Medical"
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; MED_RATE
+             &lt;&lt; left  &lt;&lt; setw(20) &lt;&lt; med &lt;&lt; "\n";
+
+        cout &lt;&lt; "\n";
+        cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; "Regular Pay:"  &lt;&lt; right &lt;&lt; setw(10) &lt;&lt; regPay &lt;&lt; "\n";
+        cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; "Overtime Pay:" &lt;&lt; right &lt;&lt; setw(10) &lt;&lt; otPay  &lt;&lt; "\n";
+        cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; "Gross Pay:"    &lt;&lt; right &lt;&lt; setw(10) &lt;&lt; gross  &lt;&lt; "\n";
+        cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; "Net Pay:"      &lt;&lt; right &lt;&lt; setw(10) &lt;&lt; net    &lt;&lt; "\n";
+
+        // sentinel
+        cout &lt;&lt; "\nProcess another employee? (Y/N): ";
+        cin  &gt;&gt; more;
+    }
+
+    // Final company totals (optional on your printout)
+    cout &lt;&lt; "\n====================  Totals  ====================\n";
+    cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; "Gross Total:" &lt;&lt; right &lt;&lt; setw(10) &lt;&lt; grandGross &lt;&lt; "\n";
+    cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; "Tax Total:"   &lt;&lt; right &lt;&lt; setw(10) &lt;&lt; grandDeduct &lt;&lt; "\n";
+    cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; "Net Total:"   &lt;&lt; right &lt;&lt; setw(10) &lt;&lt; grandNet &lt;&lt; "\n";
+    cout &lt;&lt; "=================================================\n";
+
+    return 0;
+}
+</code></pre>
+  </section>
+
+  <!-- Random practice generator -->
+  <section class="section" id="random">
+    <h2>Random Practice Generator (10k+ variants)</h2>
+    <div class="small">Click <b>New set</b> to get fresh numbers. Answer boxes auto‑grade with explanations.</div>
+    <div class="controls">
+      <button class="btn" id="gen">New set</button>
+      <button class="btn" id="check">Check answers</button>
+      <span id="score" class="badge">—</span>
+    </div>
+    <div id="rp"></div>
+  </section>
+
+</main>
+<footer>
+  © 2025 • C++ Chapters 4–6 Interactive • Works offline locally or on GitHub Pages
+</footer>
+
+<script>
+/* ---------- Quiz banks (MC) ---------- */
+(function(){
+  const banks = {
+    sel: [
+      {id:'sel-1', q:'Pick inclusive adult age check (18..64).', type:'mc',
+       choices:['age > 18 && age < 64','age >= 18 && age <= 64','age >= 18 || age <= 64','!(age < 18 && age > 64)'],
+       ans:'age >= 18 && age <= 64', why:'Use >= and <= for inclusive bounds.'},
+      {id:'sel-2', q:'What prints for day==3?', code:'switch(day){case 1: cout<<"A"; break; case 3: cout<<"C"; break; default: cout<<"?";}',
+       type:'mc', choices:['A','B','C','?'], ans:'C', why:'Exact match runs case 3.'},
+      {id:'sel-3', q:'Fix missing break(s):', code:'switch(x){case 1: cout<<"A"; case 2: cout<<"B"; default: cout<<"C";}',
+       type:'mc', choices:['Add break; after case 1 and 2','Remove default','Change to if/else','Nothing is wrong'],
+       ans:'Add break; after case 1 and 2', why:'Without break, control “falls through”.'}
+    ],
+    loops: [
+      {id:'lp-1', q:'How many times does the body run?', code:'for(int i=0;i<5;i++){ /* body */ }',
+       type:'mc', choices:['4','5','6','0'], ans:'5', why:'i=0,1,2,3,4 → five times.'},
+      {id:'lp-2', q:'Best loop to validate 1..10 (must run once)?', type:'mc',
+       choices:['for','while','do-while','range-for'], ans:'do-while', why:'do‑while executes body at least once.'},
+      {id:'lp-3', q:'Equivalent for‑loop to this while:', code:'int i=1,sum=0; while(i<=n){ sum+=i; ++i; }',
+       type:'mc',
+       choices:['for(int i=1;i<=n;i++){ sum+=i; }','for(int i=0;i<n;i++){ sum+=i; }','for(i=1;i<=n;i++){ sum++; }','for(;;){break;}'],
+       ans:'for(int i=1;i<=n;i++){ sum+=i; }', why:'Same init/cond/inc and accumulation.'}
+    ],
+    func: [
+      {id:'fn-1', q:'Prototype that returns true if n is prime:', type:'mc',
+       choices:['int isPrime(int n);','bool isPrime(int n);','void isPrime(int n);','double isPrime(int n);'],
+       ans:'bool isPrime(int n);', why:'Use bool for true/false.'},
+      {id:'fn-2', q:'Why add a prototype above main?', type:'mc',
+       choices:['To speed up runtime','To allow calls before the definition','To avoid using return','To include libraries'],
+       ans:'To allow calls before the definition', why:'Compiler must know the signature before the call.'},
+      {id:'fn-3', q:'Output?', code:'int f(int x){x*=2;return x;} int a=5; cout<<f(a)<<" "<<a;',
+       type:'mc', choices:['10 10','10 5','5 10','compile error'], ans:'10 5', why:'Pass‑by‑value leaves a unchanged.'}
+    ]
+  };
+
+  function render(where, items){
+    const host=document.getElementById(where);
+    items.forEach(item=>{
+      const card=document.createElement('div'); card.className='q'; card.dataset.id=item.id;
+      const h=document.createElement('h4'); h.textContent=item.q; card.appendChild(h);
+      if(item.code){ const pre=document.createElement('pre'); pre.textContent=item.code; pre.className='mono'; card.appendChild(pre); }
+      const box=document.createElement('div'); box.className='choices';
+      item.choices.forEach(c=>{
+        const label=document.createElement('label'); label.className='mono';
+        label.innerHTML='<input type="radio" name="'+item.id+'" value="'+c.replace(/"/g,'&quot;')+'"> '+c;
+        box.appendChild(label);
+      });
+      card.appendChild(box);
+      const fb=document.createElement('div'); fb.id=item.id+'_fb'; fb.className='feedback'; card.appendChild(fb);
+      const actions=document.createElement('div'); actions.className='controls';
+      const bC=document.createElement('button'); bC.className='btn'; bC.textContent='Check';
+      const bS=document.createElement('button'); bS.className='btn'; bS.textContent='Show Answer';
+      actions.appendChild(bC); actions.appendChild(bS); card.appendChild(actions);
+      host.appendChild(card);
+
+      // restore
+      try{
+        const all=JSON.parse(localStorage.getItem('c46State')||'{}');
+        if(all[item.id]){
+          const {answer,correct}=all[item.id];
+          const r=[...card.querySelectorAll('input[type=radio]')].find(x=>x.value===answer);
+          if(r) r.checked=true;
+          fb.textContent = correct? 'Correct' : 'Incorrect';
+          fb.className='feedback '+(correct?'ok':'ng');
+        }
+      }catch{}
+
+      bC.addEventListener('click',()=>{
+        const sel=card.querySelector('input[type=radio]:checked');
+        const fb=document.getElementById(item.id+'_fb');
+        if(!sel){ fb.textContent='Pick an answer.'; fb.className='feedback ng'; return; }
+        const ok = sel.value===item.ans;
+        fb.innerHTML=(ok?'Correct — ':'Incorrect — ') + '<span class="small">'+item.why+'</span>';
+        fb.className='feedback ' + (ok?'ok':'ng');
+        try{
+          const all=JSON.parse(localStorage.getItem('c46State')||'{}'); all[item.id]={answer:sel.value,correct:ok};
+          localStorage.setItem('c46State', JSON.stringify(all));
+        }catch{}
+      });
+      bS.addEventListener('click',()=>{
+        const fb=document.getElementById(item.id+'_fb');
+        fb.innerHTML='<span class="small">Answer: '+item.ans+' — '+item.why+'</span>';
+        fb.className='feedback';
+      });
+    });
+  }
+
+  render('q-sel', banks.sel);
+  render('q-loops', banks.loops);
+  render('q-func', banks.func);
+
+  // Reset & Export for the quiz widgets
+  document.getElementById('reset').addEventListener('click', ()=>{
+    localStorage.removeItem('c46State');
+    document.querySelectorAll('.feedback').forEach(f=>{f.textContent='';f.className='feedback';});
+    document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+  });
+  document.getElementById('export').addEventListener('click', ()=>{
+    try{
+      const all=JSON.parse(localStorage.getItem('c46State')||'{}');
+      const rows=[['qid','answer','correct']];
+      Object.entries(all).forEach(([k,v])=>rows.push([k,v.answer,v.correct?'correct':'incorrect']));
+      const csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+      const blob=new Blob([csv],{type:'text/csv'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='c46_quiz_results.csv';
+      document.body.appendChild(a); a.click(); URL.revokeObjectURL(a.href); a.remove();
+    }catch(e){ alert('Nothing to export yet.'); }
+  });
+})();
+
+/* ---------- Loops tracer ---------- */
+(function(){
+  const $ = sel=>document.querySelector(sel);
+  const out = $('#tOut');
+  $('#tBtn').addEventListener('click',()=>{
+    const n = Math.max(1, Math.min(50, parseInt(document.getElementById('tN').value||'1',10)));
+    let sum=0, lines=[];
+    for(let i=1;i<=n;i++){ sum+=i; lines.push(i+'  sum='+sum); }
+    out.textContent = lines.join('\n');
+  });
+  // first paint
+  document.getElementById('tBtn').click();
+})();
+
+/* ---------- Hotel tax ---------- */
+(function(){
+  const $ = sel=>document.querySelector(sel);
+  const money = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+  const toNum = el => { const v=parseFloat((el.value||'').toString().replace(',','.')); return Number.isFinite(v)?v:0; };
+
+  $('#h_calc').addEventListener('click', ()=>{
+    const err=$('#h_err'); err.textContent='';
+    const name = ($('#h_name').value||'').trim();
+    let days = Math.max(1, Math.min(365, Math.round(toNum($('#h_days')))));
+    const ppn  = Math.max(0, toNum($('#h_price')));
+    let tax  = toNum($('#h_tax'));
+    if(tax>1) tax = tax/100;
+
+    if(!name){ err.textContent='Please enter a guest name.'; return; }
+    const sub = days * ppn;
+    const taxAmt = sub * tax;
+    const tot = sub + taxAmt;
+
+    $('#h_o_name').textContent = name;
+    $('#h_o_days').textContent = String(days);
+    $('#h_o_ppn').textContent  = money(ppn);
+    $('#h_o_sub').textContent  = money(sub);
+    $('#h_o_tax').textContent  = money(taxAmt);
+    $('#h_o_tot').textContent  = money(tot);
+  });
+})();
+
+/* ---------- Payroll (1–2 employees) ---------- */
+(function(){
+  const $  = sel => document.querySelector(sel);
+  const $$ = sel => document.querySelectorAll(sel);
+  const toNumber = el => {
+    const raw = (el && el.value ? String(el.value) : '').trim().replace(',', '.'); const v = parseFloat(raw);
+    return Number.isFinite(v) ? v : 0;
+  };
+  const clamp  = (x,min,max)=> Math.min(Math.max(x,min),max);
+  const round2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+  const money  = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+
+  function calcOne(prefix){
+    const err = document.getElementById(prefix+'_err'); if(err) err.textContent='';
+    let h=toNumber(document.getElementById(prefix+'_hours')), r=toNumber(document.getElementById(prefix+'_rate'));
+    let ot=toNumber(document.getElementById(prefix+'_ot')), m=toNumber(document.getElementById(prefix+'_mult'));
+    let tr=toNumber(document.getElementById(prefix+'_tax')); if(tr>1)tr/=100;
+    const errs=[];
+    if(h<0)errs.push('Hours cannot be negative.'); if(r<0)errs.push('Rate cannot be negative.');
+    if(ot<0)errs.push('OT threshold cannot be negative.'); if(m<1)errs.push('OT multiplier must be ≥ 1.');
+    if(tr<0)errs.push('Tax cannot be negative.'); if(tr>1)errs.push('Tax must be ≤ 1 or enter a percent.');
+    h=clamp(h,0,300); r=clamp(r,0,10000); ot=clamp(ot,0,300); m=Math.max(m,1); tr=clamp(tr,0,1);
+    if(errs.length && err) err.textContent = errs.join(' ');
+    const regH=Math.min(h,ot), otH=Math.max(0,h-ot);
+    const regP=round2(regH*r), otP=round2(otH*r*m);
+    const g=round2(regP+otP), t=round2(g*tr), n=round2(g-t);
+    const set=(id,val)=>{const el=document.getElementById(id); if(el)el.textContent=val;};
+    set(prefix+'_regH',regH.toFixed(2)); set(prefix+'_otH',otH.toFixed(2));
+    set(prefix+'_regP',money(regP)); set(prefix+'_otP',money(otP));
+    set(prefix+'_gross',money(g)); set(prefix+'_taxout',money(t)); set(prefix+'_net',money(n));
+    return {gross:g,tax:t,net:n};
+  }
+
+  function calcAll(){
+    const numEl = document.getElementById('numEmp');
+    const num = (numEl && numEl.value==='2') ? 2 : 1;
+    const empB = document.getElementById('empB'); if(empB) empB.style.display = (num===2? '' : 'none');
+    const a = calcOne('a');
+    const b = (num===2) ? calcOne('b') : {gross:0,tax:0,net:0};
+    const set=(id,val)=>{const el=document.getElementById(id); if(el)el.textContent=val;};
+    set('t_gross', money(a.gross+b.gross));
+    set('t_tax',   money(a.tax+b.tax));
+    set('t_net',   money(a.net+b.net));
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    const btn = document.getElementById('pcalc'); if(btn) btn.addEventListener('click', calcAll);
+    const sel = document.getElementById('numEmp'); if(sel) sel.addEventListener('change', calcAll);
+    document.querySelectorAll('#payroll input').forEach(inp=>{
+      inp.addEventListener('keydown', e => { if(e.key==='Enter') calcAll(); });
+      inp.addEventListener('change',  calcAll);
+    });
+    calcAll();
+  });
+})();
+
+/* ---------- Random practice generator ---------- */
+(function(){
+  const $ = sel=>document.querySelector(sel);
+  const rp = $('#rp');
+  const money  = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+  const round2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+
+  function randInt(a,b){ return a + Math.floor(Math.random()*(b-a+1)); }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  function makeProblems(){
+    const items = [];
+    // 1) Selection: sign check
+    (function(){
+      const x=randInt(-10,10), y=randInt(-10,10);
+      const cond = (x>=0 && y>=0) ? 'both nonnegative' : (x<0 && y<0) ? 'both negative' : 'mixed signs';
+      items.push({
+        id:'p_sel_'+Date.now()+'_a',
+        html:`<b>Selection:</b> Given x=${x}, y=${y}, what branch is correct?`,
+        type:'mc',
+        choices:['both nonnegative','both negative','mixed signs'],
+        ans:cond,
+        why:'Check signs using if/else‑if order.'
+      });
+    })();
+    // 2) Loops: sum 1..N
+    (function(){
+      const n=randInt(3,50);
+      const ans = n*(n+1)/2;
+      items.push({
+        id:'p_loop_'+Date.now()+'_b',
+        html:`<b>Loops:</b> What is the sum 1+2+...+${n}?`,
+        type:'num', ans:String(ans), why:'Formula n(n+1)/2 equals the loop result.'
+      });
+    })();
+    // 3) Loops: iterations count
+    (function(){
+      const a=randInt(0,5), b=randInt(6,15);
+      const ans = b-a+1;
+      items.push({
+        id:'p_loop_'+Date.now()+'_c',
+        html:`<b>Loops:</b> for(int i=${a}; i<=${b}; ++i) { /* body */ } — how many iterations?`,
+        type:'num', ans:String(ans), why:`Counts ${a}..${b} inclusive → ${ans} times.`
+      });
+    })();
+    // 4) Functions: prototype yes/no
+    (function(){
+      const ret=pick(['int','double','bool','void']);
+      const name=pick(['calc','ok','isEven','area']);
+      const param=pick(['int n','double x','int a, int b','double L, double W']);
+      const proto = `${ret} ${name}(${param});`;
+      items.push({
+        id:'p_fn_'+Date.now()+'_d',
+        html:`<b>Functions:</b> Is this a valid prototype? <code>${proto}</code> (yes/no)`,
+        type:'text', ans:'yes', why:'Return type + name + parameter list + semicolon is a valid prototype.'
+      });
+    })();
+    // 5) Hotel: compute total
+    (function(){
+      const days=randInt(1,7), price=randInt(50,200), tax=12;
+      const sub=days*price, total=round2(sub*(1+tax/100));
+      items.push({
+        id:'p_hotel_'+Date.now()+'_e',
+        html:`<b>Hotel:</b> ${days} night(s) at $${price} with ${tax}% tax — total due? (enter number, 2 decimals)`,
+        type:'num-float', ans:total.toFixed(2), why:`Subtotal=${days}×${price}=${sub}; total=sub×1.12=${total.toFixed(2)}.`
+      });
+    })();
+    // 6) Payroll: gross with OT
+    (function(){
+      const h=randInt(35,50), r=randInt(12,30), ot=40, m=1.5;
+      const gross = h<=ot ? h*r : ot*r + (h-ot)*r*m;
+      items.push({
+        id:'p_pay_'+Date.now()+'_f',
+        html:`<b>Payroll:</b> hours=${h}, rate=${r}, OT after ${ot} at ${m}× — gross? (2 decimals)`,
+        type:'num-float', ans:round2(gross).toFixed(2), why:'Gross = regular + overtime.'
+      });
+    })();
+    return items;
+  }
+
+  function renderProblems(items){
+    rp.innerHTML = items.map(it=>{
+      if(it.type==='mc'){
+        const opts = it.choices.map(c=>`<label class="mono"><input type="radio" name="${it.id}" value="${c.replace(/"/g,'&quot;')}"> ${c}</label>`).join('');
+        return `<div class="q" data-id="${it.id}"><h4>${it.html}</h4><div class="choices">${opts}</div><div id="${it.id}_fb" class="feedback"></div></div>`;
+      } else {
+        return `<div class="q" data-id="${it.id}"><h4>${it.html}</h4>
+          <div class="choices"><input id="${it.id}_in" type="text" style="width:220px" placeholder="Type answer"></div>
+          <div id="${it.id}_fb" class="feedback"></div></div>`;
+      }
+    }).join('');
+  }
+
+  let current = makeProblems();
+  renderProblems(current);
+
+  document.getElementById('gen').addEventListener('click', ()=>{ current = makeProblems(); renderProblems(current); document.getElementById('score').textContent='—'; });
+  document.getElementById('check').addEventListener('click', ()=>{
+    let correct=0;
+    current.forEach(it=>{
+      const fb = document.getElementById(it.id+'_fb');
+      if(it.type==='mc'){
+        const sel = document.querySelector('input[name="'+it.id+'"]:checked');
+        if(!sel){ fb.textContent='Pick an answer.'; fb.className='feedback ng'; return; }
+        const ok = sel.value===it.ans;
+        if(ok) correct++;
+        fb.innerHTML = (ok?'Correct — ':'Incorrect — ') + '<span class="small">'+it.why+'</span>';
+        fb.className='feedback ' + (ok?'ok':'ng');
+      }else{
+        const raw = (document.getElementById(it.id+'_in').value||'').trim();
+        let ok=false;
+        if(it.type==='num'){ ok = String(parseInt(raw,10))===String(parseInt(it.ans,10)); }
+        else if(it.type==='num-float'){
+          const a = Number.parseFloat(raw); const b = Number.parseFloat(it.ans);
+          ok = Number.isFinite(a) && Math.abs(a-b) < 0.01;
+        }else{ // text
+          ok = raw.toLowerCase()===String(it.ans).toLowerCase();
+        }
+        if(ok) correct++;
+        fb.innerHTML = (ok?'Correct — ':'Incorrect — ') + '<span class="small">Answer: '+it.ans+' · '+it.why+'</span>';
+        fb.className='feedback ' + (ok?'ok':'ng');
+      }
+    });
+    document.getElementById('score').textContent = correct + ' / ' + current.length;
+  });
+})();
+</script>
+</body>
+</html>
