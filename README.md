@@ -46,7 +46,10 @@ This repository hosts **single‑file, mobile‑friendly C++ learning pages** th
   Chapters: 1–6 — Interactive lab covering skeleton/I/O/types/expressions/selection/loops/functions + live Payroll calculator + curated videos.  
   - **URL:** `https://xatusbetazx17.github.io/Study/interactive_ch1_6_plus_payroll.html`
 
-    
+    ### 🧪 Practice Final
+- **[CIS165_Practice_Final_Interactive.html](https://xatusbetazx17.github.io/Study/CIS165_Practice_Final_Interactive.html)**
+  - **Type:** Randomized practice final (Basics, Selection, Loops, Functions, Arrays, Files, Pointers)
+  - **Features:** Auto‑graded objective questions + suggested answers for code/free‑response.
 
 
 
