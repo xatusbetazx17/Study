@@ -1,0 +1,1569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CIS 165 – Interactive Practice Final (C++)</title>
+  <style>
+    :root{
+      --bg:#0b0d12;
+      --panel:#121625;
+      --panel2:#0f1320;
+      --text:#e9eefc;
+      --muted:#aab3d3;
+      --accent:#7aa2ff;
+      --good:#30d158;
+      --bad:#ff453a;
+      --warn:#ffd60a;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1100px 600px at 15% -10%, rgba(122,162,255,.26), transparent 55%),
+        radial-gradient(900px 500px at 85% 0%, rgba(48,209,88,.16), transparent 55%),
+        radial-gradient(900px 600px at 70% 110%, rgba(255,214,10,.12), transparent 60%),
+        var(--bg);
+      min-height:100vh;
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:24px;}
+    header{
+      display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      padding:18px 18px; border:1px solid var(--border); background:rgba(18,22,37,.7);
+      backdrop-filter: blur(8px);
+      border-radius:16px; box-shadow: var(--shadow);
+    }
+    header h1{margin:0; font-size:18px; letter-spacing:.2px}
+    header .sub{margin:2px 0 0; color:var(--muted); font-size:13px}
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      border:1px solid var(--border); padding:10px 12px; border-radius:999px;
+      background: rgba(15,19,32,.7);
+      font-size:12px;
+    }
+    .pill b{font-weight:650}
+    .grid{display:grid; grid-template-columns: 360px 1fr; gap:18px; margin-top:18px;}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr;} }
+    .card{
+      border:1px solid var(--border);
+      background: rgba(18,22,37,.65);
+      backdrop-filter: blur(8px);
+      border-radius:16px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      background: rgba(15,19,32,.55);
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .card .bd{padding:16px;}
+    .card .ft{
+      padding:14px 16px;
+      border-top:1px solid var(--border);
+      background: rgba(15,19,32,.55);
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; align-items:center;
+    }
+    .muted{color:var(--muted)}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .btn{
+      border:1px solid var(--border);
+      background: rgba(122,162,255,.12);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+      transition: transform .05s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{background: rgba(122,162,255,.18); border-color: rgba(122,162,255,.45)}
+    .btn:active{transform: translateY(1px)}
+    .btn.secondary{background: rgba(255,255,255,.06)}
+    .btn.secondary:hover{background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.20)}
+    .btn.danger{background: rgba(255,69,58,.12)}
+    .btn.danger:hover{border-color: rgba(255,69,58,.55); background: rgba(255,69,58,.18)}
+    .btn.good{background: rgba(48,209,88,.12)}
+    .btn.good:hover{border-color: rgba(48,209,88,.55); background: rgba(48,209,88,.18)}
+    .btn:disabled{opacity:.55; cursor:not-allowed}
+    .tag{
+      display:inline-flex; align-items:center;
+      padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      font-size:12px;
+    }
+    .field{
+      width:100%;
+      margin:10px 0 0;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background: rgba(10,12,18,.55);
+      color: var(--text);
+      padding:12px 12px;
+      font-family: var(--sans);
+      outline: none;
+    }
+    .field:focus{border-color: rgba(122,162,255,.55); box-shadow: 0 0 0 4px rgba(122,162,255,.12)}
+    textarea.field{min-height:160px; font-family: var(--mono); line-height:1.35}
+    .select{padding:10px 12px; border-radius:12px; border:1px solid var(--border); background: rgba(10,12,18,.55); color:var(--text)}
+    .kpi{
+      display:flex; gap:14px; flex-wrap:wrap;
+      padding:0; margin:0; list-style:none;
+    }
+    .kpi li{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      padding:10px 12px;
+      border-radius:14px;
+      min-width: 120px;
+    }
+    .kpi .v{font-size:18px; font-weight:750}
+    .kpi .l{font-size:12px; color:var(--muted); margin-top:2px}
+    .qPrompt{
+      white-space: pre-wrap;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    pre.code{
+      margin:10px 0 0;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(10,12,18,.55);
+      overflow:auto;
+      font-family: var(--mono);
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+    .choices{display:grid; gap:8px; margin-top:10px}
+    label.choice{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+    }
+    label.choice:hover{border-color: rgba(122,162,255,.40); background: rgba(122,162,255,.10)}
+    label.choice input{margin-top:2px}
+    .feedback{
+      margin-top:12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      padding:10px 12px;
+      background: rgba(255,255,255,.06);
+    }
+    .feedback.good{border-color: rgba(48,209,88,.45); background: rgba(48,209,88,.10)}
+    .feedback.bad{border-color: rgba(255,69,58,.45); background: rgba(255,69,58,.10)}
+    .feedback.warn{border-color: rgba(255,214,10,.45); background: rgba(255,214,10,.10)}
+    .split{
+      display:grid; grid-template-columns: 1fr 1fr; gap:12px;
+    }
+    @media (max-width: 720px){ .split{grid-template-columns: 1fr;} }
+    .tiny{font-size:12px}
+    .hint{
+      margin-top:10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .divider{height:1px; background: var(--border); margin:12px 0}
+    .kbd{
+      font-family: var(--mono);
+      font-size:12px;
+      padding:2px 6px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+    }
+    .sr{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>CIS 165 – Interactive Practice Final (C++)</h1>
+        <div class="sub">Generate a new randomized quiz set each time. Auto-grades objective questions + gives suggested answers for code/free-response.</div>
+      </div>
+      <div class="row">
+        <span class="pill"><b>Tip:</b> Use <span class="kbd">New Set</span> to practice different combinations.</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Controls -->
+      <section class="card" id="controlsCard">
+        <div class="hd">
+          <div class="row">
+            <span class="tag">Settings</span>
+          </div>
+          <button class="btn secondary" id="resetBtn" title="Reset everything">Reset</button>
+        </div>
+        <div class="bd">
+          <div class="split">
+            <div>
+              <label class="tiny muted" for="numQuestions">Questions in set</label>
+              <select id="numQuestions" class="select field">
+                <option>10</option>
+                <option selected>15</option>
+                <option>20</option>
+                <option>25</option>
+                <option>30</option>
+              </select>
+            </div>
+            <div>
+              <label class="tiny muted" for="difficulty">Mode</label>
+              <select id="difficulty" class="select field">
+                <option value="mixed" selected>Mixed (best for finals)</option>
+                <option value="objective">Objective-only (auto-graded)</option>
+                <option value="code">More code/free-response</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="tiny muted">Include categories</div>
+            <div class="choices" id="categoryList"></div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="split">
+            <div>
+              <label class="tiny muted" for="timerMode">Timer</label>
+              <select id="timerMode" class="select field">
+                <option value="off" selected>Off</option>
+                <option value="25">25 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="60">60 minutes</option>
+              </select>
+              <div class="hint">If timer ends, the quiz auto-submits.</div>
+            </div>
+            <div>
+              <label class="tiny muted" for="showExplanations">Explanations</label>
+              <select id="showExplanations" class="select field">
+                <option value="after" selected>Show after you check</option>
+                <option value="always">Always show</option>
+                <option value="never">Never show</option>
+              </select>
+              <div class="hint">For code questions, you’ll see a suggested solution.</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="btn good" id="startBtn">Start / New Set</button>
+            <button class="btn secondary" id="shuffleBtn">New Set (same settings)</button>
+          </div>
+
+          <div class="hint">
+            <b>How scoring works:</b> Objective questions are auto-graded. Code/free-response questions show a suggested answer and are graded using a “key-phrases” checker (because multiple correct solutions exist).
+          </div>
+        </div>
+        <div class="ft">
+          <div class="row">
+            <span class="tag" id="bankCountTag">Question bank: …</span>
+          </div>
+          <div class="row">
+            <span class="tag" id="selectedCountTag">Selected: 0</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz -->
+      <section class="card" id="quizCard">
+        <div class="hd">
+          <div class="row">
+            <span class="tag" id="statusTag">Not started</span>
+            <span class="tag" id="catTag">—</span>
+          </div>
+          <div class="row">
+            <span class="tag" id="timerTag" style="display:none">⏱ 00:00</span>
+            <button class="btn secondary" id="submitBtn" disabled>Submit</button>
+          </div>
+        </div>
+
+        <div class="bd">
+          <ul class="kpi">
+            <li><div class="v" id="kpiProgress">0/0</div><div class="l">Progress</div></li>
+            <li><div class="v" id="kpiScore">0</div><div class="l">Points earned</div></li>
+            <li><div class="v" id="kpiPossible">0</div><div class="l">Points possible</div></li>
+            <li><div class="v" id="kpiAccuracy">—</div><div class="l">Accuracy</div></li>
+          </ul>
+
+          <div class="divider"></div>
+
+          <div id="questionArea">
+            <div class="muted">Click <b>Start / New Set</b> to begin.</div>
+          </div>
+        </div>
+
+        <div class="ft">
+          <div class="row">
+            <button class="btn secondary" id="prevBtn" disabled>◀ Prev</button>
+            <button class="btn secondary" id="nextBtn" disabled>Next ▶</button>
+          </div>
+          <div class="row">
+            <span class="tag" id="navHint">Use buttons to navigate</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+<script>
+/** ==========================
+ *  Utility helpers
+ *  ========================== */
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+const shuffle = (arr) => {
+  const a = arr.slice();
+  for (let i=a.length-1; i>0; i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+const normalize = (s) => (s ?? "")
+  .toString()
+  .trim()
+  .replace(/\r/g, "")
+  .replace(/[ \t]+/g, " ")
+  .toLowerCase();
+const normalizeCode = (s) => (s ?? "")
+  .toString()
+  .replace(/\r/g,"")
+  .replace(/[ \t]+/g," ")
+  .replace(/\s+/g," ")
+  .trim()
+  .toLowerCase();
+const includesAll = (haystack, needles) => needles.every(n => haystack.includes(n));
+const includesAny = (haystack, needles) => needles.some(n => haystack.includes(n));
+const prettyTime = (seconds) => {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+};
+
+/** ==========================
+ *  Question Bank
+ *  Types: mcq | tf | short | code
+ *  answer:
+ *   - mcq: index
+ *   - tf: true/false
+ *   - short: accepted strings OR checker
+ *   - code: checker + suggested solution
+ *  ========================== */
+const CATS = [
+  "Basics",
+  "Selection",
+  "Loops",
+  "Functions",
+  "Arrays",
+  "Files",
+  "Pointers",
+  "Mixed"
+];
+
+const BANK = [
+  // Basics
+  {
+    id:"A1",
+    cat:"Basics",
+    type:"short",
+    pts:2,
+    prompt:`What prints? (Include the space)\n\ncout << 7/2 << " " << 7.0/2 << endl;`,
+    answer: {accept: ["3 3.5", "3 3.50"]},
+    explain:`Because 7/2 uses integer division (3). 7.0/2 uses floating-point division (3.5).`
+  },
+  {
+    id:"A2",
+    cat:"Basics",
+    type:"short",
+    pts:2,
+    prompt:`What prints?\n\nint x = 5;\ncout << (x++) << " " << x << endl;`,
+    answer: {accept: ["5 6"]},
+    explain:`Post-increment prints the old value (5) then x becomes 6.`
+  },
+  {
+    id:"A3",
+    cat:"Basics",
+    type:"short",
+    pts:2,
+    prompt:`Write ONE line of code that reads hours and rate from cin (both double).`,
+    answer: {
+      checker: (s) => {
+        const t = normalizeCode(s);
+        // allow hours rate or rate hours but must include cin >> and both names
+        const hasCin = t.includes("cin") && t.includes(">>");
+        const hasHours = t.includes("hours");
+        const hasRate = t.includes("rate") || t.includes("payrate");
+        const endsSemicolon = t.includes(";");
+        return hasCin && hasHours && hasRate && endsSemicolon;
+      },
+      sample:`cin >> hours >> rate;`
+    },
+    explain:`Use the extraction operator (>>) to read values from standard input.`
+  },
+  {
+    id:"A4",
+    cat:"Basics",
+    type:"short",
+    pts:2,
+    prompt:`Write a const declaration for a tax rate of 6.625% (as a decimal).`,
+    answer: {
+      checker: (s) => {
+        const t = normalizeCode(s);
+        const hasConst = t.includes("const");
+        const hasVal = t.includes("0.06625") || t.includes(".06625");
+        const hasEq = t.includes("=");
+        const semicolon = t.includes(";");
+        return hasConst && hasVal && hasEq && semicolon;
+      },
+      sample:`const double TAX_RATE = 0.06625;`
+    },
+    explain:`Constants prevent accidental changes and make your program easier to maintain.`
+  },
+  {
+    id:"A5",
+    cat:"Basics",
+    type:"tf",
+    pts:2,
+    prompt:`True/False:\n\nint a = 9; int b = 2; double c = a/b; then c becomes 4.5`,
+    answer: false,
+    explain:`a/b is integer division (4). That 4 is then converted to double.`
+  },
+
+  // Selection & Logic
+  {
+    id:"B1",
+    cat:"Selection",
+    type:"tf",
+    pts:3,
+    prompt:`Assume a=5, b=2, c=4. True/False:\n\na % b * c && c % b * a`,
+    answer:false,
+    explain:`5%2=1 → 1*4=4 (true). 4%2=0 → 0*5=0 (false). true && false → false.`
+  },
+  {
+    id:"B2",
+    cat:"Selection",
+    type:"tf",
+    pts:3,
+    prompt:`Assume a=5, b=2, c=4. True/False:\n\na / b * c || c / b * a`,
+    answer:true,
+    explain:`Integer division: 5/2=2 → 2*4=8 (true). 4/2=2 → 2*5=10 (true). true || true → true.`
+  },
+  {
+    id:"B3",
+    cat:"Selection",
+    type:"tf",
+    pts:3,
+    prompt:`True/False:\n\n5 % 2 * 4 > 5 || 4 % 2 * 5 < 7`,
+    answer:true,
+    explain:`(5%2*4)=4 > 5 is false. (4%2*5)=0 < 7 is true. false || true → true.`
+  },
+  {
+    id:"B4",
+    cat:"Selection",
+    type:"tf",
+    pts:3,
+    prompt:`True/False:\n\n!(5 % 2 * 4 > 5 || 4 % 2 * 5 < 7)`,
+    answer:false,
+    explain:`Inside is true (see previous). Negation makes it false.`
+  },
+  {
+    id:"B5",
+    cat:"Selection",
+    type:"code",
+    pts:3,
+    prompt:`Write an if statement:\nIf a person’s age is less than 18 display: "Cannot buy cigarettes"`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = includesAll(t, ["if", "age", "<", "18"]) && includesAny(t, ["cannot buy cigarettes", "cout"]);
+        return ok;
+      },
+      sample:`if (age < 18) cout << "Cannot buy cigarettes";`
+    },
+    explain:`A one-way selection executes only when the condition is true.`
+  },
+  {
+    id:"B6",
+    cat:"Selection",
+    type:"code",
+    pts:3,
+    prompt:`Write an if/else:\nIf age < 16 AND height > 6 print "you are taller than average"\nelse print "Average Height"`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = includesAll(t, ["if", "age", "<", "16", "height", ">", "6", "&&"]) && t.includes("else");
+        return ok;
+      },
+      sample:`if (age < 16 && height > 6) cout << "you are taller than average"; else cout << "Average Height";`
+    },
+    explain:`Use && to require both conditions to be true.`
+  },
+  {
+    id:"B7",
+    cat:"Selection",
+    type:"code",
+    pts:3,
+    prompt:`Write an if/else:\nIf id < 500 AND age > 62 print "eligible for retirement"\nelse "Not eligible for Retirement"`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = includesAll(t, ["if", "id", "<", "500", "age", ">", "62"]) && includesAny(t, ["&&", "and"]) && t.includes("else");
+        return ok;
+      },
+      sample:`if (id < 500 && age > 62) cout << "eligible for retirement"; else cout << "Not eligible for Retirement";`
+    },
+    explain:`Compound conditions are common in eligibility checks.`
+  },
+  {
+    id:"B8",
+    cat:"Selection",
+    type:"code",
+    pts:4,
+    prompt:`Write an if / else if / else to assign letterGrade based on numeric grade (A/B/C/D/F).\n(Use 90/80/70/60 cutoffs.)`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        // check it has if, else if, else and mentions >= 90,80,70,60
+        const hasIf = t.includes("if");
+        const hasElseIf = t.includes("else if") || (t.split("if").length-1 >= 4);
+        const hasElse = t.includes("else");
+        const hasCutoffs = includesAll(t, [">= 90", ">= 80", ">= 70", ">= 60"]) || includesAll(t, [">=90", ">=80", ">=70", ">=60"]);
+        const assignsLetter = includesAny(t, ["lettergrade", "='a'", "=\"a\"", "'a'", "\"a\""]);
+        return hasIf && hasElseIf && hasElse && hasCutoffs && assignsLetter;
+      },
+      sample:`if (grade >= 90) letterGrade='A'; else if (grade >= 80) letterGrade='B'; else if (grade >= 70) letterGrade='C'; else if (grade >= 60) letterGrade='D'; else letterGrade='F';`
+    },
+    explain:`Order matters: check higher grades first so the first true condition wins.`
+  },
+  {
+    id:"S1",
+    cat:"Selection",
+    type:"mcq",
+    pts:3,
+    prompt:`Which operator has the highest precedence here?`,
+    choices:[
+      "&&",
+      "==",
+      "*",
+      "||"
+    ],
+    answer:2,
+    explain:`In the usual precedence list: unary, then *,/,% then +,- then comparisons then == != then && then ||.`
+  },
+  {
+    id:"S2",
+    cat:"Selection",
+    type:"mcq",
+    pts:3,
+    prompt:`In a switch statement, why do we often use break;?`,
+    choices:[
+      "To stop the program",
+      "To avoid executing the next case (fall-through)",
+      "To print a new line",
+      "To convert int to char"
+    ],
+    answer:1,
+    explain:`Without break, execution continues into the next case (fall-through).`
+  },
+
+  // Loops
+  {
+    id:"C1",
+    cat:"Loops",
+    type:"code",
+    pts:3,
+    prompt:`Write a while loop that prints numbers 50 to 100 (inclusive).`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = includesAll(t, ["while", "50", "100"]) && includesAny(t, ["<=", "< ="]) && includesAny(t, ["++", "+= 1", "+=1", "= count + 1", "count++"]);
+        return ok;
+      },
+      sample:`int n=50; while(n<=100){ cout<<n<<" "; n++; }`
+    },
+    explain:`A counter-controlled loop needs init, condition, and update.`
+  },
+  {
+    id:"C2",
+    cat:"Loops",
+    type:"code",
+    pts:4,
+    prompt:`Write a sentinel while loop:\nKeep asking for numbers, stop when 999 is entered, then print the average.\n(Assume at least 1 number before 999.)`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const hasWhile = t.includes("while");
+        const hasSentinel = t.includes("999");
+        const hasSum = includesAny(t, ["total", "sum", "+="]);
+        const hasCount = includesAny(t, ["count", "num", "++"]);
+        const hasAvg = includesAny(t, ["avg", "average", "/"]);
+        return hasWhile && hasSentinel && hasSum && hasCount && hasAvg;
+      },
+      sample:`double x,total=0; int count=0; cin>>x; while(x!=999){ total+=x; count++; cin>>x; } cout<<(total/count);`
+    },
+    explain:`Sentinel loops run an unknown number of times until a stop-value appears.`
+  },
+  {
+    id:"C3",
+    cat:"Loops",
+    type:"code",
+    pts:3,
+    prompt:`Write a for loop that prints numbers 25 down to 1.`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = t.includes("for") && includesAny(t, ["--", "-= 1", "-=1"]) && includesAny(t, [">= 1", ">=1"]) && t.includes("25");
+        return ok;
+      },
+      sample:`for(int i=25;i>=1;i--) cout<<i<<" ";`
+    },
+    explain:`Counting down needs a decrement update.`
+  },
+  {
+    id:"C4",
+    cat:"Loops",
+    type:"code",
+    pts:3,
+    prompt:`Write a for loop that prints:\n5 10 15 20 25 30 35 40 45 50`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = t.includes("for") && includesAny(t, ["+= 5", "+=5", "i=i+5"]) && includesAny(t, ["<= 50", "<=50"]) && includesAny(t, ["i=5", "i = 5"]);
+        return ok;
+      },
+      sample:`for(int i=5;i<=50;i+=5) cout<<i<<" ";`
+    },
+    explain:`A step of 5 is a classic for-loop pattern.`
+  },
+  {
+    id:"C5",
+    cat:"Loops",
+    type:"short",
+    pts:4,
+    prompt:`What prints? (Write the sequence)\n\nfor (int day = 1; day <= 10; day++) {\n  if (day % 5 == 0) continue;\n  cout << day << " ";\n}`,
+    answer:{accept:["1 2 3 4 6 7 8 9", "1 2 3 4 6 7 8 9 "]},
+    explain:`continue skips the print when day is 5 or 10.`
+  },
+  {
+    id:"C6",
+    cat:"Loops",
+    type:"short",
+    pts:4,
+    prompt:`What prints? (final i and total)\n\nint total = 0;\nint i;\nfor (i = 0; i < 30; i++) {\n  total += i;\n  if (total >= 20) break;\n}\ncout << i << " " << total << endl;`,
+    answer:{accept:["6 21"]},
+    explain:`Total reaches 21 at i=6, then break triggers.`
+  },
+  {
+    id:"C7",
+    cat:"Loops",
+    type:"code",
+    pts:4,
+    prompt:`Convert to do-while:\nAsk for a name; stop when the user enters "xx".`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = t.includes("do") && t.includes("while") && t.includes("xx") && includesAny(t, ["cin>>", "getline"]);
+        return ok;
+      },
+      sample:`string name; do{ cout<<"Enter a name, enter xx to stop: "; cin>>name; } while(name!="xx");`
+    },
+    explain:`do-while runs the body at least once, then checks the condition.`
+  },
+
+  // Functions
+  {
+    id:"D1",
+    cat:"Functions",
+    type:"short",
+    pts:3,
+    prompt:`What is a function prototype and where does it go in a program?`,
+    answer:{
+      checker:(s)=>{
+        const t = normalize(s);
+        const hasDecl = includesAny(t, ["declaration", "declares", "signature"]);
+        const hasBefore = includesAny(t, ["before main", "above main", "top", "global"]);
+        const hasSemicolon = includesAny(t, ["semicolon", ";"]);
+        return (hasDecl && hasBefore) || (hasBefore && hasSemicolon);
+      },
+      sample:`A prototype is a function declaration (return type, name, parameters) ending with ; placed above main (global area).`
+    },
+    explain:`Prototypes let the compiler know a function exists before it’s called.`
+  },
+  {
+    id:"D2",
+    cat:"Functions",
+    type:"short",
+    pts:3,
+    prompt:`Write the prototype for this function:\n\ndouble calcArea(double length, double width);`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        return t.includes("double") && t.includes("calcarea") && t.includes("(") && t.includes(")") && t.includes(";") && includesAny(t, ["double length", "double width", "double, double"]);
+      },
+      sample:`double calcArea(double length, double width);`
+    },
+    explain:`A prototype ends with a semicolon and contains types + parameter list.`
+  },
+  {
+    id:"D3",
+    cat:"Functions",
+    type:"code",
+    pts:4,
+    prompt:`Write a function header + body:\nname: calcGrossPay\ninputs: hours, rate\nreturns: hours * rate`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = includesAll(t, ["calcgrosspay", "return"]) && includesAny(t, ["hours*rate", "hours * rate", "hours* rate", "hours *rate"]);
+        return ok;
+      },
+      sample:`double calcGrossPay(double hours, double rate){ return hours * rate; }`
+    },
+    explain:`Returning a value means the return type is not void.`
+  },
+  {
+    id:"D4",
+    cat:"Functions",
+    type:"code",
+    pts:4,
+    prompt:`Write a void function displayPay(name, hours, rate, gross) that prints labels + values.`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const hasVoid = t.includes("void");
+        const hasName = t.includes("name");
+        const hasHours = t.includes("hours");
+        const hasRate = t.includes("rate") || t.includes("payrate");
+        const hasGross = t.includes("gross");
+        const hasCout = t.includes("cout");
+        return hasVoid && hasName && hasHours && hasRate && hasGross && hasCout;
+      },
+      sample:`void displayPay(string name,double hours,double rate,double gross){ cout<<"emp name: "<<name<<endl; cout<<"number of hours: "<<hours<<endl; cout<<"pay rate: "<<rate<<endl; cout<<"gross pay: "<<gross<<endl; }`
+    },
+    explain:`Void functions do work (like printing) but do not return a value.`
+  },
+  {
+    id:"D5",
+    cat:"Functions",
+    type:"short",
+    pts:3,
+    prompt:`Pass-by-reference: What prints?\n\nvoid addOne(int &x) { x = x + 1; }\nint main(){ int n=7; addOne(n); cout<<n<<endl; }`,
+    answer:{accept:["8"]},
+    explain:`Reference parameter changes the original variable.`
+  },
+  {
+    id:"D6",
+    cat:"Functions",
+    type:"short",
+    pts:3,
+    prompt:`Pass-by-value: What prints?\n\nvoid addOne(int x) { x = x + 1; }\nint main(){ int n=7; addOne(n); cout<<n<<endl; }`,
+    answer:{accept:["7"]},
+    explain:`Value parameter changes only the local copy.`
+  },
+
+  // Arrays
+  {
+    id:"E1",
+    cat:"Arrays",
+    type:"short",
+    pts:2,
+    prompt:`Declare an int array named nums that can store 5 integers.`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        return includesAll(t, ["int", "nums", "[5]"]) && t.includes(";");
+      },
+      sample:`int nums[5];`
+    },
+    explain:`Array size must be a constant at compile time in basic C++ arrays.`
+  },
+  {
+    id:"E2",
+    cat:"Arrays",
+    type:"code",
+    pts:3,
+    prompt:`Given:\nint nums[5] = {10, 20, 30, 40, 50};\nWrite a loop that computes the sum of all elements.`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const hasLoop = includesAny(t, ["for", "while"]);
+        const hasSum = includesAny(t, ["sum", "total", "+="]);
+        const hasIndex = includesAny(t, ["nums[i]", "nums[ i ]"]);
+        const hasBound = includesAny(t, ["i<5", "i < 5", "i<=4", "i <= 4"]);
+        return hasLoop && hasSum && hasIndex && hasBound;
+      },
+      sample:`int sum=0; for(int i=0;i<5;i++) sum += nums[i];`
+    },
+    explain:`Loop across indices 0..4 to cover 5 elements.`
+  },
+  {
+    id:"E3",
+    cat:"Arrays",
+    type:"code",
+    pts:3,
+    prompt:`Write a linear search that looks for target in nums and sets found=true if it exists.`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const hasLoop = includesAny(t, ["for", "while"]);
+        const hasCompare = includesAny(t, ["== target", "==target", "target =="]);
+        const hasFound = t.includes("found");
+        return hasLoop && hasCompare && hasFound;
+      },
+      sample:`bool found=false; for(int i=0;i<5;i++){ if(nums[i]==target){ found=true; break; } }`
+    },
+    explain:`Linear search checks each element until found (or ends).`
+  },
+  {
+    id:"E4",
+    cat:"Arrays",
+    type:"tf",
+    pts:2,
+    prompt:`True/False: Binary search works correctly on an array that is NOT sorted.`,
+    answer:false,
+    explain:`Binary search requires sorted data; otherwise it can miss the target.`
+  },
+
+  // Files
+  {
+    id:"F1",
+    cat:"Files",
+    type:"code",
+    pts:5,
+    prompt:`Your current code reads only ONE employee:\nread >> name >> hours >> payRate;\nChange it to read ALL employees until EOF and print each one.\n\nWrite the loop (line + braces) that does this.`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const hasWhile = t.includes("while");
+        const hasRead = includesAny(t, ["read>>", "read >>"]);
+        const hasVars = includesAll(t, ["name", "hours"]) && includesAny(t, ["payrate", "rate"]);
+        const hasBraces = t.includes("{") && t.includes("}");
+        return hasWhile && hasRead && hasVars && hasBraces;
+      },
+      sample:`while (read >> name >> hours >> payRate) {\n  // compute + print here\n}`
+    },
+    explain:`The stream extraction returns false at EOF, stopping the loop safely.`
+  },
+  {
+    id:"F2",
+    cat:"Files",
+    type:"mcq",
+    pts:3,
+    prompt:`Which is the BEST way to check that an input file opened successfully?`,
+    choices:[
+      "if (read == true)",
+      "if (!read.open())",
+      "if (!read)",
+      "You can’t check, just assume it opened"
+    ],
+    answer:2,
+    explain:`After opening, a stream evaluates to false if it failed: if(!read) { … }.`
+  },
+  {
+    id:"F3",
+    cat:"Files",
+    type:"mcq",
+    pts:3,
+    prompt:`What does this common loop do?\n\nwhile (in >> x) { /*...*/ }`,
+    choices:[
+      "Runs forever",
+      "Reads x once",
+      "Reads values until reading fails (like EOF or bad input)",
+      "Skips the first value"
+    ],
+    answer:2,
+    explain:`The expression (in >> x) becomes false when input fails.`
+  },
+
+  // Pointers
+  {
+    id:"G1",
+    cat:"Pointers",
+    type:"short",
+    pts:2,
+    prompt:`What does &x mean in C++?`,
+    answer:{
+      checker:(s)=>{
+        const t = normalize(s);
+        return includesAny(t, ["address", "memory address", "location"]) && t.includes("x");
+      },
+      sample:`&x means “the address of x” (memory location of x).`
+    },
+    explain:`& is the address-of operator.`
+  },
+  {
+    id:"G2",
+    cat:"Pointers",
+    type:"short",
+    pts:3,
+    prompt:`What prints?\n\nint x = 10;\nint *p = &x;\n*p = 25;\ncout << x << endl;`,
+    answer:{accept:["25"]},
+    explain:`*p dereferences the pointer and writes into x’s memory.`
+  },
+  {
+    id:"G3",
+    cat:"Pointers",
+    type:"mcq",
+    pts:3,
+    prompt:`If int arr[5]; then in many expressions, "arr" behaves like:`,
+    choices:[
+      "The number 5",
+      "A pointer to the first element (address of arr[0])",
+      "A pointer to the last element",
+      "A reference to the array size"
+    ],
+    answer:1,
+    explain:`Array names often decay to a pointer to the first element.`
+  },
+
+  // Mixed / extra exam-style
+  {
+    id:"M1",
+    cat:"Mixed",
+    type:"mcq",
+    pts:3,
+    prompt:`Which loop runs its body at least once even if the condition is false initially?`,
+    choices:[
+      "while",
+      "for",
+      "do-while",
+      "none of them"
+    ],
+    answer:2,
+    explain:`do-while checks the condition after running the body once.`
+  },
+  {
+    id:"M2",
+    cat:"Mixed",
+    type:"mcq",
+    pts:3,
+    prompt:`What’s the output?\n\nint x=0;\nif (x) cout << "A";\nelse cout << "B";`,
+    choices:["A","B","AB","(prints nothing)"],
+    answer:1,
+    explain:`0 is false in C++ conditions, so else branch runs.`
+  },
+  {
+    id:"M3",
+    cat:"Mixed",
+    type:"short",
+    pts:3,
+    prompt:`What is the difference between = and == ?`,
+    answer:{
+      checker:(s)=>{
+        const t = normalize(s);
+        const hasAssign = includesAny(t, ["assign", "assignment", "sets"]);
+        const hasCompare = includesAny(t, ["compare", "comparison", "equality", "checks"]);
+        return hasAssign && hasCompare;
+      },
+      sample:`= assigns a value. == compares two values for equality (true/false).`
+    },
+    explain:`Mixing them is a very common bug on exams.`
+  },
+  {
+    id:"M4",
+    cat:"Mixed",
+    type:"code",
+    pts:4,
+    prompt:`Write a function prototype for a void function named swapTwo that swaps two ints using pass-by-reference.`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const ok = t.includes("void") && t.includes("swaptwo") && t.includes("int") && t.includes("&") && t.includes(";") && (t.match(/&/g)||[]).length >= 2;
+        return ok;
+      },
+      sample:`void swapTwo(int &a, int &b);`
+    },
+    explain:`Swapping requires references, otherwise you only swap copies.`
+  },
+  {
+    id:"M5",
+    cat:"Mixed",
+    type:"short",
+    pts:3,
+    prompt:`Why is it risky to use while(!in.eof()) to read a file? (1 sentence)`,
+    answer:{
+      checker:(s)=>{
+        const t = normalize(s);
+        return includesAny(t, [
+          "eof only becomes true after a failed read",
+          "reads twice",
+          "extra iteration",
+          "fails after read",
+          "bad read"
+        ]);
+      },
+      sample:`Because eof() becomes true only after a read fails, which can cause an extra/invalid read at the end.`
+    },
+    explain:`Preferred pattern is: while(in >> x) { ... }`
+  },
+  {
+    id:"M6",
+    cat:"Mixed",
+    type:"code",
+    pts:4,
+    prompt:`Payroll upgrade: add an overtime rule.\nIf hours > 40, pay overtime hours at 1.5 * rate.\nWrite the if/else that computes grossPay.`,
+    answer:{
+      checker:(s)=>{
+        const t = normalizeCode(s);
+        const hasIf = t.includes("if") && includesAny(t, ["> 40", ">40"]);
+        const hasElse = t.includes("else");
+        const hasOnePointFive = includesAny(t, ["1.5", "1.50"]);
+        const hasGross = t.includes("grosspay");
+        const hasRate = t.includes("rate") || t.includes("payrate");
+        const hasHours = t.includes("hours");
+        return hasIf && hasElse && hasOnePointFive && hasGross && hasRate && hasHours;
+      },
+      sample:`if(hours<=40) grossPay = hours*rate; else grossPay = 40*rate + (hours-40)*rate*1.5;`
+    },
+    explain:`This combines selection + arithmetic, a super common final-exam pattern.`
+  },
+];
+
+const BANK_BY_CAT = BANK.reduce((acc, q) => {
+  acc[q.cat] ??= [];
+  acc[q.cat].push(q);
+  return acc;
+}, {});
+
+/** ==========================
+ *  State
+ *  ========================== */
+let settings = {
+  numQuestions: 15,
+  difficulty: "mixed",
+  timerMode: "off",
+  showExplanations: "after",
+  categories: new Set(CATS), // default all
+};
+let quiz = {
+  active:false,
+  selected:[],
+  idx:0,
+  answers:new Map(), // id -> {value, checked, correct, earned}
+  earned:0,
+  possible:0,
+  timer: {on:false, secondsLeft:0, interval:null}
+};
+
+/** ==========================
+ *  Build category checklist UI
+ *  ========================== */
+function buildCategoryList(){
+  const wrap = $("#categoryList");
+  wrap.innerHTML = "";
+  CATS.forEach(cat=>{
+    const id = `cat_${cat.replace(/\W+/g,'_')}`;
+    const label = document.createElement("label");
+    label.className = "choice";
+    label.innerHTML = `
+      <input type="checkbox" id="${id}" ${settings.categories.has(cat) ? "checked": ""}/>
+      <div>
+        <div style="font-weight:700">${cat}</div>
+        <div class="tiny muted">${(BANK_BY_CAT[cat]||[]).length} questions</div>
+      </div>
+    `;
+    label.querySelector("input").addEventListener("change", (e)=>{
+      if(e.target.checked) settings.categories.add(cat);
+      else settings.categories.delete(cat);
+      updateCounts();
+    });
+    wrap.appendChild(label);
+  });
+}
+
+function updateCounts(){
+  $("#bankCountTag").textContent = `Question bank: ${BANK.length}`;
+  const selectedCats = Array.from(settings.categories);
+  const count = selectedCats.reduce((sum,cat)=>sum + (BANK_BY_CAT[cat]?.length||0), 0);
+  $("#selectedCountTag").textContent = `Available (selected categories): ${count}`;
+}
+
+/** ==========================
+ *  Quiz generation
+ *  ========================== */
+function filterByMode(questions, mode){
+  if(mode === "objective"){
+    return questions.filter(q => ["mcq","tf","short"].includes(q.type));
+  }
+  if(mode === "code"){
+    // bias toward code by duplicating it in the pool
+    const code = questions.filter(q => q.type === "code");
+    const non = questions.filter(q => q.type !== "code");
+    return code.concat(code).concat(non);
+  }
+  return questions; // mixed
+}
+
+function generateQuiz(){
+  const selectedCats = Array.from(settings.categories);
+  let pool = selectedCats.flatMap(cat => BANK_BY_CAT[cat] || []);
+  pool = filterByMode(pool, settings.difficulty);
+  pool = shuffle(pool);
+
+  const n = clamp(settings.numQuestions, 1, Math.max(1, pool.length));
+  const picked = pool.slice(0, n);
+
+  quiz.active = true;
+  quiz.selected = picked;
+  quiz.idx = 0;
+  quiz.answers = new Map();
+  quiz.earned = 0;
+  quiz.possible = picked.reduce((s,q)=>s+q.pts,0);
+
+  // timer
+  stopTimer();
+  if(settings.timerMode !== "off"){
+    quiz.timer.on = true;
+    quiz.timer.secondsLeft = parseInt(settings.timerMode,10) * 60;
+    $("#timerTag").style.display = "inline-flex";
+    $("#timerTag").textContent = `⏱ ${prettyTime(quiz.timer.secondsLeft)}`;
+    quiz.timer.interval = setInterval(()=>{
+      quiz.timer.secondsLeft--;
+      $("#timerTag").textContent = `⏱ ${prettyTime(Math.max(0, quiz.timer.secondsLeft))}`;
+      if(quiz.timer.secondsLeft <= 0){
+        submitQuiz(true);
+      }
+    }, 1000);
+  } else {
+    $("#timerTag").style.display = "none";
+  }
+
+  $("#statusTag").textContent = "In progress";
+  $("#submitBtn").disabled = false;
+  $("#prevBtn").disabled = false;
+  $("#nextBtn").disabled = false;
+
+  renderQuestion();
+  updateKPIs();
+}
+
+function stopTimer(){
+  if(quiz.timer.interval) clearInterval(quiz.timer.interval);
+  quiz.timer.interval = null;
+  quiz.timer.on = false;
+}
+
+/** ==========================
+ *  Rendering
+ *  ========================== */
+function renderQuestion(){
+  const q = quiz.selected[quiz.idx];
+  if(!q){
+    $("#questionArea").innerHTML = `<div class="muted">No question loaded.</div>`;
+    return;
+  }
+  $("#catTag").textContent = `${q.cat} • ${q.pts} pts`;
+  $("#kpiProgress").textContent = `${quiz.idx+1}/${quiz.selected.length}`;
+
+  const saved = quiz.answers.get(q.id) || {value:null, checked:false, correct:null, earned:0};
+
+  let html = `
+    <div class="row" style="justify-content:space-between; gap:12px">
+      <div>
+        <div class="tag">Question ${quiz.idx+1} of ${quiz.selected.length}</div>
+        <div class="hint">ID: <span class="kbd">${q.id}</span> • Type: <span class="kbd">${q.type.toUpperCase()}</span></div>
+      </div>
+      <div class="row">
+        <button class="btn secondary" id="showAnswerBtn">Show suggested answer</button>
+        <button class="btn good" id="checkBtn">Check</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="qPrompt">${escapeHtml(q.prompt)}</div>
+  `;
+
+  // Render input controls
+  if(q.type === "mcq"){
+    html += `<div class="choices" id="choicesWrap">` +
+      q.choices.map((c, i)=> {
+        const checked = saved.value === i ? "checked" : "";
+        return `
+          <label class="choice">
+            <input type="radio" name="mcq" value="${i}" ${checked} />
+            <div>${escapeHtml(c)}</div>
+          </label>`;
+      }).join("") +
+      `</div>`;
+  } else if(q.type === "tf"){
+    const v = saved.value;
+    html += `
+      <div class="choices" id="choicesWrap">
+        <label class="choice">
+          <input type="radio" name="tf" value="true" ${v === true ? "checked": ""} />
+          <div><b>True</b></div>
+        </label>
+        <label class="choice">
+          <input type="radio" name="tf" value="false" ${v === false ? "checked": ""} />
+          <div><b>False</b></div>
+        </label>
+      </div>
+    `;
+  } else if(q.type === "short"){
+    html += `
+      <label class="sr" for="shortInput">Your answer</label>
+      <input id="shortInput" class="field" placeholder="Type your answer…" value="${saved.value ? escapeAttr(saved.value) : ""}" />
+      <div class="hint">For outputs, copy exactly what prints (spaces matter).</div>
+    `;
+  } else if(q.type === "code"){
+    html += `
+      <label class="sr" for="codeInput">Your code</label>
+      <textarea id="codeInput" class="field" placeholder="Type your C++ code here…">${saved.value ? escapeHtml(saved.value) : ""}</textarea>
+      <div class="hint">Multiple answers can be correct. The checker looks for key patterns. If you used a different valid approach, compare with “suggested answer”.</div>
+    `;
+  }
+
+  // Feedback + answer box
+  html += `
+    <div id="feedback" class="feedback" style="display:${saved.checked ? "block":"none"}"></div>
+    <div id="answerBox" class="feedback warn" style="display:none"></div>
+  `;
+
+  $("#questionArea").innerHTML = html;
+
+  // Wire up listeners
+  $("#showAnswerBtn").addEventListener("click", ()=>{
+    const box = $("#answerBox");
+    const sample = getSample(q);
+    box.style.display = "block";
+    box.innerHTML = `<b>Suggested answer:</b><pre class="code">${escapeHtml(sample)}</pre>` +
+      (q.explain && settings.showExplanations !== "never" ? `<div class="hint"><b>Explanation:</b> ${escapeHtml(q.explain)}</div>` : "");
+  });
+
+  $("#checkBtn").addEventListener("click", ()=>{
+    const val = readAnswerFromUI(q);
+    quiz.answers.set(q.id, {...saved, value: val});
+    checkCurrent();
+  });
+
+  // Save as user types / changes
+  if(q.type === "mcq"){
+    $$("#choicesWrap input").forEach(inp=>{
+      inp.addEventListener("change", ()=>{
+        const v = parseInt(inp.value,10);
+        quiz.answers.set(q.id, {...saved, value: v, checked:false, correct:null, earned:0});
+        updateKPIs();
+      });
+    });
+  }
+  if(q.type === "tf"){
+    $$("#choicesWrap input").forEach(inp=>{
+      inp.addEventListener("change", ()=>{
+        const v = (inp.value === "true");
+        quiz.answers.set(q.id, {...saved, value: v, checked:false, correct:null, earned:0});
+        updateKPIs();
+      });
+    });
+  }
+  if(q.type === "short"){
+    $("#shortInput").addEventListener("input", (e)=>{
+      quiz.answers.set(q.id, {...saved, value: e.target.value, checked:false, correct:null, earned:0});
+      updateKPIs();
+    });
+  }
+  if(q.type === "code"){
+    $("#codeInput").addEventListener("input", (e)=>{
+      quiz.answers.set(q.id, {...saved, value: e.target.value, checked:false, correct:null, earned:0});
+      updateKPIs();
+    });
+  }
+
+  // If previously checked, restore feedback
+  if(saved.checked){
+    renderFeedback(q, saved);
+  } else {
+    if(settings.showExplanations === "always" && q.explain){
+      const box = $("#answerBox");
+      box.style.display = "block";
+      box.innerHTML = (q.type === "mcq" || q.type === "tf" || q.type === "short" || q.type === "code")
+        ? `<b>Explanation:</b> ${escapeHtml(q.explain)}`
+        : "";
+    }
+  }
+}
+
+function escapeHtml(s){
+  return (s ?? "").toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
+}
+function escapeAttr(s){
+  return (s ?? "").toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("\"","&quot;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
+}
+
+function readAnswerFromUI(q){
+  if(q.type === "mcq"){
+    const checked = document.querySelector('input[name="mcq"]:checked');
+    return checked ? parseInt(checked.value,10) : null;
+  }
+  if(q.type === "tf"){
+    const checked = document.querySelector('input[name="tf"]:checked');
+    return checked ? (checked.value === "true") : null;
+  }
+  if(q.type === "short"){
+    return $("#shortInput").value;
+  }
+  if(q.type === "code"){
+    return $("#codeInput").value;
+  }
+  return null;
+}
+
+function getSample(q){
+  if(q.type === "mcq"){
+    return `Correct choice: ${q.choices[q.answer]}`;
+  }
+  if(q.type === "tf"){
+    return q.answer ? "True" : "False";
+  }
+  if(q.type === "short"){
+    if(q.answer?.sample) return q.answer.sample;
+    if(q.answer?.accept?.length) return q.answer.accept[0];
+    return "(no sample)";
+  }
+  if(q.type === "code"){
+    return q.answer?.sample || "(no sample)";
+  }
+  return "(no sample)";
+}
+
+/** ==========================
+ *  Checking / grading
+ *  ========================== */
+function checkCurrent(){
+  const q = quiz.selected[quiz.idx];
+  const entry = quiz.answers.get(q.id) || {value:null, checked:false, correct:null, earned:0};
+
+  const result = gradeOne(q, entry.value);
+
+  const updated = {...entry, checked:true, correct: result.correct, earned: result.earned};
+  quiz.answers.set(q.id, updated);
+
+  renderFeedback(q, updated);
+
+  recomputeTotals();
+  updateKPIs();
+}
+
+function gradeOne(q, value){
+  // Return {correct:boolean, earned:number, note:string}
+  if(value === null || value === undefined || (typeof value === "string" && value.trim() === "")){
+    return {correct:false, earned:0, note:"No answer entered yet."};
+  }
+
+  if(q.type === "mcq"){
+    const correct = (value === q.answer);
+    return {correct, earned: correct ? q.pts : 0, note: correct ? "Correct." : "Incorrect."};
+  }
+  if(q.type === "tf"){
+    const correct = (value === q.answer);
+    return {correct, earned: correct ? q.pts : 0, note: correct ? "Correct." : "Incorrect."};
+  }
+  if(q.type === "short"){
+    if(q.answer?.checker){
+      const correct = !!q.answer.checker(value);
+      return {correct, earned: correct ? q.pts : 0, note: correct ? "Looks correct." : "Not quite (or wording differs)."};
+    }
+    const ans = normalize(value);
+    const ok = (q.answer?.accept || []).some(a => normalize(a) === ans);
+    return {correct: ok, earned: ok ? q.pts : 0, note: ok ? "Correct." : "Incorrect."};
+  }
+  if(q.type === "code"){
+    // Code checker: key patterns. If fails, user may still be correct.
+    const correct = q.answer?.checker ? !!q.answer.checker(value) : false;
+    const earned = correct ? q.pts : 0;
+    const note = correct
+      ? "Looks correct (matches expected patterns)."
+      : "Possibly incorrect OR correct but formatted differently. Use “Suggested answer” to compare.";
+    return {correct, earned, note};
+  }
+  return {correct:false, earned:0, note:"Unknown question type."};
+}
+
+function renderFeedback(q, entry){
+  const box = $("#feedback");
+  box.style.display = "block";
+
+  const showExplain = (settings.showExplanations === "after" || settings.showExplanations === "always") && q.explain;
+
+  const statusText = entry.correct ? `✅ ${entry.earned}/${q.pts}` : `❌ ${entry.earned}/${q.pts}`;
+  box.className = "feedback " + (entry.correct ? "good" : "bad");
+
+  let extra = "";
+  if(q.type === "mcq" && entry.correct === false){
+    extra = `<div class="hint">Correct choice: <b>${escapeHtml(q.choices[q.answer])}</b></div>`;
+  }
+  if(q.type === "tf" && entry.correct === false){
+    extra = `<div class="hint">Correct answer: <b>${q.answer ? "True" : "False"}</b></div>`;
+  }
+  if((q.type === "short" || q.type === "code") && entry.correct === false){
+    extra = `<div class="hint">Suggested answer available via <b>Show suggested answer</b>.</div>`;
+  }
+
+  box.innerHTML = `
+    <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+      <div><b>${statusText}</b> <span class="muted">• ${escapeHtml(gradeOne(q, entry.value).note)}</span></div>
+      <div class="muted">Points possible: ${q.pts}</div>
+    </div>
+    ${extra}
+    ${showExplain ? `<div class="hint"><b>Explanation:</b> ${escapeHtml(q.explain)}</div>` : ""}
+  `;
+}
+
+function recomputeTotals(){
+  let earned = 0;
+  for(const q of quiz.selected){
+    const entry = quiz.answers.get(q.id);
+    if(entry?.checked) earned += (entry.earned || 0);
+  }
+  quiz.earned = earned;
+}
+
+function updateKPIs(){
+  const possible = quiz.possible || 0;
+  const answered = quiz.selected.filter(q => quiz.answers.get(q.id)?.value !== null && quiz.answers.get(q.id)?.value !== undefined && normalize(quiz.answers.get(q.id)?.value).length > 0).length;
+  $("#kpiScore").textContent = quiz.earned.toString();
+  $("#kpiPossible").textContent = possible.toString();
+  const checkedCount = quiz.selected.filter(q => quiz.answers.get(q.id)?.checked).length;
+  $("#kpiAccuracy").textContent = checkedCount ? `${Math.round(100*(quiz.earned/(checkedCount ? quiz.selected.slice(0).filter(q=>quiz.answers.get(q.id)?.checked).reduce((s,q)=>s+q.pts,0) : 1)))}%` : "—";
+  $("#navHint").textContent = quiz.active
+    ? `Answered: ${answered}/${quiz.selected.length} • Checked: ${checkedCount}/${quiz.selected.length}`
+    : "Use buttons to navigate";
+}
+
+/** ==========================
+ *  Navigation & submission
+ *  ========================== */
+function go(delta){
+  if(!quiz.active) return;
+  quiz.idx = clamp(quiz.idx + delta, 0, quiz.selected.length - 1);
+  renderQuestion();
+  updateKPIs();
+}
+
+function submitQuiz(auto=false){
+  if(!quiz.active) return;
+  stopTimer();
+
+  // If some were not checked, leave them unscored.
+  const checkedPts = quiz.selected.reduce((s,q)=> s + (quiz.answers.get(q.id)?.checked ? q.pts : 0), 0);
+
+  const accuracy = checkedPts ? Math.round(100 * (quiz.earned / checkedPts)) : 0;
+
+  $("#statusTag").textContent = auto ? "Submitted (time)" : "Submitted";
+  $("#submitBtn").disabled = true;
+
+  // Build summary list
+  const lines = quiz.selected.map((q, idx) => {
+    const e = quiz.answers.get(q.id);
+    const mark = e?.checked ? (e.correct ? "✅" : "❌") : "⚪";
+    const earned = e?.checked ? (e.earned || 0) : 0;
+    return `${mark} Q${idx+1} (${q.id}) – ${earned}/${q.pts} – ${q.cat}`;
+  }).join("\n");
+
+  const area = $("#questionArea");
+  area.innerHTML = `
+    <div class="row" style="justify-content:space-between; gap:12px">
+      <div>
+        <div class="tag">Quiz Summary</div>
+        <div class="hint">Checked points: <b>${quiz.earned}/${checkedPts}</b> • Accuracy on checked: <b>${accuracy}%</b> • Total possible in set: <b>${quiz.earned}/${quiz.possible}</b></div>
+        <div class="hint">⚪ means “not checked yet” (go back and press <b>Check</b> on those).</div>
+      </div>
+      <div class="row">
+        <button class="btn good" id="reviewBtn">Review questions</button>
+        <button class="btn secondary" id="newSetBtn">New Set</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <pre class="code">${escapeHtml(lines)}</pre>
+  `;
+
+  $("#reviewBtn").addEventListener("click", ()=>{
+    quiz.idx = 0;
+    $("#submitBtn").disabled = false; // allow resubmit after checking more
+    $("#statusTag").textContent = "Review mode";
+    renderQuestion();
+  });
+  $("#newSetBtn").addEventListener("click", ()=>{
+    generateQuiz();
+  });
+
+  updateKPIs();
+}
+
+/** ==========================
+ *  Wire up controls
+ *  ========================== */
+function readSettingsFromUI(){
+  settings.numQuestions = parseInt($("#numQuestions").value,10);
+  settings.difficulty = $("#difficulty").value;
+  settings.timerMode = $("#timerMode").value;
+  settings.showExplanations = $("#showExplanations").value;
+
+  // Ensure at least one category
+  if(settings.categories.size === 0){
+    settings.categories.add("Mixed");
+    buildCategoryList();
+  }
+  updateCounts();
+}
+
+$("#startBtn").addEventListener("click", ()=>{
+  readSettingsFromUI();
+  generateQuiz();
+});
+$("#shuffleBtn").addEventListener("click", ()=>{
+  readSettingsFromUI();
+  generateQuiz();
+});
+$("#prevBtn").addEventListener("click", ()=>go(-1));
+$("#nextBtn").addEventListener("click", ()=>go(+1));
+$("#submitBtn").addEventListener("click", ()=>submitQuiz(false));
+$("#resetBtn").addEventListener("click", ()=>{
+  stopTimer();
+  quiz = {active:false, selected:[], idx:0, answers:new Map(), earned:0, possible:0, timer:{on:false, secondsLeft:0, interval:null}};
+  $("#statusTag").textContent = "Not started";
+  $("#catTag").textContent = "—";
+  $("#submitBtn").disabled = true;
+  $("#prevBtn").disabled = true;
+  $("#nextBtn").disabled = true;
+  $("#timerTag").style.display = "none";
+  $("#questionArea").innerHTML = `<div class="muted">Click <b>Start / New Set</b> to begin.</div>`;
+  updateKPIs();
+});
+
+// Update counts when selects change
+["#numQuestions","#difficulty","#timerMode","#showExplanations"].forEach(sel=>{
+  $(sel).addEventListener("change", ()=>{
+    readSettingsFromUI();
+  });
+});
+
+// Initial render
+buildCategoryList();
+updateCounts();
+updateKPIs();
+</script>
+</body>
+</html>
