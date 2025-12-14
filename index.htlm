@@ -104,19 +104,21 @@
     <ul id="file-list"></ul>
   </div>
 
-</main>
-
-  <!-- NEW: CIS 165 Practice Final (Interactive) -->
+ <!-- NEW: CIS 165 Practice Final (Interactive) -->
   <div class="card">
     <h2>CIS 165 – Practice Final (Interactive)</h2>
     <p class="small">Randomized final-exam practice (Basics, Selection, Loops, Functions, Arrays, Files, Pointers). Works offline.</p>
     <p>
-      <a class="btn" href="CIS165_Practice_Final_Interactive.html" rel="noopener">
+      <a class="btn" href="CIS165_Practice_Final_Interactive.html">
         Open Practice Final
       </a>
     </p>
   </div>
 
+
+</main>
+
+ 
 
 
 <!-- Auto site map script -->
