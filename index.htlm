@@ -106,6 +106,19 @@
 
 </main>
 
+  <!-- NEW: CIS 165 Practice Final (Interactive) -->
+  <div class="card">
+    <h2>CIS 165 – Practice Final (Interactive)</h2>
+    <p class="small">Randomized final-exam practice (Basics, Selection, Loops, Functions, Arrays, Files, Pointers). Works offline.</p>
+    <p>
+      <a class="btn" href="CIS165_Practice_Final_Interactive.html" rel="noopener">
+        Open Practice Final
+      </a>
+    </p>
+  </div>
+
+
+
 <!-- Auto site map script -->
 <script>
 (async function(){
